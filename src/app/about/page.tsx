@@ -34,15 +34,19 @@ export default function AboutPage() {
             </div>
             <div className="flex-1">
               <p className="text-base md:text-lg leading-relaxed text-foreground/90 mb-4">
-                I live in Denver, CO, and I&apos;m the oldest of 6 siblings. I&apos;ve been entrepreneurial from a young age,
-                and I&apos;m deeply passionate about technology and computers.
+                As the oldest of 6 kids, I always say that I &quot;Huckleberry Finn&apos;ed&quot; my way into entrepreneurship.
+                I established an elaborate system of rewards to get my siblings to do my chores. They still claim to be owed a Coke.
+                In my free time, I love to ski fast, cook, and read everything I can get my hands on.
+              </p>
+              <p className="text-base md:text-lg leading-relaxed text-foreground/90 mb-4">
+                From an early age, I was obsessed with computers. I got started by destroying and rebuilding them.
+                That evolved into a deep passion for code, and a love for crafting applications that delight.
+                Even after 15 years, I still wake up thrilled to tackle the challenges of aligning engaging user experiences with real business ROI.
               </p>
               <p className="text-base md:text-lg leading-relaxed text-foreground/90">
-                I like to say I{" "}
-                <span className="italic font-semibold text-primary">
-                  &quot;Huckleberry Finn&apos;ed&quot; my way into entrepreneurship
-                </span>
-                .
+                While the backbone of my experience lies within technical leadership, I have also built and sold companies as CEO.
+                It&apos;s this unique blend of technology and business acumen that drives my leadership style.
+                My goal is to constantly fire myself by creating self-managing teams, processes, and code.
               </p>
             </div>
           </div>
@@ -67,8 +71,9 @@ export default function AboutPage() {
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Spectora</h3>
                     <p className="text-sm text-muted-foreground mb-2">Head of Engineering | 2020 - Present</p>
                     <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
-                      Leading the engineering organization at Spectora, a comprehensive home inspection software platform.
-                      Responsible for technical strategy, team building, and product development.
+                      My current day job is Head of Engineering at Spectora. We build some awesome, modern, All-in-One Home Inspection Software.
+                      One of our customers said our software saved him so much time that he is going to have another kid. No joke.
+                      Talk about a strong value prop.
                     </p>
                   </div>
                 </div>
@@ -83,9 +88,9 @@ export default function AboutPage() {
                   />
                   <div className="flex-1">
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Clickflow</h3>
-                    <p className="text-sm text-muted-foreground mb-2">CTO | 2016 - 2020</p>
+                    <p className="text-sm text-muted-foreground mb-2">Co-Founder | 2016 - 2020</p>
                     <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
-                      Chief Technology Officer responsible for all technical decisions, architecture, and engineering leadership.
+                      Marketing Tech A/B Testing for SEO.
                     </p>
                   </div>
                 </div>
@@ -102,9 +107,7 @@ export default function AboutPage() {
                     <h3 className="text-lg md:text-xl font-semibold mb-2">KarmaCRM</h3>
                     <p className="text-sm text-muted-foreground mb-2">Founder & CTO | 2011 - 2019</p>
                     <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
-                      Founded and built KarmaCRM, a B2B SaaS CRM platform designed specifically for speakers, coaches, and consultants.
-                      Grew the company to over $30k in monthly recurring revenue. Managed a team of 10+ developers and 20+ total employees.
-                      Bootstrapped and profitable.
+                      I founded and grew karmaCRM (a B2B SaaS CRM) to over 6,000 daily active users and 25k in MRR.
                     </p>
                   </div>
                 </div>

@@ -1,13 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MapPin, Briefcase } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/lib/blog";
 
 export const metadata = {
   title: "CTO, Founder, and Tea lover.",
-  description: "I'm JP - a full-stack Senior Engineer and entrepreneur based in Denver, CO. Currently, I'm the Head of Engineering at Spectora.com.",
+  description:
+    "I'm JP - a full-stack Senior Engineer and entrepreneur based in Denver, CO. Currently, I'm the Head of Engineering at Spectora.com.",
 };
 
 export default function Home() {
@@ -49,9 +56,11 @@ export default function Home() {
             </div>
 
             <p className="text-base md:text-lg text-foreground/90 mb-6 md:mb-8 leading-relaxed">
-              I&apos;m on a journey to become an AI influencer, sharing everything I learn about
-              artificial intelligence, software engineering, and building products. I believe in
-              learning in public and helping others navigate the rapidly evolving world of AI.
+              I&apos;m JP - an Engineering Leader and entrepreneur based in
+              Denver, CO. Currently, I’m the Head of Engineering at
+              Spectora.com. I love to ski fast, ponder the world, and am
+              passionate about technology. With my background as both CTO and
+              CEO, my sweet spot is marrying ROI-focused code to business needs.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
@@ -61,7 +70,12 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 <Link href="/about">About Me</Link>
               </Button>
             </div>
@@ -99,7 +113,9 @@ export default function Home() {
                   )}
                   <CardContent className="p-6">
                     <div className="mb-4">
-                      <h3 className="text-xl font-semibold mb-2 line-clamp-2">{article.title}</h3>
+                      <h3 className="text-xl font-semibold mb-2 line-clamp-2">
+                        {article.title}
+                      </h3>
                       <p className="text-sm text-muted-foreground">
                         {new Date(article.date).toLocaleDateString("en-US", {
                           month: "long",
@@ -136,7 +152,8 @@ export default function Home() {
           <Card>
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground">
-                Articles coming soon! I&apos;m working on some exciting content about AI.
+                Articles coming soon! I&apos;m working on some exciting content
+                about AI.
               </p>
             </CardContent>
           </Card>
