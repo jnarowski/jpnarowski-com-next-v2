@@ -5,13 +5,14 @@ export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden">
       {/* Zen Nature Illustration */}
-      <div className="relative w-full h-64 md:h-80">
+      <div className="relative w-full h-80">
         {/* Light mode SVG */}
         <svg
-          className="absolute bottom-0 w-full h-full dark:hidden"
+          className="absolute bottom-0 w-full dark:hidden"
           viewBox="0 0 1400 320"
-          preserveAspectRatio="xMidYMax slice"
+          preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ height: '320px' }}
         >
           <defs>
             <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -77,10 +78,11 @@ export function Footer() {
 
         {/* Dark mode SVG */}
         <svg
-          className="absolute bottom-0 w-full h-full hidden dark:block"
+          className="absolute bottom-0 w-full hidden dark:block"
           viewBox="0 0 1400 320"
-          preserveAspectRatio="xMidYMax slice"
+          preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ height: '320px' }}
         >
           <defs>
             <linearGradient id="skyGradientDark" x1="0%" y1="0%" x2="0%" y2="100%">
