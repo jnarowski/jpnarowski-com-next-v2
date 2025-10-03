@@ -1,38 +1,78 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5e6d3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c9dfc9;stop-opacity:1" />
     </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#gradient1)"/>
+  <!-- Sky background with gradient -->
+  <rect width="1200" height="630" fill="url(#skyGradient)"/>
 
-  <!-- Abstract circles -->
-  <circle cx="200" cy="150" r="100" fill="white" opacity="0.1"/>
-  <circle cx="1000" cy="500" r="150" fill="white" opacity="0.1"/>
-  <circle cx="600" cy="100" r="80" fill="white" opacity="0.15"/>
+  <!-- Bamboo stalks - background layer -->
+  <g opacity="0.4">
+    <rect x="150" y="0" width="35" height="630" fill="#7a9b7a"/>
+    <rect x="150" y="120" width="35" height="8" fill="#6b8b6b"/>
+    <rect x="150" y="280" width="35" height="8" fill="#6b8b6b"/>
+    <rect x="150" y="450" width="35" height="8" fill="#6b8b6b"/>
 
-  <!-- Grid pattern -->
-  <g opacity="0.1">
-    <line x1="0" y1="210" x2="1200" y2="210" stroke="white" stroke-width="1"/>
-    <line x1="0" y1="420" x2="1200" y2="420" stroke="white" stroke-width="1"/>
-    <line x1="300" y1="0" x2="300" y2="630" stroke="white" stroke-width="1"/>
-    <line x1="600" y1="0" x2="600" y2="630" stroke="white" stroke-width="1"/>
-    <line x1="900" y1="0" x2="900" y2="630" stroke="white" stroke-width="1"/>
+    <rect x="400" y="0" width="40" height="630" fill="#8fbc8f"/>
+    <rect x="400" y="90" width="40" height="8" fill="#7a9b7a"/>
+    <rect x="400" y="250" width="40" height="8" fill="#7a9b7a"/>
+    <rect x="400" y="420" width="40" height="8" fill="#7a9b7a"/>
+
+    <rect x="900" y="0" width="38" height="630" fill="#6b9b6b"/>
+    <rect x="900" y="110" width="38" height="8" fill="#5a8a5a"/>
+    <rect x="900" y="300" width="38" height="8" fill="#5a8a5a"/>
+    <rect x="900" y="490" width="38" height="8" fill="#5a8a5a"/>
   </g>
 
-  <!-- Title -->
-  <text x="100" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="white">
-    Welcome to My
-  </text>
-  <text x="100" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="white">
-    AI Journey
-  </text>
+  <!-- Bamboo stalks - middle layer -->
+  <g opacity="0.6">
+    <rect x="600" y="0" width="45" height="630" fill="#6b9b6b"/>
+    <rect x="600" y="100" width="45" height="10" fill="#5a8a5a"/>
+    <rect x="600" y="270" width="45" height="10" fill="#5a8a5a"/>
+    <rect x="600" y="460" width="45" height="10" fill="#5a8a5a"/>
 
-  <!-- Subtitle -->
-  <text x="100" y="450" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="white" opacity="0.9">
-    Starting my journey as an AI content creator
-  </text>
+    <rect x="1050" y="0" width="42" height="630" fill="#7fb87f"/>
+    <rect x="1050" y="130" width="42" height="10" fill="#6b9b6b"/>
+    <rect x="1050" y="320" width="42" height="10" fill="#6b9b6b"/>
+    <rect x="1050" y="510" width="42" height="10" fill="#6b9b6b"/>
+  </g>
+
+  <!-- Bamboo stalks - foreground -->
+  <g opacity="0.85">
+    <rect x="80" y="0" width="50" height="630" fill="#5a8a5a"/>
+    <rect x="80" y="85" width="50" height="12" fill="#4a7a4a"/>
+    <rect x="80" y="240" width="50" height="12" fill="#4a7a4a"/>
+    <rect x="80" y="410" width="50" height="12" fill="#4a7a4a"/>
+
+    <rect x="1100" y="0" width="48" height="630" fill="#6b9b6b"/>
+    <rect x="1100" y="120" width="48" height="12" fill="#5a8a5a"/>
+    <rect x="1100" y="310" width="48" height="12" fill="#5a8a5a"/>
+    <rect x="1100" y="500" width="48" height="12" fill="#5a8a5a"/>
+  </g>
+
+  <!-- Bamboo leaves -->
+  <g opacity="0.7">
+    <ellipse cx="170" cy="80" rx="60" ry="12" fill="#7fb87f" transform="rotate(-20 170 80)"/>
+    <ellipse cx="200" cy="100" rx="55" ry="10" fill="#8fbc8f" transform="rotate(15 200 100)"/>
+    <ellipse cx="620" cy="60" rx="65" ry="13" fill="#6b9b6b" transform="rotate(25 620 60)"/>
+    <ellipse cx="650" cy="90" rx="58" ry="11" fill="#7fb87f" transform="rotate(-15 650 90)"/>
+    <ellipse cx="1070" cy="100" rx="62" ry="12" fill="#8fbc8f" transform="rotate(20 1070 100)"/>
+    <ellipse cx="1100" cy="130" rx="60" ry="10" fill="#7fb87f" transform="rotate(-25 1100 130)"/>
+  </g>
+
+  <!-- Content overlay -->
+  <g>
+    <rect x="250" y="220" width="700" height="240" fill="#f5f5f0" opacity="0.92" rx="8"/>
+
+    <!-- Title -->
+    <text x="600" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="68" font-weight="700" fill="#2d4a2d" text-anchor="middle">
+      Welcome to My
+    </text>
+    <text x="600" y="395" font-family="system-ui, -apple-system, sans-serif" font-size="68" font-weight="700" fill="#2d4a2d" text-anchor="middle">
+      AI Journey
+    </text>
+  </g>
 </svg>

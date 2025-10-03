@@ -1,42 +1,87 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    <linearGradient id="zenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#b8cfc4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8fbc8f;stop-opacity:1" />
     </linearGradient>
   </defs>
 
   <!-- Background -->
-  <rect width="1200" height="630" fill="url(#gradient2)"/>
+  <rect width="1200" height="630" fill="url(#zenGradient)"/>
 
-  <!-- Code blocks pattern -->
-  <g opacity="0.15">
-    <rect x="50" y="50" width="300" height="120" rx="8" fill="white"/>
-    <rect x="400" y="100" width="250" height="100" rx="8" fill="white"/>
-    <rect x="700" y="80" width="400" height="140" rx="8" fill="white"/>
-    <rect x="150" y="400" width="350" height="150" rx="8" fill="white"/>
-    <rect x="600" y="450" width="500" height="120" rx="8" fill="white"/>
+  <!-- Zen rock garden - sand base -->
+  <rect y="300" width="1200" height="330" fill="#d4c4b0" opacity="0.6"/>
+
+  <!-- Raked sand patterns -->
+  <g opacity="0.3" stroke="#8b7355" stroke-width="2" fill="none">
+    <path d="M 50,350 Q 300,370 550,350 T 1050,350"/>
+    <path d="M 50,390 Q 300,410 550,390 T 1050,390"/>
+    <path d="M 50,430 Q 300,450 550,430 T 1050,430"/>
+    <path d="M 50,470 Q 300,490 550,470 T 1050,470"/>
+    <path d="M 50,510 Q 300,530 550,510 T 1050,510"/>
+    <path d="M 50,550 Q 300,570 550,550 T 1050,550"/>
   </g>
 
-  <!-- Binary/code dots -->
-  <g opacity="0.2" fill="white">
-    <circle cx="850" cy="150" r="8"/>
-    <circle cx="900" cy="150" r="8"/>
-    <circle cx="950" cy="150" r="8"/>
-    <circle cx="870" cy="180" r="8"/>
-    <circle cx="920" cy="180" r="8"/>
+  <!-- Stacked stones - left -->
+  <g>
+    <!-- Base stone -->
+    <ellipse cx="280" cy="480" rx="90" ry="35" fill="#5a6b5a" opacity="0.8"/>
+    <ellipse cx="280" cy="470" rx="90" ry="35" fill="#6b7a6b"/>
+
+    <!-- Second stone -->
+    <ellipse cx="280" cy="430" rx="70" ry="28" fill="#4a5a4a" opacity="0.8"/>
+    <ellipse cx="280" cy="422" rx="70" ry="28" fill="#5a6b5a"/>
+
+    <!-- Third stone -->
+    <ellipse cx="280" cy="390" rx="55" ry="22" fill="#3d4d3d" opacity="0.8"/>
+    <ellipse cx="280" cy="384" rx="55" ry="22" fill="#4a5a4a"/>
+
+    <!-- Top stone -->
+    <ellipse cx="280" cy="360" rx="40" ry="18" fill="#2d3d2d" opacity="0.8"/>
+    <ellipse cx="280" cy="355" rx="40" ry="18" fill="#3d4d3d"/>
   </g>
 
-  <!-- Title -->
-  <text x="100" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="white">
-    Building with
-  </text>
-  <text x="100" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="white">
-    AI Tools
-  </text>
+  <!-- Stacked stones - right -->
+  <g>
+    <!-- Base stone -->
+    <ellipse cx="920" cy="490" rx="85" ry="33" fill="#5a6b5a" opacity="0.8"/>
+    <ellipse cx="920" cy="481" rx="85" ry="33" fill="#6b7a6b"/>
 
-  <!-- Subtitle -->
-  <text x="100" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="white" opacity="0.9">
-    A CTO's Perspective on AI Development
-  </text>
+    <!-- Second stone -->
+    <ellipse cx="920" cy="445" rx="68" ry="26" fill="#4a5a4a" opacity="0.8"/>
+    <ellipse cx="920" cy="438" rx="68" ry="26" fill="#5a6b5a"/>
+
+    <!-- Top stone -->
+    <ellipse cx="920" cy="410" rx="52" ry="20" fill="#3d4d3d" opacity="0.8"/>
+    <ellipse cx="920" cy="404" rx="52" ry="20" fill="#4a5a4a"/>
+  </g>
+
+  <!-- Minimalist tree silhouettes -->
+  <g opacity="0.4">
+    <rect x="100" y="150" width="8" height="180" fill="#5a8a5a"/>
+    <ellipse cx="104" cy="140" rx="35" ry="45" fill="#6b9b6b"/>
+
+    <rect x="1050" y="120" width="8" height="200" fill="#5a8a5a"/>
+    <ellipse cx="1054" cy="110" rx="40" ry="50" fill="#6b9b6b"/>
+  </g>
+
+  <!-- Content card -->
+  <g>
+    <rect x="300" y="160" width="600" height="220" fill="#f5f5f0" opacity="0.95" rx="8"/>
+
+    <!-- Title -->
+    <text x="600" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="60" font-weight="700" fill="#2d4a2d" text-anchor="middle">
+      Building with
+    </text>
+    <text x="600" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="60" font-weight="700" fill="#2d4a2d" text-anchor="middle">
+      AI Tools
+    </text>
+  </g>
+
+  <!-- Subtle clouds -->
+  <g opacity="0.3">
+    <ellipse cx="200" cy="80" rx="50" ry="25" fill="white"/>
+    <ellipse cx="170" cy="90" rx="40" ry="20" fill="white"/>
+    <ellipse cx="230" cy="90" rx="35" ry="18" fill="white"/>
+  </g>
 </svg>
