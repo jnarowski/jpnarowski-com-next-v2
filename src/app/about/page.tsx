@@ -10,34 +10,34 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-5xl font-bold mb-6">About Me</h1>
-          <p className="text-xl text-muted-foreground">
+        <div className="mb-12 md:mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">About Me</h1>
+          <p className="text-lg md:text-xl text-muted-foreground">
             CTO, Founder, and lifelong learner building at the intersection of AI and software engineering
           </p>
         </div>
 
         {/* Portrait and Introduction */}
-        <section className="mb-16">
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="flex-shrink-0">
+        <section className="mb-12 md:mb-16">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+            <div className="flex-shrink-0 w-full md:w-auto">
               <Image
                 src="/portrait.jpg"
                 alt="JP Narowski"
                 width={300}
                 height={300}
-                className="rounded-lg"
+                className="rounded-lg w-full md:w-[300px] h-auto"
               />
             </div>
             <div className="flex-1">
-              <p className="text-lg leading-relaxed text-foreground/90 mb-4">
+              <p className="text-base md:text-lg leading-relaxed text-foreground/90 mb-4">
                 I live in Denver, CO, and I&apos;m the oldest of 6 siblings. I&apos;ve been entrepreneurial from a young age,
                 and I&apos;m deeply passionate about technology and computers.
               </p>
-              <p className="text-lg leading-relaxed text-foreground/90">
+              <p className="text-base md:text-lg leading-relaxed text-foreground/90">
                 I like to say I{" "}
                 <span className="italic font-semibold text-[var(--accent-purple)]">
                   &quot;Huckleberry Finn&apos;ed&quot; my way into entrepreneurship
@@ -49,13 +49,13 @@ export default function AboutPage() {
         </section>
 
         {/* Professional Background */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Professional Background</h2>
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Professional Background</h2>
 
           <Card>
             <CardContent className="p-6">
-              <div className="divide-y divide-dotted divide-border/50">
-                <div className="flex gap-4 items-start pb-6">
+              <div className="space-y-8">
+                <div className="flex flex-col sm:flex-row gap-4 items-start">
                   <Image
                     src="/logos/spectora.jpg"
                     alt="Spectora"
@@ -64,16 +64,16 @@ export default function AboutPage() {
                     className="rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-2">Spectora</h3>
+                    <h3 className="text-lg md:text-xl font-semibold mb-2">Spectora</h3>
                     <p className="text-sm text-muted-foreground mb-2">Head of Engineering | 2020 - Present</p>
-                    <p className="text-foreground/90">
+                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
                       Leading the engineering organization at Spectora, a comprehensive home inspection software platform.
                       Responsible for technical strategy, team building, and product development.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 items-start py-6">
+                <div className="flex flex-col sm:flex-row gap-4 items-start pt-8 border-t">
                   <Image
                     src="/logos/clickflow.webp"
                     alt="Clickflow"
@@ -82,15 +82,15 @@ export default function AboutPage() {
                     className="rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-2">Clickflow</h3>
+                    <h3 className="text-lg md:text-xl font-semibold mb-2">Clickflow</h3>
                     <p className="text-sm text-muted-foreground mb-2">CTO | 2016 - 2020</p>
-                    <p className="text-foreground/90">
+                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
                       Chief Technology Officer responsible for all technical decisions, architecture, and engineering leadership.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 items-start pt-6">
+                <div className="flex flex-col sm:flex-row gap-4 items-start pt-8 border-t">
                   <Image
                     src="/logos/karmaSpeaker.png"
                     alt="KarmaCRM"
@@ -99,9 +99,9 @@ export default function AboutPage() {
                     className="rounded-lg flex-shrink-0"
                   />
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-2">KarmaCRM</h3>
+                    <h3 className="text-lg md:text-xl font-semibold mb-2">KarmaCRM</h3>
                     <p className="text-sm text-muted-foreground mb-2">Founder & CTO | 2011 - 2019</p>
-                    <p className="text-foreground/90">
+                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
                       Founded and built KarmaCRM, a B2B SaaS CRM platform designed specifically for speakers, coaches, and consultants.
                       Grew the company to over $30k in monthly recurring revenue. Managed a team of 10+ developers and 20+ total employees.
                       Bootstrapped and profitable.
@@ -114,11 +114,11 @@ export default function AboutPage() {
         </section>
 
         {/* Philosophy */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">My Philosophy</h2>
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">My Philosophy</h2>
           <Card>
             <CardContent className="p-6">
-              <p className="text-lg text-foreground/90 leading-relaxed">
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed">
                 I focus on creating{" "}
                 <span className="font-semibold text-[var(--accent-purple)]">
                   self-managing teams, processes, and code
@@ -131,8 +131,8 @@ export default function AboutPage() {
         </section>
 
         {/* Interests */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Personal Interests</h2>
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Personal Interests</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
               <CardContent className="p-6 flex items-start gap-4">
@@ -185,11 +185,11 @@ export default function AboutPage() {
         </section>
 
         {/* Early Career */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Early Career</h2>
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Early Career</h2>
           <Card>
             <CardContent className="p-6">
-              <p className="text-foreground/90 leading-relaxed">
+              <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
                 My journey started with destroying and rebuilding computers (much to my parents&apos; dismay, I&apos;m sure).
                 That hands-on curiosity evolved into a passion for coding and creating delightful user experiences.
                 I developed my skills through experimentation and real-world projects, eventually founding my first significant
@@ -201,13 +201,13 @@ export default function AboutPage() {
 
         {/* Contact */}
         <section>
-          <h2 className="text-3xl font-bold mb-8">Get in Touch</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Get in Touch</h2>
           <Card>
             <CardContent className="p-6">
-              <p className="text-foreground/90 mb-4">
+              <p className="text-sm md:text-base text-foreground/90 mb-4 leading-relaxed">
                 I&apos;m always interested in connecting with fellow builders, entrepreneurs, and AI enthusiasts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <Link
                   href="https://github.com/jnarowski"
                   target="_blank"

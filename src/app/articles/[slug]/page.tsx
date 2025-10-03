@@ -39,11 +39,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <article className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+    <article className="container mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-3xl mx-auto">
         {/* Back Button */}
-        <div className="mb-12">
-          <Button variant="ghost" asChild>
+        <div className="mb-8 md:mb-12">
+          <Button variant="ghost" asChild className="pl-0">
             <Link href="/articles">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Articles
@@ -52,10 +52,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Article Header */}
-        <header className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{article.title}</h1>
+        <header className="mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">{article.title}</h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground mb-6">
             <span className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               {new Date(article.date).toLocaleDateString("en-US", {
@@ -71,7 +71,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
 
           {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-8">
+            <div className="flex flex-wrap gap-2 mb-6 md:mb-8">
               {article.tags.map((tag) => (
                 <span
                   key={tag}
@@ -83,12 +83,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          <Separator className="my-8" />
+          <Separator className="my-6 md:my-8" />
         </header>
 
         {/* Cover Image */}
         {article.coverImage && (
-          <div className="mb-12">
+          <div className="mb-8 md:mb-12">
             <Image
               src={article.coverImage}
               alt={article.title}
@@ -101,20 +101,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         )}
 
         {/* Article Content */}
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-base md:prose-lg max-w-none">
           <MDXRemote source={article.content} />
         </div>
 
         {/* Article Footer */}
-        <footer className="mt-12 pt-8 border-t">
-          <div className="flex justify-between items-center">
-            <Button variant="outline" asChild>
-              <Link href="/articles">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                View All Articles
-              </Link>
-            </Button>
-          </div>
+        <footer className="mt-12 md:mt-16 pt-8 border-t">
+          <Button variant="outline" asChild>
+            <Link href="/articles">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              View All Articles
+            </Link>
+          </Button>
         </footer>
       </div>
     </article>

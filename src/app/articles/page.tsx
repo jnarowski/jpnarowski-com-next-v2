@@ -13,12 +13,12 @@ export default function ArticlesPage() {
   const articles = getAllArticles();
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-5xl font-bold mb-6">Articles</h1>
-          <p className="text-xl text-muted-foreground">
+        <div className="mb-12 md:mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">Articles</h1>
+          <p className="text-lg md:text-xl text-muted-foreground">
             Exploring AI, software engineering, and building products. Join me on my journey as I learn and share.
           </p>
         </div>
@@ -28,8 +28,8 @@ export default function ArticlesPage() {
           <div className="space-y-6">
             {articles.map((article) => (
               <Link key={article.slug} href={`/articles/${article.slug}`} className="block group">
-                <Card className="hover:shadow-lg transition-all hover:border-[var(--accent-purple)] overflow-hidden p-0">
-                  <div className="md:flex md:h-full">
+                <Card className="hover:shadow-lg transition-all hover:border-[var(--accent-purple)] overflow-hidden p-0 gap-0">
+                  <div className="md:flex">
                     {article.coverImage && (
                       <div className="md:w-80 md:flex-shrink-0 h-48 md:h-auto overflow-hidden">
                         <Image
@@ -41,12 +41,12 @@ export default function ArticlesPage() {
                         />
                       </div>
                     )}
-                    <div className="flex-1 flex flex-col p-6">
+                    <CardContent className="flex-1 flex flex-col p-6">
                       <div className="mb-4">
-                        <h3 className="text-2xl font-semibold mb-3 group-hover:text-[var(--accent-purple)] transition-colors">
+                        <h3 className="text-xl md:text-2xl font-semibold mb-3 group-hover:text-[var(--accent-purple)] transition-colors">
                           {article.title}
                         </h3>
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3.5 w-3.5" />
                             {new Date(article.date).toLocaleDateString("en-US", {
@@ -62,7 +62,7 @@ export default function ArticlesPage() {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <p className="text-foreground/90 mb-4">{article.description}</p>
+                        <p className="text-foreground/90 mb-4 leading-relaxed">{article.description}</p>
                         {article.tags && article.tags.length > 0 && (
                           <div className="flex flex-wrap gap-2">
                             {article.tags.map((tag) => (
@@ -76,7 +76,7 @@ export default function ArticlesPage() {
                           </div>
                         )}
                       </div>
-                    </div>
+                    </CardContent>
                   </div>
                 </Card>
               </Link>
@@ -84,8 +84,8 @@ export default function ArticlesPage() {
           </div>
         ) : (
           <Card>
-            <CardContent className="p-12 text-center">
-              <p className="text-muted-foreground text-lg">
+            <CardContent className="py-12 text-center">
+              <p className="text-muted-foreground text-base md:text-lg">
                 Articles coming soon! I&apos;m working on some exciting content about AI and software engineering.
               </p>
             </CardContent>

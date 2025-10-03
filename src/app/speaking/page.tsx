@@ -40,15 +40,15 @@ const podcasts = [
 
 export default function SpeakingPage() {
   return (
-    <div className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <Mic className="h-10 w-10 text-[var(--accent-purple)]" />
-            <h1 className="text-5xl font-bold">Speaking & Podcasts</h1>
+        <div className="mb-12 md:mb-16">
+          <div className="flex items-center gap-3 mb-4 md:mb-6">
+            <Mic className="h-8 w-8 md:h-10 md:w-10 text-[var(--accent-purple)]" />
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">Speaking & Podcasts</h1>
           </div>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-base md:text-lg lg:text-xl text-muted-foreground mb-6 md:mb-8">
             I&apos;ve been interviewed for a number of podcasts and given talks on tech, entrepreneurship,
             and building successful businesses.
           </p>
@@ -58,21 +58,21 @@ export default function SpeakingPage() {
               alt="JP Narowski Speaking"
               width={800}
               height={533}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg w-full h-auto"
             />
           </div>
         </div>
 
         {/* Podcasts Section */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Podcast Appearances</h2>
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Podcast Appearances</h2>
           <div className="space-y-6">
             {podcasts.map((podcast, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
+                <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                     <div className="flex-1">
-                      <CardTitle className="text-2xl mb-2">{podcast.name}</CardTitle>
+                      <CardTitle className="text-xl md:text-2xl mb-2">{podcast.name}</CardTitle>
                       <CardDescription className="flex flex-col gap-1">
                         <span className="flex items-center gap-1 text-sm">
                           <Calendar className="h-3.5 w-3.5" />
@@ -97,8 +97,8 @@ export default function SpeakingPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <h3 className="font-semibold mb-2 text-lg">{podcast.topic}</h3>
-                  <p className="text-foreground/90">{podcast.description}</p>
+                  <h3 className="font-semibold mb-2 text-base md:text-lg">{podcast.topic}</h3>
+                  <p className="text-sm md:text-base text-foreground/90 leading-relaxed">{podcast.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -109,12 +109,12 @@ export default function SpeakingPage() {
         <section>
           <Card className="bg-muted/50">
             <CardContent className="p-6">
-              <h2 className="text-2xl font-bold mb-4">Future Speaking</h2>
-              <p className="text-foreground/90 mb-4">
+              <h2 className="text-xl md:text-2xl font-bold mb-4">Future Speaking</h2>
+              <p className="text-sm md:text-base text-foreground/90 mb-4 leading-relaxed">
                 I&apos;m currently focusing on AI and building in public. I love sharing my experiences
                 with entrepreneurship, technical leadership, and the evolving AI landscape.
               </p>
-              <p className="text-foreground/90">
+              <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
                 If you&apos;re interested in having me on your podcast or speak at your event, please{" "}
                 <Link
                   href="mailto:jp@sourceborn.com"

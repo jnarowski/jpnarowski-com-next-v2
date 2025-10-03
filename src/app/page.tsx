@@ -9,9 +9,9 @@ export default function Home() {
   const articles = getAllArticles().slice(0, 3);
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-12 md:py-20">
+    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
       {/* Hero Section */}
-      <section className="mb-20">
+      <section className="mb-16 md:mb-24">
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-shrink-0">
             <Image
@@ -25,14 +25,14 @@ export default function Home() {
           </div>
 
           <div className="flex-1">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
               JP Narowski
             </h1>
-            <p className="text-2xl md:text-3xl text-muted-foreground mb-6">
+            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-6">
               CTO, Founder, and Tea lover
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 text-sm text-muted-foreground mb-6 md:mb-8">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
                 <span>Denver, CO</span>
@@ -43,20 +43,20 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="text-lg text-foreground/90 mb-8 leading-relaxed">
+            <p className="text-base md:text-lg text-foreground/90 mb-6 md:mb-8 leading-relaxed">
               I&apos;m on a journey to become an AI influencer, sharing everything I learn about
               artificial intelligence, software engineering, and building products. I believe in
               learning in public and helping others navigate the rapidly evolving world of AI.
             </p>
 
-            <div className="flex gap-4">
-              <Button asChild size="lg">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link href="/articles">
                   Read My Articles
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
                 <Link href="/about">About Me</Link>
               </Button>
             </div>
@@ -80,7 +80,7 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
               <Link key={article.slug} href={`/articles/${article.slug}`}>
-                <Card className="h-full hover:shadow-lg transition-shadow hover:border-[var(--accent-purple)] overflow-hidden p-0">
+                <Card className="h-full hover:shadow-lg transition-shadow hover:border-[var(--accent-purple)] overflow-hidden p-0 gap-0">
                   {article.coverImage && (
                     <div className="h-48 w-full overflow-hidden">
                       <Image
@@ -92,7 +92,7 @@ export default function Home() {
                       />
                     </div>
                   )}
-                  <div className="p-6">
+                  <CardContent className="p-6">
                     <div className="mb-4">
                       <h3 className="text-xl font-semibold mb-2 line-clamp-2">{article.title}</h3>
                       <p className="text-sm text-muted-foreground">
@@ -122,14 +122,14 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </CardContent>
                 </Card>
               </Link>
             ))}
           </div>
         ) : (
           <Card>
-            <CardContent className="p-12 text-center">
+            <CardContent className="py-12 text-center">
               <p className="text-muted-foreground">
                 Articles coming soon! I&apos;m working on some exciting content about AI.
               </p>
