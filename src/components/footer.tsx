@@ -85,6 +85,7 @@ export function Footer() {
           <defs>
             <linearGradient id="skyGradientDark" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style={{ stopColor: '#09090b', stopOpacity: 1 }} />
+              <stop offset="30%" style={{ stopColor: '#0d0f0d', stopOpacity: 1 }} />
               <stop offset="100%" style={{ stopColor: '#1a2a1a', stopOpacity: 1 }} />
             </linearGradient>
           </defs>

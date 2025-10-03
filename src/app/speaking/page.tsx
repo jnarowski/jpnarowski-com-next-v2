@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Speaking & Podcasts - JP Narowski",
-  description: "Podcast appearances and talks on tech, entrepreneurship, and building successful businesses.",
+  title: "JP Narowski - Speaking & Podcasts",
+  description: "Insights from podcast interviews and talks on tech, featuring discussions about work-life harmony and entrepreneurship.",
 };
 
 const podcasts = [

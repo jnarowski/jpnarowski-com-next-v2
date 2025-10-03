@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "About JP Narowski - CTO, Founder, AI Builder",
-  description: "Learn about JP Narowski's background, philosophy, and journey into tech entrepreneurship and AI.",
+  title: "JP Narowski - Technology Entrepreneur and Engineering Leader",
+  description: "Head of Engineering at Spectora, former CRM founder, and tech enthusiast who builds delightful applications and leads self-managing teams.",
 };
 
 export default function AboutPage() {

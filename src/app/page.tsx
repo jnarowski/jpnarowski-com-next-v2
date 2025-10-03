@@ -5,6 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAllArticles } from "@/lib/blog";
 
+export const metadata = {
+  title: "CTO, Founder, and Tea lover.",
+  description: "I'm JP - a full-stack Senior Engineer and entrepreneur based in Denver, CO. Currently, I'm the Head of Engineering at Spectora.com.",
+};
+
 export default function Home() {
   const articles = getAllArticles().slice(0, 3);
 
