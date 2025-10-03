@@ -123,9 +123,14 @@ export function Footer() {
             })}
           </g>
 
-          {/* Moon */}
-          <circle cx="250" cy="80" r="35" fill="#f5f0e8" opacity="0.9" />
-          <circle cx="260" cy="75" r="30" fill="#2d3d3d" opacity="0.3" />
+          {/* Moon - crescent C-shape */}
+          <defs>
+            <mask id="crescentMask">
+              <circle cx="250" cy="80" r="35" fill="white" />
+              <circle cx="265" cy="80" r="30" fill="black" />
+            </mask>
+          </defs>
+          <circle cx="250" cy="80" r="35" fill="#f5f0e8" opacity="0.9" mask="url(#crescentMask)" />
 
           {/* Stars */}
           <circle cx="200" cy="60" r="2" fill="white" opacity="0.8" />
