@@ -33,59 +33,8 @@ export function Footer() {
           <ellipse cx="700" cy="305" rx="450" ry="110" fill="#5a8a5a" opacity="0.8" />
           <ellipse cx="1100" cy="300" rx="400" ry="105" fill="#6b9b6b" opacity="0.8" />
 
-          {/* Ground layer */}
-          <rect y="280" width="1400" height="40" fill="#7a9b5a" />
-
-          {/* Simple trees - left */}
-          <g>
-            {/* Tree 1 */}
-            <rect x="150" y="240" width="18" height="50" fill="#6d5a47" rx="2" />
-            <ellipse cx="159" cy="235" rx="35" ry="45" fill="#6b9b6b" />
-            <ellipse cx="159" cy="225" rx="28" ry="35" fill="#7fb87f" />
-          </g>
-
-          <g>
-            {/* Tree 2 - smaller */}
-            <rect x="220" y="255" width="14" height="35" fill="#6d5a47" rx="2" />
-            <ellipse cx="227" cy="250" rx="28" ry="35" fill="#6b9b6b" />
-            <ellipse cx="227" cy="242" rx="22" ry="28" fill="#7fb87f" />
-          </g>
-
-          {/* Center trees */}
-          <g>
-            {/* Tree 3 */}
-            <rect x="650" y="235" width="20" height="55" fill="#6d5a47" rx="2" />
-            <ellipse cx="660" cy="230" rx="38" ry="48" fill="#6b9b6b" />
-            <ellipse cx="660" cy="220" rx="30" ry="38" fill="#7fb87f" />
-          </g>
-
-          <g>
-            {/* Tree 4 - smaller */}
-            <rect x="730" y="250" width="15" height="40" fill="#6d5a47" rx="2" />
-            <ellipse cx="737" cy="245" rx="30" ry="38" fill="#6b9b6b" />
-            <ellipse cx="737" cy="237" rx="24" ry="30" fill="#7fb87f" />
-          </g>
-
-          {/* Right trees */}
-          <g>
-            {/* Tree 5 */}
-            <rect x="1100" y="245" width="17" height="45" fill="#6d5a47" rx="2" />
-            <ellipse cx="1108" cy="240" rx="32" ry="42" fill="#6b9b6b" />
-            <ellipse cx="1108" cy="230" rx="26" ry="33" fill="#7fb87f" />
-          </g>
-
-          <g>
-            {/* Tree 6 */}
-            <rect x="1180" y="238" width="19" height="52" fill="#6d5a47" rx="2" />
-            <ellipse cx="1189" cy="233" rx="36" ry="46" fill="#6b9b6b" />
-            <ellipse cx="1189" cy="223" rx="28" ry="36" fill="#7fb87f" />
-          </g>
-
-          {/* Small bushes scattered */}
-          <ellipse cx="350" cy="285" rx="25" ry="20" fill="#6b9b6b" opacity="0.9" />
-          <ellipse cx="520" cy="288" rx="28" ry="22" fill="#7fb87f" opacity="0.9" />
-          <ellipse cx="880" cy="287" rx="26" ry="21" fill="#6b9b6b" opacity="0.9" />
-          <ellipse cx="1020" cy="286" rx="30" ry="23" fill="#7fb87f" opacity="0.9" />
+          {/* Ground layer - brown */}
+          <rect y="280" width="1400" height="40" fill="#8b7355" />
 
           {/* Simple grass texture */}
           <g opacity="0.4">
