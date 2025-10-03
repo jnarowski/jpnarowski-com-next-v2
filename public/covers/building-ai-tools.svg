@@ -1,0 +1,42 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#gradient2)"/>
+
+  <!-- Code blocks pattern -->
+  <g opacity="0.15">
+    <rect x="50" y="50" width="300" height="120" rx="8" fill="white"/>
+    <rect x="400" y="100" width="250" height="100" rx="8" fill="white"/>
+    <rect x="700" y="80" width="400" height="140" rx="8" fill="white"/>
+    <rect x="150" y="400" width="350" height="150" rx="8" fill="white"/>
+    <rect x="600" y="450" width="500" height="120" rx="8" fill="white"/>
+  </g>
+
+  <!-- Binary/code dots -->
+  <g opacity="0.2" fill="white">
+    <circle cx="850" cy="150" r="8"/>
+    <circle cx="900" cy="150" r="8"/>
+    <circle cx="950" cy="150" r="8"/>
+    <circle cx="870" cy="180" r="8"/>
+    <circle cx="920" cy="180" r="8"/>
+  </g>
+
+  <!-- Title -->
+  <text x="100" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="white">
+    Building with
+  </text>
+  <text x="100" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="white">
+    AI Tools
+  </text>
+
+  <!-- Subtitle -->
+  <text x="100" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="white" opacity="0.9">
+    A CTO's Perspective on AI Development
+  </text>
+</svg>

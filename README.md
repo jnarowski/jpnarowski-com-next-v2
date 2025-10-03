@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) personal site redesign for JP Narowski.
+
+**Focus**: AI content, blog-first design, clean aesthetics inspired by Apple with personality from Geoffrey Huntley's style.
 
 ## Getting Started
 
