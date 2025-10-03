@@ -126,15 +126,6 @@ export function Footer() {
             })}
           </g>
 
-          {/* Moon - crescent C-shape */}
-          <defs>
-            <mask id="crescentMask">
-              <circle cx="250" cy="80" r="35" fill="white" />
-              <circle cx="265" cy="80" r="30" fill="black" />
-            </mask>
-          </defs>
-          <circle cx="250" cy="80" r="35" fill="#f5f0e8" opacity="0.9" mask="url(#crescentMask)" />
-
           {/* Stars */}
           <circle cx="200" cy="60" r="2" fill="white" opacity="0.8" />
           <circle cx="350" cy="40" r="1.5" fill="white" opacity="0.6" />
@@ -146,6 +137,22 @@ export function Footer() {
           <circle cx="1000" cy="90" r="1.5" fill="white" opacity="0.6" />
           <circle cx="1150" cy="50" r="1" fill="white" opacity="0.7" />
           <circle cx="1300" cy="70" r="2" fill="white" opacity="0.8" />
+        </svg>
+
+        {/* Moon - fixed size, positioned absolutely */}
+        <svg
+          className="absolute hidden dark:block"
+          style={{ left: '17.86%', top: '80px', width: '70px', height: '70px' }}
+          viewBox="0 0 70 70"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <mask id="crescentMaskFixed">
+              <circle cx="35" cy="35" r="35" fill="white" />
+              <circle cx="50" cy="35" r="30" fill="black" />
+            </mask>
+          </defs>
+          <circle cx="35" cy="35" r="35" fill="#f5f0e8" opacity="0.9" mask="url(#crescentMaskFixed)" />
         </svg>
 
         {/* Content overlay - positioned above brown ground */}
