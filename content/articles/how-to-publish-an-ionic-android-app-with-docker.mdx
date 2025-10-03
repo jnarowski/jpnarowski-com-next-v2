@@ -1,0 +1,111 @@
+---
+title: "How to Publish an Ionic Android App with Docker"
+description: "Docker saves the day for Android app building with Ionic Framework—no more dependency nightmares!"
+date: "2022-07-14"
+coverImage: "/covers/ionic-android-docker.svg"
+tags: ["Docker", "Ionic", "Android", "Mobile Development"]
+published: true
+---
+
+# How to Publish an Ionic Android App with Docker
+
+For the sake of brevity, we're going to operate under the assumption that you already have docker and docker-compose running on your Mac.
+
+If you don't, here are some instructions: [Installing Docker for Mac](https://docs.docker.com/desktop/install/mac-install/)
+
+Docker for Mac is one of the new kids on the Docker block. It uses a lightweight VM instead of relying on Virtualbox or Vagrant. I find this approach appealing, since it's a one button install, and self-updating.
+
+Sadly, like all new tech, it's not all roses. There is a speed issue when dealing with the Filesystem. It's resulted in me running a hybrid Mac host/Docker setup for my development environment. I run all filesystem intensive apps on my Mac, then dockerize all external services that it depends on (like MySQL and ElasticSearch).
+
+## Why Docker for Android Builds?
+
+I find the docker approach so much cleaner than installing a million android build dependencies. Just set up a simple container, run a few commands, and you've got a signed APK ready for Google Play.
+
+**Important Note**: This approach doesn't work for iOS development, which still requires going full Mac.
+
+## Getting Dockerized
+
+We're going to use the ionic-framework base image as a jumping off point and follow along the [Ionic docs for publishing your ionic app](https://ionicframework.com/docs/).
+
+Let's start by making a local directory for gradle, so you don't have to install it each time you run your ionic docker container.
+
+```bash
+mkdir ~/.gradle
+```
+
+I like to use docker and docker-compose so I don't need to include a long string of commands each time I'm working with the build process. Docker compose isn't a hard requirement, but more of a personal preference. I like to start containers with `docker-compose ...` instead of `docker ...9 million commands`.
+
+## Example Dockerfile
+
+You could probably get away with just using the docker image instead of having a local Dockerfile, but I felt more comfortable with it, in case I need to customize it down the road.
+
+```dockerfile
+FROM agileek/ionic-framework:2.0.0
+```
+
+## Docker Compose Configuration
+
+```yaml
+version: '2'
+services:
+  app:
+    container_name: karma2_ionic
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/myApp
+      - ~/.gradle:/root/.gradle
+```
+
+## Building the App
+
+Ok so we have it all setup. Let's get it built!
+
+```bash
+docker-compose build
+docker-compose run app ionic build android --release
+```
+
+You should see output similar to this:
+
+```
+BUILD SUCCESSFUL
+Total time: XX seconds
+```
+
+## Generating a Release Key
+
+Next, you'll need to generate a keystore for signing your app:
+
+```bash
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+```
+
+## Signing the APK
+
+Sign your APK with the generated keystore:
+
+```bash
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore android-release-unsigned.apk alias_name
+```
+
+## Running Zipalign
+
+Finally, run zipalign to optimize your APK:
+
+```bash
+zipalign -v 4 android-release-unsigned.apk YourApp.apk
+```
+
+## Uploading to Google Play
+
+Now you're ready to upload your signed APK to the Google Play Store! 🐳✨
+
+## Conclusion
+
+Using Docker for Ionic Android app builds eliminates the hassle of managing Android build dependencies on your local machine. While it doesn't solve iOS development (you still need a Mac for that), it makes the Android build process much cleaner and more reproducible.
+
+---
+
+*Originally published on July 14, 2022*

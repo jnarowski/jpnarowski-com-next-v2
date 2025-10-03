@@ -1,0 +1,57 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#42B883;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#35495E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#17B897;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#gradient1)"/>
+
+  <!-- Abstract circles -->
+  <circle cx="150" cy="150" r="120" fill="white" opacity="0.08"/>
+  <circle cx="1050" cy="480" r="160" fill="white" opacity="0.08"/>
+  <circle cx="950" cy="100" r="90" fill="white" opacity="0.12"/>
+
+  <!-- Testing pattern -->
+  <g opacity="0.1">
+    <rect x="200" y="80" width="40" height="40" fill="white" rx="4"/>
+    <rect x="260" y="80" width="40" height="40" fill="white" rx="4"/>
+    <rect x="900" y="500" width="40" height="40" fill="white" rx="4"/>
+    <rect x="960" y="500" width="40" height="40" fill="white" rx="4"/>
+  </g>
+
+  <!-- VS divider -->
+  <circle cx="600" cy="315" r="60" fill="white" opacity="0.15"/>
+  <text x="600" y="335" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="900" fill="white" text-anchor="middle">
+    VS
+  </text>
+
+  <!-- Title -->
+  <text x="100" y="220" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" fill="white">
+    Cypress vs Storybook
+  </text>
+
+  <!-- Subtitle -->
+  <text x="100" y="300" font-family="system-ui, -apple-system, sans-serif" font-size="42" font-weight="600" fill="white" opacity="0.95">
+    Component Testing
+  </text>
+
+  <text x="100" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="42" font-weight="600" fill="white" opacity="0.95">
+    for Vue
+  </text>
+
+  <!-- Description -->
+  <text x="100" y="460" font-family="system-ui, -apple-system, sans-serif" font-size="26" fill="white" opacity="0.85">
+    Comparing two powerful component testing tools
+  </text>
+
+  <!-- Decorative elements -->
+  <g opacity="0.2">
+    <circle cx="100" cy="550" r="8" fill="#42B883"/>
+    <circle cx="130" cy="550" r="8" fill="#FF2D55"/>
+    <circle cx="160" cy="550" r="8" fill="#17B897"/>
+  </g>
+</svg>
