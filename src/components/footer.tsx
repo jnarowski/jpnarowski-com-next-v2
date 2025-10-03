@@ -75,9 +75,9 @@ export function Footer() {
           </g>
         </svg>
 
-        {/* Content overlay */}
-        <div className="absolute inset-0 flex items-end">
-          <div className="w-full container mx-auto px-4 md:px-8 pb-6 md:pb-8">
+        {/* Content overlay - positioned above brown ground */}
+        <div className="absolute inset-0 flex items-end pb-12 md:pb-16">
+          <div className="w-full container mx-auto px-4 md:px-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-sm text-foreground/70 text-center md:text-left">
                 © {new Date().getFullYear()} JP Narowski. All rights reserved.
