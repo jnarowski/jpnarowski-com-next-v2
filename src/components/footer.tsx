@@ -12,12 +12,18 @@ export function Footer() {
           viewBox="0 0 1400 320"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{ height: '320px' }}
+          style={{ height: "320px" }}
         >
           <defs>
             <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 0 }} />
-              <stop offset="100%" style={{ stopColor: '#e8f4f0', stopOpacity: 0 }} />
+              <stop
+                offset="0%"
+                style={{ stopColor: "#ffffff", stopOpacity: 0 }}
+              />
+              <stop
+                offset="100%"
+                style={{ stopColor: "#e8f4f0", stopOpacity: 0 }}
+              />
             </linearGradient>
           </defs>
 
@@ -25,14 +31,56 @@ export function Footer() {
           <rect width="1400" height="320" fill="url(#skyGradient)" />
 
           {/* Rolling hills - background */}
-          <ellipse cx="300" cy="280" rx="400" ry="120" fill="#8fbc8f" opacity="0.6" />
-          <ellipse cx="800" cy="285" rx="450" ry="130" fill="#7fb87f" opacity="0.6" />
-          <ellipse cx="1200" cy="280" rx="380" ry="115" fill="#8fbc8f" opacity="0.6" />
+          <ellipse
+            cx="300"
+            cy="280"
+            rx="400"
+            ry="120"
+            fill="#8fbc8f"
+            opacity="0.6"
+          />
+          <ellipse
+            cx="800"
+            cy="285"
+            rx="450"
+            ry="130"
+            fill="#7fb87f"
+            opacity="0.6"
+          />
+          <ellipse
+            cx="1200"
+            cy="280"
+            rx="380"
+            ry="115"
+            fill="#8fbc8f"
+            opacity="0.6"
+          />
 
           {/* Foreground hills */}
-          <ellipse cx="200" cy="300" rx="350" ry="100" fill="#6b9b6b" opacity="0.8" />
-          <ellipse cx="700" cy="305" rx="450" ry="110" fill="#5a8a5a" opacity="0.8" />
-          <ellipse cx="1100" cy="300" rx="400" ry="105" fill="#6b9b6b" opacity="0.8" />
+          <ellipse
+            cx="200"
+            cy="300"
+            rx="350"
+            ry="100"
+            fill="#6b9b6b"
+            opacity="0.8"
+          />
+          <ellipse
+            cx="700"
+            cy="305"
+            rx="450"
+            ry="110"
+            fill="#5a8a5a"
+            opacity="0.8"
+          />
+          <ellipse
+            cx="1100"
+            cy="300"
+            rx="400"
+            ry="105"
+            fill="#6b9b6b"
+            opacity="0.8"
+          />
 
           {/* Ground layer - brown */}
           <rect y="280" width="1400" height="40" fill="#8b7355" />
@@ -57,15 +105,57 @@ export function Footer() {
 
           {/* White clouds */}
           <g>
-            <ellipse cx="250" cy="80" rx="45" ry="25" fill="white" opacity="0.9" />
-            <ellipse cx="220" cy="85" rx="35" ry="20" fill="white" opacity="0.9" />
-            <ellipse cx="280" cy="85" rx="38" ry="22" fill="white" opacity="0.9" />
+            <ellipse
+              cx="250"
+              cy="80"
+              rx="45"
+              ry="25"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              cx="220"
+              cy="85"
+              rx="35"
+              ry="20"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              cx="280"
+              cy="85"
+              rx="38"
+              ry="22"
+              fill="white"
+              opacity="0.9"
+            />
           </g>
 
           <g>
-            <ellipse cx="900" cy="100" rx="50" ry="28" fill="white" opacity="0.9" />
-            <ellipse cx="870" cy="105" rx="38" ry="22" fill="white" opacity="0.9" />
-            <ellipse cx="930" cy="106" rx="40" ry="24" fill="white" opacity="0.9" />
+            <ellipse
+              cx="900"
+              cy="100"
+              rx="50"
+              ry="28"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              cx="870"
+              cy="105"
+              rx="38"
+              ry="22"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              cx="930"
+              cy="106"
+              rx="40"
+              ry="24"
+              fill="white"
+              opacity="0.9"
+            />
           </g>
 
           {/* Birds */}
@@ -82,28 +172,85 @@ export function Footer() {
           viewBox="0 0 1400 320"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{ height: '320px' }}
+          style={{ height: "320px" }}
         >
           <defs>
-            <linearGradient id="skyGradientDark" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#09090b', stopOpacity: 1 }} />
-              <stop offset="30%" style={{ stopColor: '#0d0f0d', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#1a2a1a', stopOpacity: 1 }} />
+            <linearGradient
+              id="skyGradientDark"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop
+                offset="0%"
+                style={{ stopColor: "#09090b", stopOpacity: 0 }}
+              />
+              <stop
+                offset="30%"
+                style={{ stopColor: "#0d0f0d", stopOpacity: 0 }}
+              />
+              <stop
+                offset="100%"
+                style={{ stopColor: "#1a2a1a", stopOpacity: 0 }}
+              />
             </linearGradient>
           </defs>
 
-          {/* Night sky background */}
+          {/* Night sky background - transparent to show paper texture */}
           <rect width="1400" height="320" fill="url(#skyGradientDark)" />
 
           {/* Rolling hills - background - darker */}
-          <ellipse cx="300" cy="280" rx="400" ry="120" fill="#2d4d3d" opacity="0.6" />
-          <ellipse cx="800" cy="285" rx="450" ry="130" fill="#3d5d4d" opacity="0.6" />
-          <ellipse cx="1200" cy="280" rx="380" ry="115" fill="#2d4d3d" opacity="0.6" />
+          <ellipse
+            cx="300"
+            cy="280"
+            rx="400"
+            ry="120"
+            fill="#2d4d3d"
+            opacity="0.6"
+          />
+          <ellipse
+            cx="800"
+            cy="285"
+            rx="450"
+            ry="130"
+            fill="#3d5d4d"
+            opacity="0.6"
+          />
+          <ellipse
+            cx="1200"
+            cy="280"
+            rx="380"
+            ry="115"
+            fill="#2d4d3d"
+            opacity="0.6"
+          />
 
           {/* Foreground hills - darker */}
-          <ellipse cx="200" cy="300" rx="350" ry="100" fill="#1d3d2d" opacity="0.9" />
-          <ellipse cx="700" cy="305" rx="450" ry="110" fill="#0d2d1d" opacity="0.9" />
-          <ellipse cx="1100" cy="300" rx="400" ry="105" fill="#1d3d2d" opacity="0.9" />
+          <ellipse
+            cx="200"
+            cy="300"
+            rx="350"
+            ry="100"
+            fill="#1d3d2d"
+            opacity="0.9"
+          />
+          <ellipse
+            cx="700"
+            cy="305"
+            rx="450"
+            ry="110"
+            fill="#0d2d1d"
+            opacity="0.9"
+          />
+          <ellipse
+            cx="1100"
+            cy="300"
+            rx="400"
+            ry="105"
+            fill="#1d3d2d"
+            opacity="0.9"
+          />
 
           {/* Ground layer - dark brown */}
           <rect y="280" width="1400" height="40" fill="#3d2d1d" />
@@ -142,7 +289,7 @@ export function Footer() {
         {/* Moon - fixed size, positioned absolutely */}
         <svg
           className="absolute hidden dark:block"
-          style={{ left: '17.86%', top: '80px', width: '70px', height: '70px' }}
+          style={{ left: "5.86%", top: "10px", width: "70px", height: "70px" }}
           viewBox="0 0 70 70"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -152,7 +299,14 @@ export function Footer() {
               <circle cx="50" cy="35" r="30" fill="black" />
             </mask>
           </defs>
-          <circle cx="35" cy="35" r="35" fill="#f5f0e8" opacity="0.9" mask="url(#crescentMaskFixed)" />
+          <circle
+            cx="35"
+            cy="35"
+            r="35"
+            fill="#f5f0e8"
+            opacity="0.9"
+            mask="url(#crescentMaskFixed)"
+          />
         </svg>
 
         {/* Content overlay - positioned above brown ground */}

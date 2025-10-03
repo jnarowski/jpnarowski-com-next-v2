@@ -1,25 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { getAllArticles } from "@/lib/blog";
 import { Calendar, Clock } from "lucide-react";
 
 export const metadata = {
   title: "Articles - JP Narowski",
-  description: "Exploring AI, software engineering, and building products. Learn from my journey as I share insights and tutorials.",
+  description:
+    "Exploring AI, software engineering, and building products. Learn from my journey as I share insights and tutorials.",
 };
 
 export default function ArticlesPage() {
   const articles = getAllArticles();
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
+    <div className="container-small mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">Articles</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 md:mb-6">
+            Articles
+          </h1>
           <p className="text-lg md:text-xl text-muted-foreground">
-            Exploring AI, software engineering, and building products. Join me on my journey as I learn and share.
+            Exploring AI, software engineering, and building products. Join me
+            on my journey as I learn and share.
           </p>
         </div>
 
@@ -27,7 +31,11 @@ export default function ArticlesPage() {
         {articles.length > 0 ? (
           <div className="space-y-6">
             {articles.map((article) => (
-              <Link key={article.slug} href={`/articles/${article.slug}`} className="block group">
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="block group"
+              >
                 <Card className="hover:shadow-lg transition-all hover:border-[var(--accent-purple)] overflow-hidden p-0 gap-0">
                   <div className="md:flex">
                     {article.coverImage && (
@@ -49,11 +57,14 @@ export default function ArticlesPage() {
                         <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3.5 w-3.5" />
-                            {new Date(article.date).toLocaleDateString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
+                            {new Date(article.date).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              }
+                            )}
                           </span>
                           <span className="flex items-center gap-1">
                             <Clock className="h-3.5 w-3.5" />
@@ -62,7 +73,9 @@ export default function ArticlesPage() {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <p className="text-foreground/90 mb-4 leading-relaxed">{article.description}</p>
+                        <p className="text-foreground/90 mb-4 leading-relaxed">
+                          {article.description}
+                        </p>
                         {article.tags && article.tags.length > 0 && (
                           <div className="flex flex-wrap gap-2">
                             {article.tags.map((tag) => (
@@ -86,7 +99,8 @@ export default function ArticlesPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <p className="text-muted-foreground text-base md:text-lg">
-                Articles coming soon! I&apos;m working on some exciting content about AI and software engineering.
+                Articles coming soon! I&apos;m working on some exciting content
+                about AI and software engineering.
               </p>
             </CardContent>
           </Card>

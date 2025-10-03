@@ -19,7 +19,7 @@ export function Navigation() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
+      <div className="container-small mx-auto flex h-16 items-center justify-between px-4 md:px-8">
         <Link href="/" className="flex items-center space-x-2">
           <span className="font-bold text-xl">JP Narowski</span>
         </Link>
@@ -50,7 +50,11 @@ export function Navigation() {
             className="text-foreground"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
         </div>
       </div>
@@ -58,7 +62,7 @@ export function Navigation() {
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <div className="md:hidden border-t bg-background">
-          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
+          <nav className="container-small mx-auto px-4 py-4 flex flex-col gap-4">
             {links.map((link) => (
               <Link
                 key={link.href}

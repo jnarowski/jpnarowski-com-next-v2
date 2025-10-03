@@ -14,7 +14,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
 
@@ -30,7 +34,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
 
@@ -39,7 +47,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <article className="container mx-auto px-4 md:px-8 py-8 md:py-16">
+    <article className="container-small mx-auto px-4 md:px-8 py-8 md:py-16">
       <div className="max-w-3xl mx-auto">
         {/* Back Button */}
         <div className="mb-8 md:mb-12">
@@ -53,7 +61,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {/* Article Header */}
         <header className="mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">{article.title}</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
+            {article.title}
+          </h1>
 
           <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-muted-foreground mb-6">
             <span className="flex items-center gap-1">

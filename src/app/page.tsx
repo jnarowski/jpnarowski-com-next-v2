@@ -21,7 +21,7 @@ export default function Home() {
   const articles = getAllArticles().slice(0, 3);
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-8 md:py-16">
+    <div className="container-small mx-auto px-4 md:px-8 py-8 md:py-16">
       {/* Hero Section */}
       <section className="mb-16 md:mb-24">
         <div className="flex flex-col md:flex-row gap-8 items-start">
