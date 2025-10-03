@@ -15,7 +15,7 @@ export function Footer() {
               href="https://github.com/jnarowski"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-[var(--accent-purple)] transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
@@ -25,7 +25,7 @@ export function Footer() {
               href="https://www.linkedin.com/in/johnpaulnarowski/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-[var(--accent-purple)] transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />
@@ -33,7 +33,7 @@ export function Footer() {
             </Link>
             <Link
               href="mailto:jp@sourceborn.com"
-              className="text-muted-foreground hover:text-[var(--accent-purple)] transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="Email"
             >
               <Mail className="h-5 w-5" />

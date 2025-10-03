@@ -34,11 +34,11 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 text-sm text-muted-foreground mb-6 md:mb-8">
               <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
+                <MapPin className="h-4 w-4 text-primary" />
                 <span>Denver, CO</span>
               </div>
               <div className="flex items-center gap-2">
-                <Briefcase className="h-4 w-4" />
+                <Briefcase className="h-4 w-4 text-primary" />
                 <span>Head of Engineering at Spectora</span>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
               <Link key={article.slug} href={`/articles/${article.slug}`}>
-                <Card className="h-full hover:shadow-lg transition-shadow hover:border-[var(--accent-purple)] overflow-hidden p-0 gap-0">
+                <Card className="h-full hover:shadow-lg transition-shadow hover:border-primary overflow-hidden p-0 gap-0">
                   {article.coverImage && (
                     <div className="h-48 w-full overflow-hidden">
                       <Image

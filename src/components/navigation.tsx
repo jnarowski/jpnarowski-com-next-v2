@@ -30,9 +30,9 @@ export function Navigation() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-[var(--accent-purple)] ${
+              className={`text-sm font-medium transition-colors hover:text-primary ${
                 pathname === link.href
-                  ? "text-foreground"
+                  ? "text-primary font-semibold"
                   : "text-muted-foreground"
               }`}
             >
@@ -64,9 +64,9 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`text-base font-medium transition-colors hover:text-[var(--accent-purple)] py-2 ${
+                className={`text-base font-medium transition-colors hover:text-primary py-2 ${
                   pathname === link.href
-                    ? "text-foreground"
+                    ? "text-primary font-semibold"
                     : "text-muted-foreground"
                 }`}
               >

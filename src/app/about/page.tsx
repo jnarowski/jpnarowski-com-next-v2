@@ -39,7 +39,7 @@ export default function AboutPage() {
               </p>
               <p className="text-base md:text-lg leading-relaxed text-foreground/90">
                 I like to say I{" "}
-                <span className="italic font-semibold text-[var(--accent-purple)]">
+                <span className="italic font-semibold text-primary">
                   &quot;Huckleberry Finn&apos;ed&quot; my way into entrepreneurship
                 </span>
                 .
@@ -120,7 +120,7 @@ export default function AboutPage() {
             <CardContent className="p-6">
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed">
                 I focus on creating{" "}
-                <span className="font-semibold text-[var(--accent-purple)]">
+                <span className="font-semibold text-primary">
                   self-managing teams, processes, and code
                 </span>
                 . The intersection of technology and business is where I thrive, combining deep technical
@@ -136,7 +136,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
               <CardContent className="p-6 flex items-start gap-4">
-                <Mountain className="h-8 w-8 text-[var(--accent-purple)] flex-shrink-0" />
+                <Mountain className="h-8 w-8 text-primary flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold mb-1">Skiing</h3>
                   <p className="text-sm text-muted-foreground">
@@ -148,7 +148,7 @@ export default function AboutPage() {
 
             <Card>
               <CardContent className="p-6 flex items-start gap-4">
-                <ChefHat className="h-8 w-8 text-[var(--accent-purple)] flex-shrink-0" />
+                <ChefHat className="h-8 w-8 text-primary flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold mb-1">Cooking</h3>
                   <p className="text-sm text-muted-foreground">
@@ -160,7 +160,7 @@ export default function AboutPage() {
 
             <Card>
               <CardContent className="p-6 flex items-start gap-4">
-                <BookOpen className="h-8 w-8 text-[var(--accent-purple)] flex-shrink-0" />
+                <BookOpen className="h-8 w-8 text-primary flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold mb-1">Reading</h3>
                   <p className="text-sm text-muted-foreground">
@@ -172,7 +172,7 @@ export default function AboutPage() {
 
             <Card>
               <CardContent className="p-6 flex items-start gap-4">
-                <Laptop className="h-8 w-8 text-[var(--accent-purple)] flex-shrink-0" />
+                <Laptop className="h-8 w-8 text-primary flex-shrink-0" />
                 <div>
                   <h3 className="font-semibold mb-1">Computer Technology</h3>
                   <p className="text-sm text-muted-foreground">
@@ -212,7 +212,7 @@ export default function AboutPage() {
                   href="https://github.com/jnarowski"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[var(--accent-purple)] hover:text-[var(--accent-purple-dark)] transition-colors"
+                  className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                 >
                   <Github className="h-5 w-5" />
                   <span>github.com/jnarowski</span>
@@ -221,14 +221,14 @@ export default function AboutPage() {
                   href="https://www.linkedin.com/in/johnpaulnarowski/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[var(--accent-purple)] hover:text-[var(--accent-purple-dark)] transition-colors"
+                  className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                 >
                   <Linkedin className="h-5 w-5" />
                   <span>linkedin.com/in/johnpaulnarowski</span>
                 </Link>
                 <Link
                   href="mailto:jp@sourceborn.com"
-                  className="flex items-center gap-2 text-[var(--accent-purple)] hover:text-[var(--accent-purple-dark)] transition-colors"
+                  className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                 >
                   <Mail className="h-5 w-5" />
                   <span>jp@sourceborn.com</span>
