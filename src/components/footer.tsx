@@ -16,12 +16,12 @@ export function Footer() {
         >
           <defs>
             <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#e8f4f0', stopOpacity: 1 }} />
+              <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 0 }} />
+              <stop offset="100%" style={{ stopColor: '#e8f4f0', stopOpacity: 0 }} />
             </linearGradient>
           </defs>
 
-          {/* Sky background */}
+          {/* Sky background - transparent to show paper texture */}
           <rect width="1400" height="320" fill="url(#skyGradient)" />
 
           {/* Rolling hills - background */}
