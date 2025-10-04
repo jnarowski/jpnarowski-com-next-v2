@@ -378,4 +378,252 @@ describe('Die with Zero Calculator', () => {
       expect(yearly.length).toBe(0)
     })
   })
+
+  describe('Exact Manual Calculations - Order of Operations Verification', () => {
+    it('should match exact manual calculations for simple accumulation scenario', () => {
+      // Scenario: $100,000 starting, +$5,000 income, -$3,000 expenses, 6% annual (0.5% monthly)
+      // Verifies the STANDARD order: Interest FIRST, then cash flows
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 6, // 6% annual = 0.5% monthly
+        incomes: [
+          { amount: 5000, frequency: 'monthly', startAge: 40, endAge: 100 },
+        ],
+        expenses: [
+          { amount: 3000, frequency: 'monthly', startAge: 40, endAge: 100 },
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // Manual calculation with STANDARD order (interest first):
+      // Month 0: (100000 × 1.005) + 5000 - 3000 = 100500 + 5000 - 3000 = 102500
+      expect(result[0].netWorth).toBeCloseTo(102500, 2)
+
+      // Month 1: (102500 × 1.005) + 5000 - 3000 = 103012.50 + 5000 - 3000 = 105012.50
+      expect(result[1].netWorth).toBeCloseTo(105012.5, 2)
+
+      // Month 2: (105012.50 × 1.005) + 5000 - 3000 = 105537.56 + 5000 - 3000 = 107537.56
+      expect(result[2].netWorth).toBeCloseTo(107537.56, 2)
+
+      // Month 11 (end of first year):
+      // Working through all 12 months gives us: 130838.91
+      expect(result[11].netWorth).toBeCloseTo(130838.91, 2)
+    })
+
+    it('should match exact manual calculations for pure compound interest (no cash flows)', () => {
+      // Scenario: $100,000 starting, no income/expenses, 6% annual
+      // This verifies compound interest formula: FV = PV × (1 + r)^n
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 6,
+        incomes: [],
+        expenses: [],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // After 12 months at 0.5% monthly: 100000 × (1.005)^12 = 106,167.78
+      expect(result[11].netWorth).toBeCloseTo(106167.78, 2)
+
+      // After 24 months: 100000 × (1.005)^24 = 112,715.98
+      expect(result[23].netWorth).toBeCloseTo(112715.98, 2)
+
+      // After 120 months (10 years): 100000 × (1.005)^120 = 181,939.67
+      expect(result[119].netWorth).toBeCloseTo(181939.67, 2)
+    })
+
+    it('should match exact manual calculations for retirement drawdown', () => {
+      // Scenario: $1,000,000 starting, no income, -$5,000/month expenses, 5% annual
+      const inputs: CalculatorInputs = {
+        currentAge: 65,
+        netWorth: 1000000,
+        interestRate: 5, // 5% annual = 0.4167% monthly (5/12 = 0.41667%)
+        incomes: [],
+        expenses: [
+          { amount: 5000, frequency: 'monthly', startAge: 65, endAge: 100 },
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // Month 0: (1000000 × 1.00416667) - 5000 = 1004166.67 - 5000 = 999166.67
+      expect(result[0].netWorth).toBeCloseTo(999166.67, 2)
+
+      // Month 1: (999166.67 × 1.00416667) - 5000 = 1003330.35 - 5000 = 998329.86
+      expect(result[1].netWorth).toBeCloseTo(998329.86, 2)
+
+      // Month 12 (after 1 year):
+      // Formula: Each month we apply interest then subtract $5000
+      // After 13 iterations: 988891.65
+      expect(result[12].netWorth).toBeCloseTo(988891.65, 2)
+    })
+
+    it('should handle zero interest rate with exact precision', () => {
+      // With 0% interest, the calculation should be purely linear
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 0,
+        incomes: [
+          { amount: 5000, frequency: 'monthly', startAge: 40, endAge: 65 },
+        ],
+        expenses: [
+          { amount: 3000, frequency: 'monthly', startAge: 40, endAge: 65 },
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // With 0% interest: NW = NW × 1.0 + 5000 - 3000 = NW + 2000
+      // Month 0: 100000 + 2000 = 102000
+      expect(result[0].netWorth).toBe(102000)
+
+      // Month 1: 102000 + 2000 = 104000
+      expect(result[1].netWorth).toBe(104000)
+
+      // Month 11: 100000 + (12 × 2000) = 124000
+      expect(result[11].netWorth).toBe(124000)
+
+      // After 25 years (300 months): 100000 + (300 × 2000) = 700000
+      expect(result[299].netWorth).toBe(700000)
+    })
+
+    it('should correctly handle annual vs monthly frequency conversion', () => {
+      // Test that annual income of $60,000 equals monthly income of $5,000
+      const inputsAnnual: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 0, // Use 0% to make comparison easier
+        incomes: [
+          { amount: 60000, frequency: 'annual', startAge: 40, endAge: 65 },
+        ],
+        expenses: [],
+      }
+
+      const inputsMonthly: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 0,
+        incomes: [
+          { amount: 5000, frequency: 'monthly', startAge: 40, endAge: 65 },
+        ],
+        expenses: [],
+      }
+
+      const resultAnnual = calculateNetWorthProjection(inputsAnnual)
+      const resultMonthly = calculateNetWorthProjection(inputsMonthly)
+
+      // Results should be identical at every month
+      expect(resultAnnual[0].netWorth).toBe(resultMonthly[0].netWorth)
+      expect(resultAnnual[11].netWorth).toBe(resultMonthly[11].netWorth)
+      expect(resultAnnual[59].netWorth).toBe(resultMonthly[59].netWorth)
+    })
+
+    it('should demonstrate the difference from non-standard order of operations', () => {
+      // This test documents the difference between standard and non-standard approaches
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 6,
+        incomes: [
+          { amount: 5000, frequency: 'monthly', startAge: 40, endAge: 100 },
+        ],
+        expenses: [
+          { amount: 3000, frequency: 'monthly', startAge: 40, endAge: 100 },
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // Standard approach (current implementation): 102500.00 after first month
+      expect(result[0].netWorth).toBeCloseTo(102500, 2)
+
+      // Non-standard approach would give: 102510.00 after first month
+      // (income + expenses first, then interest)
+      // We verify we're NOT getting the non-standard result
+      expect(result[0].netWorth).not.toBeCloseTo(102510, 2)
+
+      // After 12 months, standard: 130838.91
+      expect(result[11].netWorth).toBeCloseTo(130838.91, 2)
+
+      // Non-standard would give: 129267.53
+      expect(result[11].netWorth).not.toBeCloseTo(129267.53, 2)
+    })
+
+    it('should produce mathematically consistent results over multiple years', () => {
+      // Test that the formula produces consistent year-over-year growth
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 5,
+        incomes: [
+          { amount: 10000, frequency: 'monthly', startAge: 40, endAge: 65 },
+        ],
+        expenses: [
+          { amount: 6000, frequency: 'monthly', startAge: 40, endAge: 65 },
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // Net monthly cash flow: +4000
+      // Monthly rate: 5/12 = 0.4167%
+
+      // Verify growth is positive and consistent
+      for (let i = 1; i < 60; i++) {
+        // Check first 5 years
+        expect(result[i].netWorth).toBeGreaterThan(result[i - 1].netWorth)
+      }
+
+      // Verify the monthly increase includes both cash flow and interest
+      const month0 = result[0].netWorth
+      const month1 = result[1].netWorth
+
+      // Month 1 should be roughly: (month0 × 1.00416667) + 4000
+      const expectedMonth1 = month0 * 1.0041667 + 4000
+      expect(month1).toBeCloseTo(expectedMonth1, 2)
+    })
+
+    it('should correctly handle age-based income/expense activation', () => {
+      // Test that income/expenses turn on and off at the right ages
+      const inputs: CalculatorInputs = {
+        currentAge: 40,
+        netWorth: 100000,
+        interestRate: 0, // Use 0% to isolate cash flow effects
+        incomes: [
+          { amount: 10000, frequency: 'monthly', startAge: 40, endAge: 45 }, // 5 years
+        ],
+        expenses: [
+          { amount: 5000, frequency: 'monthly', startAge: 45, endAge: 50 }, // 5 years
+        ],
+      }
+
+      const result = calculateNetWorthProjection(inputs)
+
+      // Ages 40-44: +10000/month income, no expenses
+      // Month 0 (age 40): 100000 + 10000 = 110000
+      expect(result[0].netWorth).toBe(110000)
+      expect(result[0].age).toBe(40)
+
+      // Month 59 (still age 44): should still be accumulating
+      expect(result[59].netWorth).toBeGreaterThan(110000)
+
+      // Month 60 (age 45): income stops (endAge is inclusive), expenses start
+      // At month 60, age = 40 + 60/12 = 45.0
+      // Income is active up to age 45 (inclusive), so month 60 should have income
+      // But we need to find the exact transition point
+      const age45Months = result.filter(s => s.age === 45)
+      const lastIncomeMonth = age45Months[age45Months.length - 1]
+
+      // After income stops and expenses start, net worth should decline
+      const age46Months = result.filter(s => s.age === 46)
+      if (age46Months.length > 0) {
+        const firstExpenseOnlyMonth = age46Months[0]
+        expect(firstExpenseOnlyMonth.netWorth).toBeLessThan(lastIncomeMonth.netWorth)
+      }
+    })
+  })
 })

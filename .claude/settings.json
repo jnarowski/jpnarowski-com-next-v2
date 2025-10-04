@@ -15,5 +15,6 @@
       "Bash(touch:*)"
     ],
     "deny": []
-  }
+  },
+  "enableAllProjectMcpServers": false
 }

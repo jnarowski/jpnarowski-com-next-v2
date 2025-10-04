@@ -129,14 +129,17 @@ export function getActiveExpenses(expenses: IncomeExpenseEntry[], age: number): 
 /**
  * Main calculation function: Projects net worth month-by-month from current age to age 100
  *
- * Algorithm:
+ * Algorithm (Standard Financial Planning Approach):
  * 1. Start from current month/year (handles partial years)
  * 2. For each month until age 100:
- *    a. Add active income
- *    b. Subtract active expenses
- *    c. Apply monthly compound interest
+ *    a. Apply monthly compound interest to beginning balance
+ *    b. Add active income (occurs at end of period, doesn't earn interest this month)
+ *    c. Subtract active expenses (occurs at end of period)
  *    d. Record snapshot
  * 3. Return all monthly snapshots
+ *
+ * This order matches industry-standard financial calculators and is more conservative
+ * than applying interest after cash flows.
  */
 export function calculateNetWorthProjection(
   inputs: CalculatorInputs
@@ -157,16 +160,17 @@ export function calculateNetWorthProjection(
     const age = getAgeForMonth(currentAge, monthIndex);
     const year = getYearForMonth(currentYear, currentMonth, monthIndex);
 
-    // Add income for this month
+    // Apply compound interest FIRST (to beginning balance)
+    // This is the standard approach used by financial planners
+    currentNetWorth = applyCompoundInterest(currentNetWorth, monthlyRate);
+
+    // Add income for this month (doesn't earn interest until next month)
     const monthlyIncome = getActiveIncome(incomes, age);
     currentNetWorth += monthlyIncome;
 
     // Subtract expenses for this month
     const monthlyExpenses = getActiveExpenses(expenses, age);
     currentNetWorth -= monthlyExpenses;
-
-    // Apply compound interest
-    currentNetWorth = applyCompoundInterest(currentNetWorth, monthlyRate);
 
     // Record snapshot
     snapshots.push({

@@ -1,56 +1,57 @@
-'use client'
+"use client";
 
-import { useMemo } from 'react'
-import { Share2, Target, TrendingDown, Clock, Heart } from 'lucide-react'
-import { CalculatorForm } from '@/components/die-with-zero/CalculatorForm'
-import { NetWorthChart } from '@/components/die-with-zero/NetWorthChart'
-import { Button } from '@/components/ui/button'
-import { useUrlState } from '@/hooks/useUrlState'
+import { useMemo } from "react";
+import { Share2, Target, TrendingDown, Clock, Heart } from "lucide-react";
+import { CalculatorForm } from "@/components/die-with-zero/CalculatorForm";
+import { NetWorthChart } from "@/components/die-with-zero/NetWorthChart";
+import { CalculationBreakdown } from "@/components/die-with-zero/CalculationBreakdown";
+import { Button } from "@/components/ui/button";
+import { useUrlState } from "@/hooks/useUrlState";
 import {
   calculateNetWorthProjection,
   aggregateToYearly,
-} from '@/lib/die-with-zero-calculator'
+} from "@/lib/die-with-zero-calculator";
 
 export function DieWithZeroCalculator() {
-  const { state, setState, isHydrated } = useUrlState()
+  const { state, setState, isHydrated } = useUrlState();
 
   // Calculate projections
   const yearlyData = useMemo(() => {
-    const monthlyProjection = calculateNetWorthProjection(state)
-    return aggregateToYearly(monthlyProjection)
-  }, [state])
+    const monthlyProjection = calculateNetWorthProjection(state);
+    return aggregateToYearly(monthlyProjection);
+  }, [state]);
 
   // Calculate when money runs out
   const runOutAge = useMemo(() => {
-    const firstNegative = yearlyData.find((d) => d.netWorth < 0)
-    return firstNegative ? firstNegative.age : null
-  }, [yearlyData])
+    const firstNegative = yearlyData.find((d) => d.netWorth < 0);
+    return firstNegative ? firstNegative.age : null;
+  }, [yearlyData]);
 
   // Share functionality
   const handleShare = async () => {
     const shareData = {
-      title: 'Die with Zero Calculator - My Net Worth Projection',
-      text: 'Check out my financial projection using the Die with Zero Calculator',
+      title: "Die with Zero Calculator - My Net Worth Projection",
+      text: "Check out my financial projection using the Die with Zero Calculator",
       url: window.location.href,
-    }
+    };
 
     if (navigator.share) {
       try {
-        await navigator.share(shareData)
+        await navigator.share(shareData);
       } catch (err) {
         // User cancelled or error occurred
-        console.log('Share cancelled or failed')
+        console.log("Share cancelled or failed");
       }
     } else {
       // Fallback: copy to clipboard
       try {
-        await navigator.clipboard.writeText(window.location.href)
-        alert('Link copied to clipboard!')
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
       } catch (err) {
-        console.error('Failed to copy:', err)
+        console.error("Failed to copy:", err);
       }
     }
-  }
+  };
 
   // Show loading state while hydrating
   if (!isHydrated) {
@@ -58,7 +59,7 @@ export function DieWithZeroCalculator() {
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-muted-foreground">Loading calculator...</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -74,14 +75,15 @@ export function DieWithZeroCalculator() {
                 </span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                Die with{' '}
+                Die with{" "}
                 <span className="bg-gradient-to-r from-primary via-primary/70 to-primary/50 bg-clip-text text-transparent">
                   Zero
                 </span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl">
-                A financial calculator inspired by Bill Perkins&apos; philosophy: maximize your life experiences
-                by optimally spending your wealth over your lifetime, rather than hoarding it.
+                A financial calculator inspired by Bill Perkins&apos;
+                philosophy: maximize your life experiences by optimally spending
+                your wealth over your lifetime, rather than hoarding it.
               </p>
             </div>
             <Button
@@ -101,7 +103,8 @@ export function DieWithZeroCalculator() {
               </div>
               <h3 className="text-lg font-bold mb-2">Spend Intentionally</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your wealth should be spent on experiences and helping others, not left unspent at the end of your life.
+                Your wealth should be spent on experiences and helping others,
+                not left unspent at the end of your life.
               </p>
             </div>
 
@@ -111,7 +114,8 @@ export function DieWithZeroCalculator() {
               </div>
               <h3 className="text-lg font-bold mb-2">Time is Finite</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Your health, energy, and time to enjoy experiences decline with age. Plan accordingly.
+                Your health, energy, and time to enjoy experiences decline with
+                age. Plan accordingly.
               </p>
             </div>
 
@@ -121,7 +125,8 @@ export function DieWithZeroCalculator() {
               </div>
               <h3 className="text-lg font-bold mb-2">Live Fully</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Balance saving for the future with living today. Don&apos;t delay experiences that matter.
+                Balance saving for the future with living today. Don&apos;t
+                delay experiences that matter.
               </p>
             </div>
           </div>
@@ -155,8 +160,8 @@ export function DieWithZeroCalculator() {
                 <p
                   className={`text-2xl font-bold ${
                     yearlyData[yearlyData.length - 1].netWorth >= 0
-                      ? 'text-green-600 dark:text-green-500'
-                      : 'text-red-600 dark:text-red-500'
+                      ? "text-green-600 dark:text-green-500"
+                      : "text-red-600 dark:text-red-500"
                   }`}
                 >
                   $
@@ -173,11 +178,11 @@ export function DieWithZeroCalculator() {
                 <p
                   className={`text-2xl font-bold ${
                     runOutAge
-                      ? 'text-red-600 dark:text-red-500'
-                      : 'text-green-600 dark:text-green-500'
+                      ? "text-red-600 dark:text-red-500"
+                      : "text-green-600 dark:text-green-500"
                   }`}
                 >
-                  {runOutAge ? `Age ${runOutAge}` : 'Never'}
+                  {runOutAge ? `Age ${runOutAge}` : "Never"}
                 </p>
               </div>
             </div>
@@ -188,33 +193,12 @@ export function DieWithZeroCalculator() {
           </div>
         </div>
 
-        {/* Explanation */}
-        <div className="mt-16 p-8 bg-muted/30 rounded-2xl border border-border">
-          <h3 className="text-2xl font-bold mb-4">How It Works</h3>
-          <div className="space-y-3 text-muted-foreground">
-            <p>
-              This calculator projects your net worth from your current age to age 100 using monthly
-              compounding interest. Here&apos;s the formula:
-            </p>
-            <div className="bg-background rounded-lg p-4 font-mono text-sm">
-              <p>For each month:</p>
-              <p className="ml-4">1. Add active income</p>
-              <p className="ml-4">2. Subtract active expenses</p>
-              <p className="ml-4">
-                3. Apply compound interest: NW = NW × (1 + r/12)
-              </p>
-            </div>
-            <p>
-              Where <strong>r</strong> is your annual interest rate as a decimal (e.g., 0.05 for 5%).
-            </p>
-            <p>
-              The goal of &quot;Die with Zero&quot; is to optimize your spending to fully utilize your
-              resources over your lifetime while maximizing life experiences. Use this tool to
-              experiment with different scenarios.
-            </p>
-          </div>
+        {/* Calculation Breakdown */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold mb-6">Calculation Details</h2>
+          <CalculationBreakdown inputs={state} />
         </div>
       </div>
     </div>
-  )
+  );
 }
