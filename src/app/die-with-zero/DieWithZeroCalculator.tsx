@@ -144,31 +144,13 @@ export function DieWithZeroCalculator() {
 
           {/* Summary Stats */}
           {yearlyData.length > 0 && (
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
                 <p className="text-sm text-muted-foreground mb-1">
                   Starting Net Worth
                 </p>
                 <p className="text-2xl font-bold text-primary">
                   ${(yearlyData[0].netWorth / 1000000).toFixed(2)}M
-                </p>
-              </div>
-              <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
-                <p className="text-sm text-muted-foreground mb-1">
-                  Projected at Age 100
-                </p>
-                <p
-                  className={`text-2xl font-bold ${
-                    yearlyData[yearlyData.length - 1].netWorth >= 0
-                      ? "text-green-600 dark:text-green-500"
-                      : "text-red-600 dark:text-red-500"
-                  }`}
-                >
-                  $
-                  {(
-                    yearlyData[yearlyData.length - 1].netWorth / 1000000
-                  ).toFixed(2)}
-                  M
                 </p>
               </div>
               <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">

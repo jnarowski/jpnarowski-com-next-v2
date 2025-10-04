@@ -14,13 +14,13 @@ export interface CalculatorState {
 
 const defaultState: CalculatorState = {
   currentAge: 40,
-  netWorth: 1000000,
+  netWorth: 500000,
   interestRate: 5,
   incomes: [
     { amount: 15000, frequency: 'monthly', startAge: 40, endAge: 65 },
   ],
   expenses: [
-    { amount: 8000, frequency: 'monthly', startAge: 40, endAge: 100 },
+    { amount: 8000, frequency: 'monthly', startAge: 40, endAge: 80 },
   ],
 }
 
@@ -71,8 +71,9 @@ function decodeState(encoded: string): CalculatorState | null {
 export function useUrlState() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [state, setState] = useState<CalculatorState>(defaultState)
+  const [state, setStateInternal] = useState<CalculatorState>(defaultState)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [shouldSyncToUrl, setShouldSyncToUrl] = useState(false)
 
   // Load state from URL on mount
   useEffect(() => {
@@ -81,16 +82,23 @@ export function useUrlState() {
     if (stateParam) {
       const decoded = decodeState(stateParam)
       if (decoded) {
-        setState(decoded)
+        setStateInternal(decoded)
+        setShouldSyncToUrl(true)
       }
     }
 
     setIsHydrated(true)
   }, [searchParams])
 
-  // Update URL when state changes (but only after hydration)
+  // Custom setState that enables URL syncing
+  const setState = (newState: CalculatorState | ((prev: CalculatorState) => CalculatorState)) => {
+    setStateInternal(newState)
+    setShouldSyncToUrl(true)
+  }
+
+  // Update URL when state changes (but only if sync is enabled)
   useEffect(() => {
-    if (!isHydrated) return
+    if (!isHydrated || !shouldSyncToUrl) return
 
     const encoded = encodeState(state)
     const currentParams = new URLSearchParams(searchParams.toString())
@@ -103,7 +111,7 @@ export function useUrlState() {
 
     const newUrl = `${window.location.pathname}?${currentParams.toString()}`
     router.replace(newUrl, { scroll: false })
-  }, [state, router, searchParams, isHydrated])
+  }, [state, router, searchParams, isHydrated, shouldSyncToUrl])
 
   return { state, setState, isHydrated }
 }

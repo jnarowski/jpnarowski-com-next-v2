@@ -16,5 +16,5 @@
     ],
     "deny": []
   },
-  "enableAllProjectMcpServers": false
+  "enableAllProjectMcpServers": true
 }
