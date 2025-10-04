@@ -19,6 +19,12 @@ export function DieWithZeroCalculator() {
     return aggregateToYearly(monthlyProjection)
   }, [state])
 
+  // Calculate when money runs out
+  const runOutAge = useMemo(() => {
+    const firstNegative = yearlyData.find((d) => d.netWorth < 0)
+    return firstNegative ? firstNegative.age : null
+  }, [yearlyData])
+
   // Show loading state while hydrating
   if (!isHydrated) {
     return (
@@ -42,13 +48,10 @@ export function DieWithZeroCalculator() {
         {/* Chart */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold mb-6">Net Worth Projection</h2>
-          <div className="p-6 bg-muted/20 rounded-2xl border border-border">
-            <NetWorthChart data={yearlyData} />
-          </div>
 
           {/* Summary Stats */}
           {yearlyData.length > 0 && (
-            <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
                 <p className="text-sm text-muted-foreground mb-1">
                   Starting Net Worth
@@ -75,8 +78,26 @@ export function DieWithZeroCalculator() {
                   M
                 </p>
               </div>
+              <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
+                <p className="text-sm text-muted-foreground mb-1">
+                  Money Runs Out
+                </p>
+                <p
+                  className={`text-2xl font-bold ${
+                    runOutAge
+                      ? 'text-red-600 dark:text-red-500'
+                      : 'text-green-600 dark:text-green-500'
+                  }`}
+                >
+                  {runOutAge ? `Age ${runOutAge}` : 'Never'}
+                </p>
+              </div>
             </div>
           )}
+
+          <div className="p-6 bg-muted/20 rounded-2xl border border-border">
+            <NetWorthChart data={yearlyData} />
+          </div>
         </div>
 
         {/* Explanation */}
