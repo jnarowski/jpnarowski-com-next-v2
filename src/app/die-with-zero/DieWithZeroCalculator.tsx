@@ -144,16 +144,64 @@ export function DieWithZeroCalculator() {
 
           {/* Summary Stats */}
           {yearlyData.length > 0 && (
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="p-4 bg-muted/30 rounded-xl border border-border">
                 <p className="text-sm text-muted-foreground mb-1">
                   Starting Net Worth
                 </p>
-                <p className="text-2xl font-bold text-primary">
-                  ${(yearlyData[0].netWorth / 1000000).toFixed(2)}M
+                <p className="text-2xl font-bold">
+                  {state.netWorth >= 1000000
+                    ? `$${(state.netWorth / 1000000).toFixed(2)}M`
+                    : `$${(state.netWorth / 1000).toFixed(0)}k`}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Your current net worth (before growth)
                 </p>
               </div>
-              <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
+
+              {(() => {
+                const fiveYearData = yearlyData.find(d => d.age === state.currentAge + 5);
+                return fiveYearData ? (
+                  <div className="p-4 bg-muted/30 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">
+                      After 5 Years
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {fiveYearData.netWorth >= 1000000
+                        ? `$${(fiveYearData.netWorth / 1000000).toFixed(2)}M`
+                        : fiveYearData.netWorth >= 0
+                        ? `$${(fiveYearData.netWorth / 1000).toFixed(0)}k`
+                        : `$0`}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Age {fiveYearData.age}
+                    </p>
+                  </div>
+                ) : null;
+              })()}
+
+              {(() => {
+                const tenYearData = yearlyData.find(d => d.age === state.currentAge + 10);
+                return tenYearData ? (
+                  <div className="p-4 bg-muted/30 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">
+                      After 10 Years
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {tenYearData.netWorth >= 1000000
+                        ? `$${(tenYearData.netWorth / 1000000).toFixed(2)}M`
+                        : tenYearData.netWorth >= 0
+                        ? `$${(tenYearData.netWorth / 1000).toFixed(0)}k`
+                        : `$0`}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Age {tenYearData.age}
+                    </p>
+                  </div>
+                ) : null;
+              })()}
+
+              <div className="p-4 bg-muted/30 rounded-xl border border-border">
                 <p className="text-sm text-muted-foreground mb-1">
                   Money Runs Out
                 </p>
@@ -179,6 +227,19 @@ export function DieWithZeroCalculator() {
         <div className="mb-16">
           <h2 className="text-3xl font-bold mb-6">Calculation Details</h2>
           <CalculationBreakdown inputs={state} />
+        </div>
+
+        {/* Financial Disclaimer */}
+        <div className="mt-16">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
+            Disclaimer
+          </h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+            This calculator is provided for educational and informational purposes only and should not be considered financial, investment, tax, or legal advice. The projections are based on simplified assumptions and may not reflect actual future financial outcomes. Individual financial situations vary greatly, and many factors not considered in this calculator can significantly impact your financial future.
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mt-2">
+            We strongly recommend consulting with qualified financial advisors, tax professionals, and legal counsel before making any financial decisions. Past performance and mathematical projections do not guarantee future results. The creators of this calculator are not responsible for any financial decisions made based on its output.
+          </p>
         </div>
       </div>
     </div>

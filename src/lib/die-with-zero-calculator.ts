@@ -127,11 +127,33 @@ export function getActiveExpenses(expenses: IncomeExpenseEntry[], age: number): 
 }
 
 /**
- * Main calculation function: Projects net worth month-by-month from current age to age 100
+ * Calculate the relevant maximum age to project based on income/expense ranges
+ * Returns the latest endAge from all entries, or age 100 as fallback
+ */
+export function getRelevantMaxAge(
+  currentAge: number,
+  incomes: IncomeExpenseEntry[],
+  expenses: IncomeExpenseEntry[]
+): number {
+  const allEntries = [...incomes, ...expenses];
+
+  if (allEntries.length === 0) {
+    return 100; // Default to 100 if no entries
+  }
+
+  const maxEndAge = Math.max(...allEntries.map(entry => entry.endAge));
+
+  // Add a small buffer (5 years) to show what happens after income/expenses end
+  // But cap at 100
+  return Math.min(maxEndAge + 5, 100);
+}
+
+/**
+ * Main calculation function: Projects net worth month-by-month from current age to relevant max age
  *
  * Algorithm (Standard Financial Planning Approach):
  * 1. Start from current month/year (handles partial years)
- * 2. For each month until age 100:
+ * 2. For each month until relevant max age:
  *    a. Apply monthly compound interest to beginning balance
  *    b. Add active income (occurs at end of period, doesn't earn interest this month)
  *    c. Subtract active expenses (occurs at end of period)
@@ -153,7 +175,7 @@ export function calculateNetWorthProjection(
   const snapshots: MonthlySnapshot[] = [];
   let currentNetWorth = netWorth;
 
-  const maxAge = 100;
+  const maxAge = getRelevantMaxAge(currentAge, incomes, expenses);
   const totalMonths = (maxAge - currentAge) * 12;
 
   for (let monthIndex = 0; monthIndex < totalMonths; monthIndex++) {

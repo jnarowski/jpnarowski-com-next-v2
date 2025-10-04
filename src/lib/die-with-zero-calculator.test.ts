@@ -7,6 +7,7 @@ import {
   getAgeForMonth,
   getActiveIncome,
   getActiveExpenses,
+  getRelevantMaxAge,
   calculateNetWorthProjection,
   aggregateToYearly,
   type IncomeExpenseEntry,
@@ -94,6 +95,45 @@ describe('Die with Zero Calculator', () => {
       expect(getAgeForMonth(40, 6)).toBe(40.5)
       expect(getAgeForMonth(40, 12)).toBe(41)
       expect(getAgeForMonth(40, 18)).toBe(41.5)
+    })
+  })
+
+  describe('getRelevantMaxAge', () => {
+    it('should return 100 when no income or expenses', () => {
+      expect(getRelevantMaxAge(40, [], [])).toBe(100)
+    })
+
+    it('should return max endAge + 5 year buffer', () => {
+      const incomes: IncomeExpenseEntry[] = [
+        { amount: 5000, frequency: 'monthly', startAge: 30, endAge: 65 },
+      ]
+      const expenses: IncomeExpenseEntry[] = [
+        { amount: 3000, frequency: 'monthly', startAge: 30, endAge: 80 },
+      ]
+      // Max endAge is 80, so 80 + 5 = 85
+      expect(getRelevantMaxAge(40, incomes, expenses)).toBe(85)
+    })
+
+    it('should cap at 100 even with buffer', () => {
+      const incomes: IncomeExpenseEntry[] = [
+        { amount: 5000, frequency: 'monthly', startAge: 30, endAge: 98 },
+      ]
+      // 98 + 5 = 103, but should cap at 100
+      expect(getRelevantMaxAge(40, incomes, [])).toBe(100)
+    })
+
+    it('should handle only income entries', () => {
+      const incomes: IncomeExpenseEntry[] = [
+        { amount: 5000, frequency: 'monthly', startAge: 30, endAge: 65 },
+      ]
+      expect(getRelevantMaxAge(40, incomes, [])).toBe(70) // 65 + 5
+    })
+
+    it('should handle only expense entries', () => {
+      const expenses: IncomeExpenseEntry[] = [
+        { amount: 3000, frequency: 'monthly', startAge: 30, endAge: 75 },
+      ]
+      expect(getRelevantMaxAge(40, [], expenses)).toBe(80) // 75 + 5
     })
   })
 
