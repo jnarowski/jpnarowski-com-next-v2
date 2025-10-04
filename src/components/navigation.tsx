@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, User, FileText, Mic } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Navigation() {
@@ -11,10 +11,10 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/articles", label: "Articles" },
-    { href: "/speaking", label: "Speaking" },
+    { href: "/", label: "Home", icon: Home },
+    { href: "/about", label: "About", icon: User },
+    { href: "/articles", label: "Articles", icon: FileText },
+    { href: "/speaking", label: "Speaking", icon: Mic },
   ];
 
   return (
@@ -28,22 +28,26 @@ export function Navigation() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium transition-all hover:text-primary relative ${
-                    pathname === link.href
-                      ? "text-primary font-semibold"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                  {pathname === link.href && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
-                  )}
-                </Link>
-              ))}
+              {links.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`text-sm font-medium transition-all hover:text-primary relative flex items-center gap-2 ${
+                      pathname === link.href
+                        ? "text-primary font-semibold"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {link.label}
+                    {pathname === link.href && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
               <div className="h-6 w-px bg-border" />
               <ThemeToggle />
             </nav>
@@ -73,20 +77,24 @@ export function Navigation() {
         <div className="fixed inset-x-4 top-20 z-40 md:hidden">
           <div className="rounded-3xl border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-xl shadow-black/10 p-6">
             <nav className="flex flex-col gap-1">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors hover:text-primary py-3 px-4 rounded-xl ${
-                    pathname === link.href
-                      ? "text-primary font-semibold bg-primary/10"
-                      : "text-muted-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {links.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`text-base font-medium transition-colors hover:text-primary py-3 px-4 rounded-xl flex items-center gap-3 ${
+                      pathname === link.href
+                        ? "text-primary font-semibold bg-primary/10"
+                        : "text-muted-foreground hover:bg-muted/50"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
           </div>
         </div>
