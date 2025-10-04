@@ -2,6 +2,7 @@
 
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { InputGroup } from '@/components/ui/input-group'
 import {
   Select,
@@ -76,7 +77,7 @@ export function IncomeExpenseRow({
               })
             }
           >
-            <SelectTrigger className="h-9 text-sm bg-background">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Select frequency" />
             </SelectTrigger>
             <SelectContent>
@@ -91,7 +92,7 @@ export function IncomeExpenseRow({
           <label className="text-xs text-muted-foreground mb-1 block">
             Start Age
           </label>
-          <input
+          <Input
             type="text"
             value={entry.startAge === 0 ? '' : entry.startAge}
             onChange={(e) => {
@@ -100,7 +101,6 @@ export function IncomeExpenseRow({
               const clamped = Math.max(0, Math.min(100, num))
               onChange({ ...entry, startAge: clamped })
             }}
-            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="40"
           />
         </div>
@@ -110,7 +110,7 @@ export function IncomeExpenseRow({
           <label className="text-xs text-muted-foreground mb-1 block">
             End Age
           </label>
-          <input
+          <Input
             type="text"
             value={entry.endAge === 0 ? '' : entry.endAge}
             onChange={(e) => {
@@ -119,7 +119,6 @@ export function IncomeExpenseRow({
               const clamped = Math.max(0, Math.min(100, num))
               onChange({ ...entry, endAge: clamped })
             }}
-            className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="65"
           />
         </div>

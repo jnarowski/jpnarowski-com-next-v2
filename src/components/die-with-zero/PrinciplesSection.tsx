@@ -4,7 +4,7 @@ import { TrendingDown, Clock, Heart, Target } from 'lucide-react'
 
 export function PrinciplesSection() {
   return (
-    <section className="mb-16">
+    <section className="flex-1">
       <div className="mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20">
           <Target className="h-4 w-4 text-primary" />
