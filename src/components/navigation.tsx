@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Home, User, FileText, Mic } from "lucide-react";
+import { Menu, X, Home, User, FileText, Mic, BookOpen } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Navigation() {
@@ -14,6 +14,7 @@ export function Navigation() {
     { href: "/", label: "Home", icon: Home },
     { href: "/about", label: "About", icon: User },
     { href: "/articles", label: "Articles", icon: FileText },
+    { href: "/books", label: "Books", icon: BookOpen },
     { href: "/speaking", label: "Speaking", icon: Mic },
   ];
 
