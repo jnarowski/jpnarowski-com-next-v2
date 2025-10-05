@@ -1,6 +1,7 @@
 import { getAllBooks } from "@/lib/books";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Calculator } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = {
   title: "Books - JP Narowski",
@@ -84,6 +85,20 @@ export default function BooksPage() {
                     </div>
                   </div>
                 </a>
+
+                {/* Die with Zero Calculator Callout */}
+                {book.id === 'die-with-zero' && (
+                  <div className="-mx-4 px-4 md:-mx-6 md:px-6 pb-4">
+                    <Link
+                      href="/die-with-zero"
+                      className="inline-flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+                    >
+                      <Calculator className="h-4 w-4" />
+                      <span>Try the Die with Zero Calculator →</span>
+                    </Link>
+                  </div>
+                )}
+
                 {index < books.length - 1 && (
                   <div className="border-b border-border" />
                 )}
