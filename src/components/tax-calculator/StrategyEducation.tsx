@@ -198,7 +198,7 @@ export function StrategyEducation() {
 
                 <div>
                   <h4 className="font-semibold text-sm mb-2">Example calculation:</h4>
-                  <div className="bg-muted/30 p-3 rounded-lg text-sm font-mono">
+                  <div className="bg-muted/30 p-3 rounded-lg text-sm">
                     <p>$300,000 investment × 80% IDC = $240,000 deduction</p>
                     <p className="text-muted-foreground text-xs mt-1">
                       (Remaining $60,000 depreciated over 7 years)

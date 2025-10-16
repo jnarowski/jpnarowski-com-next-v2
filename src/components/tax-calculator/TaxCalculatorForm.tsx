@@ -37,7 +37,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
               <Input
                 id="w2Income"
                 type="text"
-                className="pl-7 font-mono"
+                className="pl-7"
                 value={formatCurrency(state.baseIncome.w2Income)}
                 onChange={(e) => {
                   const value = parseCurrency(e.target.value);
@@ -65,7 +65,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
               <Input
                 id="phantomEquity"
                 type="text"
-                className="pl-7 font-mono"
+                className="pl-7"
                 value={formatCurrency(state.baseIncome.phantomEquityPayout)}
                 onChange={(e) => {
                   const value = parseCurrency(e.target.value);
@@ -121,7 +121,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
               <Input
                 id="businessLoss"
                 type="text"
-                className="pl-7 font-mono"
+                className="pl-7"
                 value={formatCurrency(state.businessLoss.lossAmount)}
                 onChange={(e) => {
                   const value = parseCurrency(e.target.value);
@@ -192,7 +192,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
                 <Input
                   id="passiveLosses"
                   type="text"
-                  className="pl-7 font-mono"
+                  className="pl-7"
                   value={formatCurrency(
                     state.realEstateProfessional.passiveLosses
                   )}
@@ -240,7 +240,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
                 <Input
                   id="oilInvestment"
                   type="text"
-                  className="pl-7 font-mono"
+                  className="pl-7"
                   value={formatCurrency(state.oilInvestment.investmentAmount)}
                   onChange={(e) => {
                     const value = parseCurrency(e.target.value);
@@ -265,7 +265,7 @@ export function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {
                 <Label htmlFor="idcPercentage" className="text-sm font-medium">
                   IDC Percentage: {state.oilInvestment.idcPercentage}%
                 </Label>
-                <span className="text-xs text-muted-foreground font-mono">
+                <span className="text-xs text-muted-foreground font-semibold">
                   ${formatCurrency((state.oilInvestment.investmentAmount * state.oilInvestment.idcPercentage) / 100)}
                 </span>
               </div>

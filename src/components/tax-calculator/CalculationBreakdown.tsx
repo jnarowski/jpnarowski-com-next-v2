@@ -96,15 +96,15 @@ export function CalculationBreakdown({ result }: CalculationBreakdownProps) {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Total Income (AGI)</span>
-                      <span className="font-mono">{formatCurrency(result.baselineAGI)}</span>
+                      <span className="font-semibold">{formatCurrency(result.baselineAGI)}</span>
                     </div>
                     <div className="flex justify-between text-sm text-red-600 dark:text-red-400">
                       <span>Less: Standard Deduction</span>
-                      <span className="font-mono">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>
+                      <span className="font-semibold">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>
                     </div>
                     <div className="flex justify-between text-sm font-semibold border-t border-border pt-2">
                       <span>Taxable Income</span>
-                      <span className="font-mono">{formatCurrency(result.baselineTaxableIncome)}</span>
+                      <span>{formatCurrency(result.baselineTaxableIncome)}</span>
                     </div>
                   </div>
 
@@ -114,7 +114,7 @@ export function CalculationBreakdown({ result }: CalculationBreakdownProps) {
                       {result.baselineBrackets.map((bracket, index) => (
                         <div
                           key={index}
-                          className="grid grid-cols-3 gap-2 text-xs font-mono p-2 rounded bg-muted/30"
+                          className="grid grid-cols-3 gap-2 text-xs p-2 rounded bg-muted/30"
                         >
                           <span>{formatPercent(bracket.rate)} bracket</span>
                           <span className="text-right">
@@ -156,13 +156,13 @@ export function CalculationBreakdown({ result }: CalculationBreakdownProps) {
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className="space-y-1 p-3 rounded-lg bg-muted/30">
                         <p className="text-xs text-muted-foreground">Deduction Amount</p>
-                        <p className="font-mono font-semibold">
+                        <p className="font-semibold">
                           {formatCurrency(strategy.deductionAmount)}
                         </p>
                       </div>
                       <div className="space-y-1 p-3 rounded-lg bg-green-500/10">
                         <p className="text-xs text-muted-foreground">Tax Savings</p>
-                        <p className="font-mono font-semibold text-green-600 dark:text-green-400">
+                        <p className="font-semibold text-green-600 dark:text-green-400">
                           {formatCurrency(strategy.taxSavings)}
                         </p>
                       </div>
@@ -188,23 +188,23 @@ export function CalculationBreakdown({ result }: CalculationBreakdownProps) {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Total Income (AGI)</span>
-                        <span className="font-mono">{formatCurrency(result.baselineAGI)}</span>
+                        <span className="font-semibold">{formatCurrency(result.baselineAGI)}</span>
                       </div>
                       <div className="flex justify-between text-sm text-red-600 dark:text-red-400">
                         <span>Less: Total Deductions</span>
-                        <span className="font-mono">-{formatCurrency(result.totalDeductions)}</span>
+                        <span className="font-semibold">-{formatCurrency(result.totalDeductions)}</span>
                       </div>
                       <div className="flex justify-between text-sm font-medium border-t border-border pt-2">
                         <span>Adjusted AGI</span>
-                        <span className="font-mono">{formatCurrency(result.adjustedAGI)}</span>
+                        <span className="font-semibold">{formatCurrency(result.adjustedAGI)}</span>
                       </div>
                       <div className="flex justify-between text-sm text-red-600 dark:text-red-400">
                         <span>Less: Standard Deduction</span>
-                        <span className="font-mono">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>
+                        <span className="font-semibold">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>
                       </div>
                       <div className="flex justify-between text-sm font-semibold border-t border-border pt-2">
                         <span>Taxable Income</span>
-                        <span className="font-mono">{formatCurrency(result.adjustedTaxableIncome)}</span>
+                        <span>{formatCurrency(result.adjustedTaxableIncome)}</span>
                       </div>
                     </div>
 
@@ -214,7 +214,7 @@ export function CalculationBreakdown({ result }: CalculationBreakdownProps) {
                         {result.adjustedBrackets.map((bracket, index) => (
                           <div
                             key={index}
-                            className="grid grid-cols-3 gap-2 text-xs font-mono p-2 rounded bg-muted/30"
+                            className="grid grid-cols-3 gap-2 text-xs p-2 rounded bg-muted/30"
                           >
                             <span>{formatPercent(bracket.rate)} bracket</span>
                             <span className="text-right">
