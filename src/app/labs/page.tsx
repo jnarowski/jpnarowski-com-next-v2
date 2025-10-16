@@ -49,7 +49,7 @@ export default function LabsPage() {
 
   return (
     <div className="min-h-screen py-16">
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+      <div className="container-small mx-auto px-4 md:px-8">
         {/* Hero Section */}
         <div className="mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20">
