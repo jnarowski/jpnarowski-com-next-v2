@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "19de34e7-8e58-4241-bd27-6e4946900de1",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/19de34e7-8e58-4241-bd27-6e4946900de1.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/generate-prd \"financial-tax-burden-calculator\" \"I will be getting a big paycheck from my phantom equity when my company sells. I\u2019d like a tax calculator that show me an estimation of how much I\u2019d pay in taxes based on the available rules and rates.\n\nThen I\u2019d like options for different things I could invest in and to see how that would affect my tax burden. Things like having write offs from business, real estate development, investing in oil etc. I would be putting the money directly into these buckets, so I want to see how much of a discount I\u2019d get, and what I would ultimately be left with.\n\nPlease use USA tax laws.\n\nFor example, if I receive $1m taxed as w2 income:\n\n\n\n\n\nIf I do nothing, I pay x in taxes and would receive y.\n\n\n\nIf I have $250k in active losses from a business, how much am I left with.\n\n\n\nIf I I invested $500k in real estate and my wife was a real estate professional. Also can you outline somewhere what the definition of that is to qualify?\n\nThe problem I have is I have no way to know if i should pursue any of these options and if it\u2019s worth it. This tool will help me analyze and combine different strategies and see which are worth investigating.\n\nScope\n\n\n\n\n\nadd payout amount\n\n\n\nadd expected income for the year\n\n\n\nadd one or many tax strategies to clearly see how each impact the tax burden\n\n\n\nadd a section showing all the formulas and how each was calculated\n\n\n\nadd an informational section showing all the possible tax strategies and a description of what they are and how they are used.\""
+  },
+  {
+    "session_id": "19de34e7-8e58-4241-bd27-6e4946900de1",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/19de34e7-8e58-4241-bd27-6e4946900de1.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "1. today\\\n2. just personal use but will share with family and friends. It will be public on my website\\\n3. as the user is using the tool, can you append the info to the url so if they reload or share the full URL, the info will persist? If they clear out the url and visit the page, it should not persist\\\n4. Single tax year\\\n5. What do you suggest? Generally I want this to be an approximation. It doesn't need to be to the penny but if it's within thousands that'd be awesome.\\\n6. Just a simple paragragh describing what it is and how one qualifies"
+  }
+]

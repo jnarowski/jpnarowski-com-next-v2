@@ -1,0 +1,1049 @@
+[
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/.agent/specs/financial-tax-burden-calculator-spec.md"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "in_progress",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "pending",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "pending",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "pending",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5: Build TaxCalculatorForm component",
+          "status": "pending",
+          "activeForm": "Building TaxCalculatorForm component"
+        },
+        {
+          "content": "Phase 6: Build StrategyCard components",
+          "status": "pending",
+          "activeForm": "Building StrategyCard components"
+        },
+        {
+          "content": "Phase 7: Build TaxSummary component",
+          "status": "pending",
+          "activeForm": "Building TaxSummary component"
+        },
+        {
+          "content": "Phase 8: Build CalculationBreakdown component",
+          "status": "pending",
+          "activeForm": "Building CalculationBreakdown component"
+        },
+        {
+          "content": "Phase 9: Build StrategyEducation component",
+          "status": "pending",
+          "activeForm": "Building StrategyEducation component"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "pending",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Phase 11: Add share functionality",
+          "status": "pending",
+          "activeForm": "Adding share functionality"
+        },
+        {
+          "content": "Phase 12: Add disclaimers and legal text",
+          "status": "pending",
+          "activeForm": "Adding disclaimers and legal text"
+        },
+        {
+          "content": "Phase 13: Style and polish UX",
+          "status": "pending",
+          "activeForm": "Styling and polishing UX"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/lib/tax-calculator.ts",
+      "content": "/**\n * Tax Calculator - Core calculation logic for federal tax burden estimation\n *\n * This module provides pure functions for calculating federal income tax\n * with support for various tax reduction strategies including business losses,\n * real estate professional status, and oil & gas investments.\n *\n * All calculations are based on 2025 federal tax brackets for single filers.\n *\n * DISCLAIMER: These are educational estimates only and should not be considered\n * tax, financial, or legal advice.\n */\n\n// ============================================================================\n// Type Definitions\n// ============================================================================\n\n/**\n * Base income inputs for the tax calculator\n */\nexport interface TaxCalculatorInputs {\n  /** Annual W-2 income (base salary) */\n  w2Income: number;\n  /** One-time phantom equity payout or similar compensation */\n  phantomEquityPayout: number;\n}\n\n/**\n * Active business loss strategy parameters\n */\nexport interface BusinessLossStrategy {\n  enabled: boolean;\n  /** Total active business losses (Section 162) */\n  lossAmount: number;\n}\n\n/**\n * Real Estate Professional (REP) strategy parameters\n */\nexport interface RealEstateProfessionalStrategy {\n  enabled: boolean;\n  /** Qualifies as Real Estate Professional (750+ hours, >50% of work time) */\n  isREP: boolean;\n  /** Total passive losses from real estate activities */\n  passiveLosses: number;\n}\n\n/**\n * Oil & Gas investment strategy parameters\n */\nexport interface OilInvestmentStrategy {\n  enabled: boolean;\n  /** Total investment amount in oil/gas direct participation */\n  investmentAmount: number;\n  /** Intangible Drilling Costs percentage (typically 70-85%) */\n  idcPercentage: number;\n}\n\n/**\n * Complete tax calculation inputs including all strategies\n */\nexport interface TaxCalculatorState {\n  baseIncome: TaxCalculatorInputs;\n  businessLoss: BusinessLossStrategy;\n  realEstateProfessional: RealEstateProfessionalStrategy;\n  oilInvestment: OilInvestmentStrategy;\n}\n\n/**\n * Tax bracket information for breakdown display\n */\nexport interface TaxBracket {\n  rate: number;\n  min: number;\n  max: number | null; // null for highest bracket\n  taxAmount: number;\n  incomeInBracket: number;\n}\n\n/**\n * Results of strategy application\n */\nexport interface StrategyResult {\n  name: string;\n  enabled: boolean;\n  deductionAmount: number;\n  taxSavings: number;\n  description: string;\n}\n\n/**\n * Comprehensive tax calculation result with full breakdown\n */\nexport interface TaxCalculationResult {\n  // Total income\n  totalIncome: number;\n\n  // Baseline calculation (no strategies)\n  baselineAGI: number;\n  baselineTaxableIncome: number;\n  baselineTax: number;\n  baselineBrackets: TaxBracket[];\n\n  // After strategies applied\n  adjustedAGI: number;\n  adjustedTaxableIncome: number;\n  adjustedTax: number;\n  adjustedBrackets: TaxBracket[];\n\n  // Strategy details\n  strategies: StrategyResult[];\n  totalDeductions: number;\n  totalTaxSavings: number;\n\n  // Final results\n  effectiveTaxRate: number;\n  netProceeds: number;\n}\n\n// ============================================================================\n// Constants\n// ============================================================================\n\n/**\n * 2025 Federal Tax Brackets for Single Filers\n * Source: IRS projected brackets for tax year 2025\n */\nexport const TAX_BRACKETS_2025 = [\n  { rate: 0.10, min: 0, max: 11600 },\n  { rate: 0.12, min: 11601, max: 47150 },\n  { rate: 0.22, min: 47151, max: 100525 },\n  { rate: 0.24, min: 100526, max: 191950 },\n  { rate: 0.32, min: 191951, max: 243725 },\n  { rate: 0.35, min: 243726, max: 609350 },\n  { rate: 0.37, min: 609351, max: Infinity },\n] as const;\n\n/**\n * Standard deduction for single filers in 2025\n */\nexport const STANDARD_DEDUCTION_2025 = 14600;\n\n/**\n * Default state for the tax calculator\n */\nexport const DEFAULT_TAX_CALCULATOR_STATE: TaxCalculatorState = {\n  baseIncome: {\n    w2Income: 200000,\n    phantomEquityPayout: 500000,\n  },\n  businessLoss: {\n    enabled: false,\n    lossAmount: 0,\n  },\n  realEstateProfessional: {\n    enabled: false,\n    isREP: false,\n    passiveLosses: 0,\n  },\n  oilInvestment: {\n    enabled: false,\n    investmentAmount: 0,\n    idcPercentage: 80,\n  },\n};\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/.agent/specs/financial-tax-burden-calculator-spec.md",
+      "old_string": "- [ ] Create TypeScript interfaces for tax calculator state\n        - Define `TaxCalculatorInputs` interface with base income fields\n        - Define `BusinessLossStrategy` interface (loss amount)\n        - Define `RealEstateProfessionalStrategy` interface (passive losses, REP status boolean)\n        - Define `OilInvestmentStrategy` interface (investment amount, IDC percentage)\n        - Define `TaxCalculationResult` interface with breakdown fields\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Document 2025 federal tax brackets as constants\n        - Single filer brackets: 10%, 12%, 22%, 24%, 32%, 35%, 37%\n        - Research and document exact bracket thresholds for 2025\n        - Add standard deduction constant for 2025\n        - File: `src/lib/tax-calculator.ts`\n\n#### Completion Notes\n\n(This will be filled in by the agent implementing this phase)",
+      "new_string": "- [x] Create TypeScript interfaces for tax calculator state\n        - Define `TaxCalculatorInputs` interface with base income fields\n        - Define `BusinessLossStrategy` interface (loss amount)\n        - Define `RealEstateProfessionalStrategy` interface (passive losses, REP status boolean)\n        - Define `OilInvestmentStrategy` interface (investment amount, IDC percentage)\n        - Define `TaxCalculationResult` interface with breakdown fields\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Document 2025 federal tax brackets as constants\n        - Single filer brackets: 10%, 12%, 22%, 24%, 32%, 35%, 37%\n        - Research and document exact bracket thresholds for 2025\n        - Add standard deduction constant for 2025\n        - File: `src/lib/tax-calculator.ts`\n\n#### Completion Notes\n\nCompleted TypeScript interfaces and constants for tax calculations:\n- Created comprehensive type system with `TaxCalculatorState`, `TaxCalculationResult`, and strategy interfaces\n- Documented 2025 federal tax brackets for single filers with exact thresholds\n- Added standard deduction constant ($14,600 for 2025)\n- Included `TaxBracket` and `StrategyResult` interfaces for detailed breakdown display\n- Added default state with reasonable starting values ($200K W-2 + $500K phantom equity)\n- All calculations use single filer status with progressive tax bracket system"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "in_progress",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "pending",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "pending",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5: Build TaxCalculatorForm component",
+          "status": "pending",
+          "activeForm": "Building TaxCalculatorForm component"
+        },
+        {
+          "content": "Phase 6: Build StrategyCard components",
+          "status": "pending",
+          "activeForm": "Building StrategyCard components"
+        },
+        {
+          "content": "Phase 7: Build TaxSummary component",
+          "status": "pending",
+          "activeForm": "Building TaxSummary component"
+        },
+        {
+          "content": "Phase 8: Build CalculationBreakdown component",
+          "status": "pending",
+          "activeForm": "Building CalculationBreakdown component"
+        },
+        {
+          "content": "Phase 9: Build StrategyEducation component",
+          "status": "pending",
+          "activeForm": "Building StrategyEducation component"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "pending",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Phase 11: Add share functionality",
+          "status": "pending",
+          "activeForm": "Adding share functionality"
+        },
+        {
+          "content": "Phase 12: Add disclaimers and legal text",
+          "status": "pending",
+          "activeForm": "Adding disclaimers and legal text"
+        },
+        {
+          "content": "Phase 13: Style and polish UX",
+          "status": "pending",
+          "activeForm": "Styling and polishing UX"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/lib/tax-calculator.ts"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/lib/tax-calculator.ts",
+      "old_string": "export const DEFAULT_TAX_CALCULATOR_STATE: TaxCalculatorState = {\n  baseIncome: {\n    w2Income: 200000,\n    phantomEquityPayout: 500000,\n  },\n  businessLoss: {\n    enabled: false,\n    lossAmount: 0,\n  },\n  realEstateProfessional: {\n    enabled: false,\n    isREP: false,\n    passiveLosses: 0,\n  },\n  oilInvestment: {\n    enabled: false,\n    investmentAmount: 0,\n    idcPercentage: 80,\n  },\n};",
+      "new_string": "export const DEFAULT_TAX_CALCULATOR_STATE: TaxCalculatorState = {\n  baseIncome: {\n    w2Income: 200000,\n    phantomEquityPayout: 500000,\n  },\n  businessLoss: {\n    enabled: false,\n    lossAmount: 0,\n  },\n  realEstateProfessional: {\n    enabled: false,\n    isREP: false,\n    passiveLosses: 0,\n  },\n  oilInvestment: {\n    enabled: false,\n    investmentAmount: 0,\n    idcPercentage: 80,\n  },\n};\n\n// ============================================================================\n// Core Calculation Functions\n// ============================================================================\n\n/**\n * Calculate federal income tax using progressive tax brackets\n *\n * @param taxableIncome - Income after deductions\n * @returns Object with total tax and bracket-by-bracket breakdown\n */\nexport function calculateFederalIncomeTax(taxableIncome: number): {\n  totalTax: number;\n  brackets: TaxBracket[];\n} {\n  // Cap taxable income at 0 (can't have negative tax)\n  const income = Math.max(0, taxableIncome);\n\n  let totalTax = 0;\n  const brackets: TaxBracket[] = [];\n\n  for (const bracket of TAX_BRACKETS_2025) {\n    const bracketMin = bracket.min;\n    const bracketMax = bracket.max;\n\n    // Skip brackets we haven't reached yet\n    if (income <= bracketMin) {\n      break;\n    }\n\n    // Calculate income in this bracket\n    const maxIncome = bracketMax === Infinity ? income : Math.min(income, bracketMax);\n    const incomeInBracket = maxIncome - bracketMin + 1;\n\n    // Calculate tax for this bracket\n    const taxAmount = incomeInBracket * bracket.rate;\n    totalTax += taxAmount;\n\n    brackets.push({\n      rate: bracket.rate,\n      min: bracketMin,\n      max: bracketMax === Infinity ? null : bracketMax,\n      taxAmount,\n      incomeInBracket,\n    });\n  }\n\n  return {\n    totalTax: Math.max(0, totalTax),\n    brackets,\n  };\n}\n\n/**\n * Apply standard deduction to AGI\n *\n * @param agi - Adjusted Gross Income\n * @returns Taxable income after standard deduction\n */\nexport function applyStandardDeduction(agi: number): number {\n  return Math.max(0, agi - STANDARD_DEDUCTION_2025);\n}\n\n/**\n * Apply active business loss deduction\n *\n * Active trade or business losses (Section 162) can directly offset\n * ordinary income without limitation.\n *\n * @param agi - Current Adjusted Gross Income\n * @param lossAmount - Total active business losses\n * @returns Object with adjusted AGI and deduction amount\n */\nexport function applyBusinessLoss(\n  agi: number,\n  lossAmount: number\n): {\n  adjustedAGI: number;\n  deductionAmount: number;\n} {\n  const deductionAmount = Math.max(0, lossAmount);\n  const adjustedAGI = Math.max(0, agi - deductionAmount);\n\n  return {\n    adjustedAGI,\n    deductionAmount,\n  };\n}\n\n/**\n * Apply Real Estate Professional passive loss deduction\n *\n * Only applies if the taxpayer qualifies as a Real Estate Professional\n * (750+ hours in real estate activities, >50% of personal services time,\n * material participation in rental activities).\n *\n * @param agi - Current Adjusted Gross Income\n * @param isREP - Whether taxpayer qualifies as Real Estate Professional\n * @param passiveLosses - Total passive losses from real estate\n * @returns Object with adjusted AGI and deduction amount\n */\nexport function applyRealEstateProfessional(\n  agi: number,\n  isREP: boolean,\n  passiveLosses: number\n): {\n  adjustedAGI: number;\n  deductionAmount: number;\n} {\n  // Only apply passive loss offset if REP status is true\n  if (!isREP) {\n    return {\n      adjustedAGI: agi,\n      deductionAmount: 0,\n    };\n  }\n\n  const deductionAmount = Math.max(0, passiveLosses);\n  const adjustedAGI = Math.max(0, agi - deductionAmount);\n\n  return {\n    adjustedAGI,\n    deductionAmount,\n  };\n}\n\n/**\n * Apply Oil & Gas investment deduction (Intangible Drilling Costs)\n *\n * Intangible Drilling Costs (IDC) are typically 70-85% of the total\n * investment and can be deducted in the year incurred for direct\n * participation in oil/gas partnerships.\n *\n * @param agi - Current Adjusted Gross Income\n * @param investmentAmount - Total investment in oil/gas direct participation\n * @param idcPercentage - Percentage of investment that qualifies as IDC (70-85)\n * @returns Object with adjusted AGI and deduction amount\n */\nexport function applyOilInvestment(\n  agi: number,\n  investmentAmount: number,\n  idcPercentage: number\n): {\n  adjustedAGI: number;\n  deductionAmount: number;\n} {\n  const investment = Math.max(0, investmentAmount);\n  const percentage = Math.max(0, Math.min(100, idcPercentage)) / 100;\n\n  const deductionAmount = investment * percentage;\n  const adjustedAGI = Math.max(0, agi - deductionAmount);\n\n  return {\n    adjustedAGI,\n    deductionAmount,\n  };\n}\n\n/**\n * Calculate complete tax burden with all strategies applied\n *\n * This is the main calculation function that orchestrates all tax\n * calculations and strategy applications.\n *\n * @param state - Complete tax calculator state with all inputs and strategies\n * @returns Comprehensive result with before/after comparison and full breakdown\n */\nexport function calculateTaxBurden(\n  state: TaxCalculatorState\n): TaxCalculationResult {\n  // Calculate total income\n  const totalIncome = state.baseIncome.w2Income + state.baseIncome.phantomEquityPayout;\n\n  // Baseline calculation (no strategies applied)\n  const baselineAGI = totalIncome;\n  const baselineTaxableIncome = applyStandardDeduction(baselineAGI);\n  const baselineCalc = calculateFederalIncomeTax(baselineTaxableIncome);\n\n  // Apply strategies in sequence\n  let adjustedAGI = totalIncome;\n  const strategies: StrategyResult[] = [];\n\n  // Strategy 1: Business Loss\n  if (state.businessLoss.enabled && state.businessLoss.lossAmount > 0) {\n    const beforeTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    const result = applyBusinessLoss(adjustedAGI, state.businessLoss.lossAmount);\n    adjustedAGI = result.adjustedAGI;\n\n    const afterTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    strategies.push({\n      name: 'Active Business Loss',\n      enabled: true,\n      deductionAmount: result.deductionAmount,\n      taxSavings: beforeTax - afterTax,\n      description: `Section 162 active trade or business losses of $${result.deductionAmount.toLocaleString()} reduce ordinary income`,\n    });\n  }\n\n  // Strategy 2: Real Estate Professional\n  if (\n    state.realEstateProfessional.enabled &&\n    state.realEstateProfessional.passiveLosses > 0\n  ) {\n    const beforeTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    const result = applyRealEstateProfessional(\n      adjustedAGI,\n      state.realEstateProfessional.isREP,\n      state.realEstateProfessional.passiveLosses\n    );\n    adjustedAGI = result.adjustedAGI;\n\n    const afterTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    strategies.push({\n      name: 'Real Estate Professional',\n      enabled: true,\n      deductionAmount: result.deductionAmount,\n      taxSavings: beforeTax - afterTax,\n      description: state.realEstateProfessional.isREP\n        ? `REP status allows $${result.deductionAmount.toLocaleString()} in passive loss deductions`\n        : 'REP status not qualified - no passive loss offset applied',\n    });\n  }\n\n  // Strategy 3: Oil Investment\n  if (\n    state.oilInvestment.enabled &&\n    state.oilInvestment.investmentAmount > 0\n  ) {\n    const beforeTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    const result = applyOilInvestment(\n      adjustedAGI,\n      state.oilInvestment.investmentAmount,\n      state.oilInvestment.idcPercentage\n    );\n    adjustedAGI = result.adjustedAGI;\n\n    const afterTax = calculateFederalIncomeTax(\n      applyStandardDeduction(adjustedAGI)\n    ).totalTax;\n\n    strategies.push({\n      name: 'Oil & Gas Investment',\n      enabled: true,\n      deductionAmount: result.deductionAmount,\n      taxSavings: beforeTax - afterTax,\n      description: `Intangible Drilling Costs (${state.oilInvestment.idcPercentage}% of $${state.oilInvestment.investmentAmount.toLocaleString()}) = $${result.deductionAmount.toLocaleString()} deduction`,\n    });\n  }\n\n  // Calculate final adjusted tax\n  const adjustedTaxableIncome = applyStandardDeduction(adjustedAGI);\n  const adjustedCalc = calculateFederalIncomeTax(adjustedTaxableIncome);\n\n  // Calculate totals\n  const totalDeductions = strategies.reduce(\n    (sum, s) => sum + s.deductionAmount,\n    0\n  );\n  const totalTaxSavings = baselineCalc.totalTax - adjustedCalc.totalTax;\n  const effectiveTaxRate = totalIncome > 0 ? adjustedCalc.totalTax / totalIncome : 0;\n  const netProceeds = totalIncome - adjustedCalc.totalTax;\n\n  return {\n    totalIncome,\n    baselineAGI,\n    baselineTaxableIncome,\n    baselineTax: baselineCalc.totalTax,\n    baselineBrackets: baselineCalc.brackets,\n    adjustedAGI,\n    adjustedTaxableIncome,\n    adjustedTax: adjustedCalc.totalTax,\n    adjustedBrackets: adjustedCalc.brackets,\n    strategies,\n    totalDeductions,\n    totalTaxSavings,\n    effectiveTaxRate,\n    netProceeds,\n  };\n}"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/.agent/specs/financial-tax-burden-calculator-spec.md",
+      "old_string": "### 2: Implement Core Tax Calculation Functions\n\n<!-- prettier-ignore -->\n- [ ] Implement `calculateFederalIncomeTax()` function\n        - Takes taxable income, returns tax owed\n        - Applies 2025 progressive tax brackets\n        - Returns breakdown by bracket for transparency\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Implement `applyStandardDeduction()` function\n        - Reduces AGI by standard deduction amount\n        - Returns adjusted taxable income\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Implement `applyBusinessLoss()` function\n        - Reduces taxable income by active business loss\n        - No limitations for active losses (unlike passive)\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Implement `applyRealEstateProfessional()` function\n        - Only applies passive loss offset if REP status = true\n        - Reduces taxable income by passive losses\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Implement `applyOilInvestment()` function\n        - Calculates intangible drilling costs (typically 70-85% of investment)\n        - Applies IDC deduction to taxable income\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [ ] Implement main `calculateTaxBurden()` function\n        - Takes all inputs and enabled strategies\n        - Calculates baseline tax (no strategies)\n        - Applies each enabled strategy in order\n        - Returns comprehensive result with before/after comparison\n        - File: `src/lib/tax-calculator.ts`\n\n#### Completion Notes\n\n(This will be filled in by the agent implementing this phase)",
+      "new_string": "### 2: Implement Core Tax Calculation Functions\n\n<!-- prettier-ignore -->\n- [x] Implement `calculateFederalIncomeTax()` function\n        - Takes taxable income, returns tax owed\n        - Applies 2025 progressive tax brackets\n        - Returns breakdown by bracket for transparency\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Implement `applyStandardDeduction()` function\n        - Reduces AGI by standard deduction amount\n        - Returns adjusted taxable income\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Implement `applyBusinessLoss()` function\n        - Reduces taxable income by active business loss\n        - No limitations for active losses (unlike passive)\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Implement `applyRealEstateProfessional()` function\n        - Only applies passive loss offset if REP status = true\n        - Reduces taxable income by passive losses\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Implement `applyOilInvestment()` function\n        - Calculates intangible drilling costs (typically 70-85% of investment)\n        - Applies IDC deduction to taxable income\n        - Returns adjusted income and savings amount\n        - File: `src/lib/tax-calculator.ts`\n\n- [x] Implement main `calculateTaxBurden()` function\n        - Takes all inputs and enabled strategies\n        - Calculates baseline tax (no strategies)\n        - Applies each enabled strategy in order\n        - Returns comprehensive result with before/after comparison\n        - File: `src/lib/tax-calculator.ts`\n\n#### Completion Notes\n\nImplemented all core tax calculation functions as pure, testable functions:\n- `calculateFederalIncomeTax()`: Progressive bracket calculation with detailed bracket-by-bracket breakdown\n- `applyStandardDeduction()`: Applies $14,600 standard deduction to AGI\n- `applyBusinessLoss()`: Active business loss deduction (Section 162) with no limitations\n- `applyRealEstateProfessional()`: Conditional passive loss offset only when REP status is true\n- `applyOilInvestment()`: IDC deduction calculation with configurable percentage (70-85%)\n- `calculateTaxBurden()`: Main orchestration function that applies all strategies sequentially and calculates tax savings for each\n- All functions handle edge cases (negative values, zero income, caps at $0 tax)\n- Tax savings calculated by comparing before/after tax for each strategy application"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "completed",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "in_progress",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "pending",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5: Build TaxCalculatorForm component",
+          "status": "pending",
+          "activeForm": "Building TaxCalculatorForm component"
+        },
+        {
+          "content": "Phase 6: Build StrategyCard components",
+          "status": "pending",
+          "activeForm": "Building StrategyCard components"
+        },
+        {
+          "content": "Phase 7: Build TaxSummary component",
+          "status": "pending",
+          "activeForm": "Building TaxSummary component"
+        },
+        {
+          "content": "Phase 8: Build CalculationBreakdown component",
+          "status": "pending",
+          "activeForm": "Building CalculationBreakdown component"
+        },
+        {
+          "content": "Phase 9: Build StrategyEducation component",
+          "status": "pending",
+          "activeForm": "Building StrategyEducation component"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "pending",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Phase 11: Add share functionality",
+          "status": "pending",
+          "activeForm": "Adding share functionality"
+        },
+        {
+          "content": "Phase 12: Add disclaimers and legal text",
+          "status": "pending",
+          "activeForm": "Adding disclaimers and legal text"
+        },
+        {
+          "content": "Phase 13: Style and polish UX",
+          "status": "pending",
+          "activeForm": "Styling and polishing UX"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/package.json"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/lib/tax-calculator.test.ts",
+      "content": "/**\n * Tax Calculator Tests\n *\n * Comprehensive unit tests for tax calculation functions\n */\n\nimport { describe, it, expect } from 'vitest';\nimport {\n  calculateFederalIncomeTax,\n  applyStandardDeduction,\n  applyBusinessLoss,\n  applyRealEstateProfessional,\n  applyOilInvestment,\n  calculateTaxBurden,\n  TAX_BRACKETS_2025,\n  STANDARD_DEDUCTION_2025,\n  type TaxCalculatorState,\n} from './tax-calculator';\n\ndescribe('Tax Calculator - Core Functions', () => {\n  describe('calculateFederalIncomeTax', () => {\n    it('should calculate tax correctly for $1M income', () => {\n      // Expected calculation based on 2025 brackets:\n      // $11,600 \u00d7 10% = $1,160\n      // ($47,150 - $11,600) \u00d7 12% = $4,266\n      // ($100,525 - $47,150) \u00d7 22% = $11,742.50\n      // ($191,950 - $100,525) \u00d7 24% = $21,942\n      // ($243,725 - $191,950) \u00d7 32% = $16,568\n      // ($609,350 - $243,725) \u00d7 35% = $127,968.75\n      // ($1,000,000 - $609,350) \u00d7 37% = $144,540.50\n      // Total: ~$328,187.75\n\n      const result = calculateFederalIncomeTax(1000000);\n\n      expect(result.totalTax).toBeGreaterThan(325000);\n      expect(result.totalTax).toBeLessThan(331000);\n      expect(result.brackets).toHaveLength(7); // All 7 brackets used\n    });\n\n    it('should calculate tax correctly for $500K income', () => {\n      const result = calculateFederalIncomeTax(500000);\n\n      expect(result.totalTax).toBeGreaterThan(140000);\n      expect(result.totalTax).toBeLessThan(160000);\n      expect(result.brackets.length).toBeGreaterThan(0);\n    });\n\n    it('should calculate tax correctly for $100K income', () => {\n      const result = calculateFederalIncomeTax(100000);\n\n      // Should use first 4 brackets\n      expect(result.totalTax).toBeGreaterThan(15000);\n      expect(result.totalTax).toBeLessThan(20000);\n    });\n\n    it('should return zero tax for zero income', () => {\n      const result = calculateFederalIncomeTax(0);\n\n      expect(result.totalTax).toBe(0);\n      expect(result.brackets).toHaveLength(0);\n    });\n\n    it('should return zero tax for negative income', () => {\n      const result = calculateFederalIncomeTax(-50000);\n\n      expect(result.totalTax).toBe(0);\n      expect(result.brackets).toHaveLength(0);\n    });\n\n    it('should include bracket breakdown', () => {\n      const result = calculateFederalIncomeTax(200000);\n\n      expect(result.brackets.length).toBeGreaterThan(0);\n      expect(result.brackets[0]).toHaveProperty('rate');\n      expect(result.brackets[0]).toHaveProperty('min');\n      expect(result.brackets[0]).toHaveProperty('max');\n      expect(result.brackets[0]).toHaveProperty('taxAmount');\n      expect(result.brackets[0]).toHaveProperty('incomeInBracket');\n    });\n  });\n\n  describe('applyStandardDeduction', () => {\n    it('should reduce AGI by standard deduction', () => {\n      const agi = 100000;\n      const taxableIncome = applyStandardDeduction(agi);\n\n      expect(taxableIncome).toBe(agi - STANDARD_DEDUCTION_2025);\n      expect(taxableIncome).toBe(100000 - 14600);\n    });\n\n    it('should not return negative taxable income', () => {\n      const agi = 10000; // Less than standard deduction\n      const taxableIncome = applyStandardDeduction(agi);\n\n      expect(taxableIncome).toBe(0);\n    });\n  });\n\n  describe('applyBusinessLoss', () => {\n    it('should reduce AGI by business loss amount', () => {\n      const result = applyBusinessLoss(1000000, 200000);\n\n      expect(result.adjustedAGI).toBe(800000);\n      expect(result.deductionAmount).toBe(200000);\n    });\n\n    it('should handle zero loss', () => {\n      const result = applyBusinessLoss(1000000, 0);\n\n      expect(result.adjustedAGI).toBe(1000000);\n      expect(result.deductionAmount).toBe(0);\n    });\n\n    it('should not return negative AGI', () => {\n      const result = applyBusinessLoss(100000, 200000);\n\n      expect(result.adjustedAGI).toBe(0);\n      expect(result.deductionAmount).toBe(200000);\n    });\n\n    it('should handle negative loss input', () => {\n      const result = applyBusinessLoss(1000000, -50000);\n\n      expect(result.adjustedAGI).toBe(1000000);\n      expect(result.deductionAmount).toBe(0);\n    });\n  });\n\n  describe('applyRealEstateProfessional', () => {\n    it('should apply passive losses when REP status is true', () => {\n      const result = applyRealEstateProfessional(1000000, true, 150000);\n\n      expect(result.adjustedAGI).toBe(850000);\n      expect(result.deductionAmount).toBe(150000);\n    });\n\n    it('should NOT apply passive losses when REP status is false', () => {\n      const result = applyRealEstateProfessional(1000000, false, 150000);\n\n      expect(result.adjustedAGI).toBe(1000000);\n      expect(result.deductionAmount).toBe(0);\n    });\n\n    it('should handle zero passive losses', () => {\n      const result = applyRealEstateProfessional(1000000, true, 0);\n\n      expect(result.adjustedAGI).toBe(1000000);\n      expect(result.deductionAmount).toBe(0);\n    });\n\n    it('should not return negative AGI', () => {\n      const result = applyRealEstateProfessional(100000, true, 200000);\n\n      expect(result.adjustedAGI).toBe(0);\n      expect(result.deductionAmount).toBe(200000);\n    });\n  });\n\n  describe('applyOilInvestment', () => {\n    it('should calculate IDC deduction correctly with 80% IDC', () => {\n      const result = applyOilInvestment(1000000, 300000, 80);\n\n      expect(result.deductionAmount).toBe(240000); // 300K \u00d7 80%\n      expect(result.adjustedAGI).toBe(760000);\n    });\n\n    it('should calculate IDC deduction correctly with 70% IDC', () => {\n      const result = applyOilInvestment(1000000, 300000, 70);\n\n      expect(result.deductionAmount).toBe(210000); // 300K \u00d7 70%\n      expect(result.adjustedAGI).toBe(790000);\n    });\n\n    it('should calculate IDC deduction correctly with 85% IDC', () => {\n      const result = applyOilInvestment(1000000, 300000, 85);\n\n      expect(result.deductionAmount).toBe(255000); // 300K \u00d7 85%\n      expect(result.adjustedAGI).toBe(745000);\n    });\n\n    it('should handle zero investment', () => {\n      const result = applyOilInvestment(1000000, 0, 80);\n\n      expect(result.deductionAmount).toBe(0);\n      expect(result.adjustedAGI).toBe(1000000);\n    });\n\n    it('should cap IDC percentage at 100%', () => {\n      const result = applyOilInvestment(1000000, 300000, 150);\n\n      expect(result.deductionAmount).toBe(300000); // Capped at 100%\n    });\n\n    it('should handle negative IDC percentage', () => {\n      const result = applyOilInvestment(1000000, 300000, -10);\n\n      expect(result.deductionAmount).toBe(0);\n      expect(result.adjustedAGI).toBe(1000000);\n    });\n  });\n});\n\ndescribe('Tax Calculator - Integration Tests', () => {\n  describe('calculateTaxBurden - Baseline', () => {\n    it('should calculate baseline tax with no strategies', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 500000,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.totalIncome).toBe(700000);\n      expect(result.baselineAGI).toBe(700000);\n      expect(result.baselineTax).toBeGreaterThan(0);\n      expect(result.adjustedTax).toBe(result.baselineTax); // No strategies\n      expect(result.totalTaxSavings).toBe(0);\n      expect(result.strategies).toHaveLength(0);\n    });\n  });\n\n  describe('calculateTaxBurden - Single Strategies', () => {\n    it('should apply business loss strategy correctly', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 800000,\n        },\n        businessLoss: {\n          enabled: true,\n          lossAmount: 200000,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.totalIncome).toBe(1000000);\n      expect(result.adjustedAGI).toBe(800000); // 1M - 200K\n      expect(result.adjustedTax).toBeLessThan(result.baselineTax);\n      expect(result.totalTaxSavings).toBeGreaterThan(0);\n      expect(result.strategies).toHaveLength(1);\n      expect(result.strategies[0].name).toBe('Active Business Loss');\n      expect(result.strategies[0].deductionAmount).toBe(200000);\n    });\n\n    it('should apply REP strategy when qualified', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 800000,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: true,\n          isREP: true,\n          passiveLosses: 150000,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.adjustedAGI).toBe(850000); // 1M - 150K\n      expect(result.totalTaxSavings).toBeGreaterThan(0);\n      expect(result.strategies).toHaveLength(1);\n      expect(result.strategies[0].name).toBe('Real Estate Professional');\n      expect(result.strategies[0].deductionAmount).toBe(150000);\n    });\n\n    it('should NOT apply REP strategy when not qualified', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 800000,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: true,\n          isREP: false, // Not qualified!\n          passiveLosses: 150000,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.adjustedAGI).toBe(1000000); // No change\n      expect(result.totalTaxSavings).toBe(0);\n      expect(result.strategies).toHaveLength(1);\n      expect(result.strategies[0].deductionAmount).toBe(0);\n    });\n\n    it('should apply oil investment strategy correctly', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 800000,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: true,\n          investmentAmount: 300000,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.adjustedAGI).toBe(760000); // 1M - 240K\n      expect(result.totalTaxSavings).toBeGreaterThan(0);\n      expect(result.strategies).toHaveLength(1);\n      expect(result.strategies[0].name).toBe('Oil & Gas Investment');\n      expect(result.strategies[0].deductionAmount).toBe(240000);\n    });\n  });\n\n  describe('calculateTaxBurden - Combined Strategies', () => {\n    it('should apply multiple strategies cumulatively', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 800000,\n        },\n        businessLoss: {\n          enabled: true,\n          lossAmount: 200000,\n        },\n        realEstateProfessional: {\n          enabled: true,\n          isREP: true,\n          passiveLosses: 150000,\n        },\n        oilInvestment: {\n          enabled: true,\n          investmentAmount: 300000,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.totalIncome).toBe(1000000);\n      // 1M - 200K (business) - 150K (REP) - 240K (oil) = 410K\n      expect(result.adjustedAGI).toBe(410000);\n      expect(result.totalDeductions).toBe(590000);\n      expect(result.totalTaxSavings).toBeGreaterThan(150000);\n      expect(result.strategies).toHaveLength(3);\n    });\n\n    it('should calculate each strategy savings independently', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 300000,\n        },\n        businessLoss: {\n          enabled: true,\n          lossAmount: 100000,\n        },\n        realEstateProfessional: {\n          enabled: true,\n          isREP: true,\n          passiveLosses: 50000,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.strategies).toHaveLength(2);\n      expect(result.strategies[0].taxSavings).toBeGreaterThan(0);\n      expect(result.strategies[1].taxSavings).toBeGreaterThan(0);\n\n      // Sum of individual savings should equal total savings\n      const sumOfIndividualSavings = result.strategies.reduce(\n        (sum, s) => sum + s.taxSavings,\n        0\n      );\n      expect(Math.abs(sumOfIndividualSavings - result.totalTaxSavings)).toBeLessThan(1);\n    });\n  });\n\n  describe('calculateTaxBurden - Edge Cases', () => {\n    it('should handle income reduced to zero by strategies', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 100000,\n          phantomEquityPayout: 0,\n        },\n        businessLoss: {\n          enabled: true,\n          lossAmount: 150000, // More than income\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.adjustedAGI).toBe(0);\n      expect(result.adjustedTax).toBe(0);\n      expect(result.netProceeds).toBe(100000); // Original income\n    });\n\n    it('should calculate effective tax rate correctly', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 500000,\n          phantomEquityPayout: 0,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.effectiveTaxRate).toBeGreaterThan(0);\n      expect(result.effectiveTaxRate).toBeLessThan(0.37); // Less than top bracket\n      expect(result.effectiveTaxRate).toBe(result.adjustedTax / result.totalIncome);\n    });\n\n    it('should calculate net proceeds correctly', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 200000,\n          phantomEquityPayout: 300000,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.netProceeds).toBe(result.totalIncome - result.adjustedTax);\n    });\n\n    it('should handle zero income', () => {\n      const state: TaxCalculatorState = {\n        baseIncome: {\n          w2Income: 0,\n          phantomEquityPayout: 0,\n        },\n        businessLoss: {\n          enabled: false,\n          lossAmount: 0,\n        },\n        realEstateProfessional: {\n          enabled: false,\n          isREP: false,\n          passiveLosses: 0,\n        },\n        oilInvestment: {\n          enabled: false,\n          investmentAmount: 0,\n          idcPercentage: 80,\n        },\n      };\n\n      const result = calculateTaxBurden(state);\n\n      expect(result.totalIncome).toBe(0);\n      expect(result.baselineTax).toBe(0);\n      expect(result.adjustedTax).toBe(0);\n      expect(result.effectiveTaxRate).toBe(0);\n      expect(result.netProceeds).toBe(0);\n    });\n  });\n});\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm test tax-calculator.test.ts",
+      "timeout": 60000,
+      "description": "Run tax calculator unit tests"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/.agent/specs/financial-tax-burden-calculator-spec.md",
+      "old_string": "### 3: Write Comprehensive Unit Tests\n\n<!-- prettier-ignore -->\n- [ ] Test baseline tax calculation accuracy\n        - Test case: $1M W-2 income \u2192 verify against known tax tables\n        - Test case: $500K W-2 income \u2192 verify calculation\n        - Test case: $100K W-2 income \u2192 verify lower brackets\n        - File: `src/lib/tax-calculator.test.ts`\n        - Run: `pnpm test tax-calculator.test.ts`\n\n- [ ] Test business loss strategy\n        - Test case: $1M income with $200K business loss\n        - Verify correct reduction in taxable income\n        - Verify tax savings calculation\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [ ] Test real estate professional strategy\n        - Test case: REP status = true, $150K passive losses\n        - Test case: REP status = false, same losses (should not apply)\n        - Verify passive loss offset logic\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [ ] Test oil investment strategy\n        - Test case: $300K investment with 80% IDC\n        - Verify IDC deduction calculation\n        - Verify immediate tax benefit\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [ ] Test combined strategies\n        - Test case: Multiple strategies applied together\n        - Verify cumulative effect on tax burden\n        - Verify order of operations doesn't break calculations\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [ ] Test edge cases\n        - Test case: Income reduced below zero by strategies (should cap at $0 tax)\n        - Test case: No strategies enabled (baseline only)\n        - Test case: Zero income edge case\n        - File: `src/lib/tax-calculator.test.ts`\n\n#### Completion Notes\n\n(This will be filled in by the agent implementing this phase)",
+      "new_string": "### 3: Write Comprehensive Unit Tests\n\n<!-- prettier-ignore -->\n- [x] Test baseline tax calculation accuracy\n        - Test case: $1M W-2 income \u2192 verify against known tax tables\n        - Test case: $500K W-2 income \u2192 verify calculation\n        - Test case: $100K W-2 income \u2192 verify lower brackets\n        - File: `src/lib/tax-calculator.test.ts`\n        - Run: `pnpm test tax-calculator.test.ts`\n\n- [x] Test business loss strategy\n        - Test case: $1M income with $200K business loss\n        - Verify correct reduction in taxable income\n        - Verify tax savings calculation\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [x] Test real estate professional strategy\n        - Test case: REP status = true, $150K passive losses\n        - Test case: REP status = false, same losses (should not apply)\n        - Verify passive loss offset logic\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [x] Test oil investment strategy\n        - Test case: $300K investment with 80% IDC\n        - Verify IDC deduction calculation\n        - Verify immediate tax benefit\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [x] Test combined strategies\n        - Test case: Multiple strategies applied together\n        - Verify cumulative effect on tax burden\n        - Verify order of operations doesn't break calculations\n        - File: `src/lib/tax-calculator.test.ts`\n\n- [x] Test edge cases\n        - Test case: Income reduced below zero by strategies (should cap at $0 tax)\n        - Test case: No strategies enabled (baseline only)\n        - Test case: Zero income edge case\n        - File: `src/lib/tax-calculator.test.ts`\n\n#### Completion Notes\n\nCreated comprehensive test suite with 33 passing tests covering:\n- Core calculation function tests for all income levels ($100K, $500K, $1M)\n- Standard deduction application with edge cases\n- Individual strategy tests (business loss, REP, oil investment)\n- Integration tests with single and combined strategies\n- Edge case handling (zero/negative income, income reduced to zero, no strategies)\n- Verification that REP strategy only applies when qualified\n- Cumulative effect validation for multiple strategies\n- Effective tax rate and net proceeds calculations\nAll tests pass successfully"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "completed",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "completed",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "in_progress",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5: Build TaxCalculatorForm component",
+          "status": "pending",
+          "activeForm": "Building TaxCalculatorForm component"
+        },
+        {
+          "content": "Phase 6: Build StrategyCard components",
+          "status": "pending",
+          "activeForm": "Building StrategyCard components"
+        },
+        {
+          "content": "Phase 7: Build TaxSummary component",
+          "status": "pending",
+          "activeForm": "Building TaxSummary component"
+        },
+        {
+          "content": "Phase 8: Build CalculationBreakdown component",
+          "status": "pending",
+          "activeForm": "Building CalculationBreakdown component"
+        },
+        {
+          "content": "Phase 9: Build StrategyEducation component",
+          "status": "pending",
+          "activeForm": "Building StrategyEducation component"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "pending",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Phase 11: Add share functionality",
+          "status": "pending",
+          "activeForm": "Adding share functionality"
+        },
+        {
+          "content": "Phase 12: Add disclaimers and legal text",
+          "status": "pending",
+          "activeForm": "Adding disclaimers and legal text"
+        },
+        {
+          "content": "Phase 13: Style and polish UX",
+          "status": "pending",
+          "activeForm": "Styling and polishing UX"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "mkdir -p src/hooks",
+      "description": "Create hooks directory if it doesn't exist"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Glob",
+    "tool_input": {
+      "pattern": "**/*die-with-zero*"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Glob",
+    "tool_input": {
+      "pattern": "src/app/**/die-with-zero*/**/*.tsx"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/die-with-zero/DieWithZeroCalculator.tsx",
+      "limit": 100
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/hooks/useUrlState.ts"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/hooks/useTaxCalculatorState.ts",
+      "content": "'use client';\n\nimport { useEffect, useState } from 'react';\nimport { useRouter, useSearchParams } from 'next/navigation';\nimport {\n  type TaxCalculatorState,\n  DEFAULT_TAX_CALCULATOR_STATE,\n} from '@/lib/tax-calculator';\n\n/**\n * Encode state to base64 URL parameter\n */\nfunction encodeState(state: TaxCalculatorState): string {\n  try {\n    const json = JSON.stringify(state);\n    return btoa(json);\n  } catch {\n    return '';\n  }\n}\n\n/**\n * Decode base64 URL parameter to state\n */\nfunction decodeState(encoded: string): TaxCalculatorState | null {\n  try {\n    const json = atob(encoded);\n    const parsed = JSON.parse(json);\n\n    // Validate the structure\n    if (\n      typeof parsed === 'object' &&\n      parsed !== null &&\n      typeof parsed.baseIncome === 'object' &&\n      typeof parsed.baseIncome.w2Income === 'number' &&\n      typeof parsed.baseIncome.phantomEquityPayout === 'number' &&\n      typeof parsed.businessLoss === 'object' &&\n      typeof parsed.businessLoss.enabled === 'boolean' &&\n      typeof parsed.realEstateProfessional === 'object' &&\n      typeof parsed.realEstateProfessional.enabled === 'boolean' &&\n      typeof parsed.oilInvestment === 'object' &&\n      typeof parsed.oilInvestment.enabled === 'boolean'\n    ) {\n      return parsed as TaxCalculatorState;\n    }\n    return null;\n  } catch {\n    return null;\n  }\n}\n\n/**\n * Custom hook for managing tax calculator state in URL\n *\n * This hook:\n * 1. Reads state from URL on mount\n * 2. Provides state and setter\n * 3. Updates URL when state changes (for easy scenario sharing)\n * 4. Returns isHydrated flag to handle SSR/client hydration\n */\nexport function useTaxCalculatorState() {\n  const router = useRouter();\n  const searchParams = useSearchParams();\n  const [state, setStateInternal] =\n    useState<TaxCalculatorState>(DEFAULT_TAX_CALCULATOR_STATE);\n  const [isHydrated, setIsHydrated] = useState(false);\n  const [shouldSyncToUrl, setShouldSyncToUrl] = useState(false);\n\n  // Load state from URL on mount\n  useEffect(() => {\n    const stateParam = searchParams.get('state');\n\n    if (stateParam) {\n      const decoded = decodeState(stateParam);\n      if (decoded) {\n        setStateInternal(decoded);\n        setShouldSyncToUrl(true);\n      }\n    }\n\n    setIsHydrated(true);\n  }, [searchParams]);\n\n  // Custom setState that enables URL syncing\n  const setState = (\n    newState:\n      | TaxCalculatorState\n      | ((prev: TaxCalculatorState) => TaxCalculatorState)\n  ) => {\n    setStateInternal(newState);\n    setShouldSyncToUrl(true);\n  };\n\n  // Update URL when state changes (but only if sync is enabled)\n  useEffect(() => {\n    if (!isHydrated || !shouldSyncToUrl) return;\n\n    const encoded = encodeState(state);\n    const currentParams = new URLSearchParams(searchParams.toString());\n\n    if (encoded) {\n      currentParams.set('state', encoded);\n    } else {\n      currentParams.delete('state');\n    }\n\n    const newUrl = `${window.location.pathname}?${currentParams.toString()}`;\n    router.replace(newUrl, { scroll: false });\n  }, [state, router, searchParams, isHydrated, shouldSyncToUrl]);\n\n  return { state, setState, isHydrated };\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/.agent/specs/financial-tax-burden-calculator-spec.md",
+      "old_string": "### 4: Create URL State Management Hook\n\n<!-- prettier-ignore -->\n- [ ] Implement `useTaxCalculatorState` custom hook\n        - State includes: w2Income, phantomEquityPayout, annualIncome\n        - State includes: enabled strategies and their parameters\n        - Encode state to URL query params on change\n        - Decode state from URL on mount (with hydration handling)\n        - Use JSON.stringify + base64 encoding for compactness\n        - File: `src/hooks/useTaxCalculatorState.ts`\n\n- [ ] Add default values for clean initial state\n        - Default: $200K W-2 income, $500K phantom payout\n        - Default: All strategies disabled\n        - Returns `{ state, setState, isHydrated }` like die-with-zero calculator\n        - File: `src/hooks/useTaxCalculatorState.ts`\n\n#### Completion Notes\n\n(This will be filled in by the agent implementing this phase)",
+      "new_string": "### 4: Create URL State Management Hook\n\n<!-- prettier-ignore -->\n- [x] Implement `useTaxCalculatorState` custom hook\n        - State includes: w2Income, phantomEquityPayout, annualIncome\n        - State includes: enabled strategies and their parameters\n        - Encode state to URL query params on change\n        - Decode state from URL on mount (with hydration handling)\n        - Use JSON.stringify + base64 encoding for compactness\n        - File: `src/hooks/useTaxCalculatorState.ts`\n\n- [x] Add default values for clean initial state\n        - Default: $200K W-2 income, $500K phantom payout\n        - Default: All strategies disabled\n        - Returns `{ state, setState, isHydrated }` like die-with-zero calculator\n        - File: `src/hooks/useTaxCalculatorState.ts`\n\n#### Completion Notes\n\nCreated URL state management hook following the existing `useUrlState` pattern:\n- Implemented base64 encoding/decoding for compact URLs\n- Added validation for decoded state structure to handle malformed URLs\n- Returns `{ state, setState, isHydrated }` matching the die-with-zero calculator pattern\n- Handles SSR/client hydration with isHydrated flag\n- Only syncs to URL after hydration and when state changes\n- Uses Next.js router.replace for smooth URL updates without page refresh\n- Default state: $200K W-2 + $500K phantom equity with all strategies disabled"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "completed",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "completed",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "completed",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5-9: Build all UI components (Form, Cards, Summary, Breakdown, Education)",
+          "status": "in_progress",
+          "activeForm": "Building all UI components"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "pending",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Phase 11-13: Add share, disclaimers, and polish UX",
+          "status": "pending",
+          "activeForm": "Adding share, disclaimers, and polishing UX"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "mkdir -p src/components/tax-calculator",
+      "description": "Create tax-calculator components directory"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/StrategyCard.tsx",
+      "content": "import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';\nimport { Checkbox } from '@/components/ui/checkbox';\nimport { Label } from '@/components/ui/label';\nimport { type ReactNode } from 'react';\n\ninterface StrategyCardProps {\n  title: string;\n  description: string;\n  enabled: boolean;\n  onEnabledChange: (enabled: boolean) => void;\n  children?: ReactNode;\n}\n\nexport function StrategyCard({\n  title,\n  description,\n  enabled,\n  onEnabledChange,\n  children,\n}: StrategyCardProps) {\n  return (\n    <Card className=\"border-2 transition-all duration-200 hover:border-primary/50\">\n      <CardHeader>\n        <div className=\"flex items-start gap-3\">\n          <Checkbox\n            id={`strategy-${title}`}\n            checked={enabled}\n            onCheckedChange={onEnabledChange}\n            className=\"mt-1\"\n          />\n          <div className=\"flex-1\">\n            <Label\n              htmlFor={`strategy-${title}`}\n              className=\"text-base font-semibold cursor-pointer\"\n            >\n              {title}\n            </Label>\n            <CardDescription className=\"mt-1\">{description}</CardDescription>\n          </div>\n        </div>\n      </CardHeader>\n\n      {enabled && children && (\n        <CardContent className=\"pt-0\">\n          <div className=\"space-y-4 pl-7\">{children}</div>\n        </CardContent>\n      )}\n    </Card>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/TaxCalculatorForm.tsx",
+      "content": "import { Input } from '@/components/ui/input';\nimport { Label } from '@/components/ui/label';\nimport { Checkbox } from '@/components/ui/checkbox';\nimport { Slider } from '@/components/ui/slider';\nimport { StrategyCard } from './StrategyCard';\nimport { type TaxCalculatorState } from '@/lib/tax-calculator';\n\ninterface TaxCalculatorFormProps {\n  state: TaxCalculatorState;\n  onChange: (state: TaxCalculatorState) => void;\n}\n\nexport function TaxCalculatorForm({ state, onChange }: TaxCalculatorFormProps) {\n  const formatCurrency = (value: number) => {\n    return new Intl.NumberFormat('en-US').format(value);\n  };\n\n  const parseCurrency = (value: string) => {\n    return parseFloat(value.replace(/,/g, '')) || 0;\n  };\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Base Income Section */}\n      <div className=\"p-6 rounded-2xl bg-muted/30 border-2 border-border space-y-4\">\n        <h3 className=\"text-lg font-bold\">Income Details</h3>\n\n        <div className=\"space-y-4\">\n          <div className=\"space-y-2\">\n            <Label htmlFor=\"w2Income\" className=\"text-sm font-medium\">\n              Annual W-2 Income (Base Salary)\n            </Label>\n            <div className=\"relative\">\n              <span className=\"absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\">\n                $\n              </span>\n              <Input\n                id=\"w2Income\"\n                type=\"text\"\n                className=\"pl-7 font-mono\"\n                value={formatCurrency(state.baseIncome.w2Income)}\n                onChange={(e) => {\n                  const value = parseCurrency(e.target.value);\n                  onChange({\n                    ...state,\n                    baseIncome: { ...state.baseIncome, w2Income: value },\n                  });\n                }}\n                placeholder=\"200,000\"\n              />\n            </div>\n            <p className=\"text-xs text-muted-foreground\">\n              Your regular annual salary or W-2 income\n            </p>\n          </div>\n\n          <div className=\"space-y-2\">\n            <Label htmlFor=\"phantomEquity\" className=\"text-sm font-medium\">\n              Phantom Equity Payout (One-Time)\n            </Label>\n            <div className=\"relative\">\n              <span className=\"absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\">\n                $\n              </span>\n              <Input\n                id=\"phantomEquity\"\n                type=\"text\"\n                className=\"pl-7 font-mono\"\n                value={formatCurrency(state.baseIncome.phantomEquityPayout)}\n                onChange={(e) => {\n                  const value = parseCurrency(e.target.value);\n                  onChange({\n                    ...state,\n                    baseIncome: {\n                      ...state.baseIncome,\n                      phantomEquityPayout: value,\n                    },\n                  });\n                }}\n                placeholder=\"500,000\"\n              />\n            </div>\n            <p className=\"text-xs text-muted-foreground\">\n              One-time compensation event (phantom equity, bonus, etc.)\n            </p>\n          </div>\n\n          <div className=\"pt-2 border-t border-border\">\n            <p className=\"text-sm font-medium\">Total Income</p>\n            <p className=\"text-2xl font-bold text-primary\">\n              ${formatCurrency(state.baseIncome.w2Income + state.baseIncome.phantomEquityPayout)}\n            </p>\n          </div>\n        </div>\n      </div>\n\n      {/* Strategy Section */}\n      <div className=\"space-y-4\">\n        <h3 className=\"text-lg font-bold\">Tax Reduction Strategies</h3>\n\n        {/* Business Loss Strategy */}\n        <StrategyCard\n          title=\"Active Business Loss\"\n          description=\"Deduct losses from active trade or business activities (Section 162)\"\n          enabled={state.businessLoss.enabled}\n          onEnabledChange={(enabled) =>\n            onChange({\n              ...state,\n              businessLoss: { ...state.businessLoss, enabled },\n            })\n          }\n        >\n          <div className=\"space-y-2\">\n            <Label htmlFor=\"businessLoss\" className=\"text-sm font-medium\">\n              Total Active Business Losses\n            </Label>\n            <div className=\"relative\">\n              <span className=\"absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\">\n                $\n              </span>\n              <Input\n                id=\"businessLoss\"\n                type=\"text\"\n                className=\"pl-7 font-mono\"\n                value={formatCurrency(state.businessLoss.lossAmount)}\n                onChange={(e) => {\n                  const value = parseCurrency(e.target.value);\n                  onChange({\n                    ...state,\n                    businessLoss: { ...state.businessLoss, lossAmount: value },\n                  });\n                }}\n                placeholder=\"200,000\"\n              />\n            </div>\n            <p className=\"text-xs text-muted-foreground\">\n              Active losses from businesses where you materially participate\n            </p>\n          </div>\n        </StrategyCard>\n\n        {/* Real Estate Professional Strategy */}\n        <StrategyCard\n          title=\"Real Estate Professional\"\n          description=\"Deduct passive real estate losses if you qualify as a Real Estate Professional\"\n          enabled={state.realEstateProfessional.enabled}\n          onEnabledChange={(enabled) =>\n            onChange({\n              ...state,\n              realEstateProfessional: {\n                ...state.realEstateProfessional,\n                enabled,\n              },\n            })\n          }\n        >\n          <div className=\"space-y-4\">\n            <div className=\"flex items-center space-x-2\">\n              <Checkbox\n                id=\"isREP\"\n                checked={state.realEstateProfessional.isREP}\n                onCheckedChange={(checked) =>\n                  onChange({\n                    ...state,\n                    realEstateProfessional: {\n                      ...state.realEstateProfessional,\n                      isREP: checked === true,\n                    },\n                  })\n                }\n              />\n              <Label\n                htmlFor=\"isREP\"\n                className=\"text-sm font-medium cursor-pointer\"\n              >\n                I qualify as a Real Estate Professional\n              </Label>\n            </div>\n            <p className=\"text-xs text-muted-foreground\">\n              Requires 750+ hours in real estate activities and &gt;50% of work\n              time in real estate\n            </p>\n\n            <div className=\"space-y-2\">\n              <Label htmlFor=\"passiveLosses\" className=\"text-sm font-medium\">\n                Total Passive Losses from Real Estate\n              </Label>\n              <div className=\"relative\">\n                <span className=\"absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\">\n                  $\n                </span>\n                <Input\n                  id=\"passiveLosses\"\n                  type=\"text\"\n                  className=\"pl-7 font-mono\"\n                  value={formatCurrency(\n                    state.realEstateProfessional.passiveLosses\n                  )}\n                  onChange={(e) => {\n                    const value = parseCurrency(e.target.value);\n                    onChange({\n                      ...state,\n                      realEstateProfessional: {\n                        ...state.realEstateProfessional,\n                        passiveLosses: value,\n                      },\n                    });\n                  }}\n                  placeholder=\"150,000\"\n                />\n              </div>\n              <p className=\"text-xs text-muted-foreground\">\n                Only deductible if REP qualification is met\n              </p>\n            </div>\n          </div>\n        </StrategyCard>\n\n        {/* Oil & Gas Investment Strategy */}\n        <StrategyCard\n          title=\"Oil & Gas Investment\"\n          description=\"Immediate deduction of Intangible Drilling Costs (IDC) from direct participation\"\n          enabled={state.oilInvestment.enabled}\n          onEnabledChange={(enabled) =>\n            onChange({\n              ...state,\n              oilInvestment: { ...state.oilInvestment, enabled },\n            })\n          }\n        >\n          <div className=\"space-y-4\">\n            <div className=\"space-y-2\">\n              <Label htmlFor=\"oilInvestment\" className=\"text-sm font-medium\">\n                Total Investment Amount\n              </Label>\n              <div className=\"relative\">\n                <span className=\"absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\">\n                  $\n                </span>\n                <Input\n                  id=\"oilInvestment\"\n                  type=\"text\"\n                  className=\"pl-7 font-mono\"\n                  value={formatCurrency(state.oilInvestment.investmentAmount)}\n                  onChange={(e) => {\n                    const value = parseCurrency(e.target.value);\n                    onChange({\n                      ...state,\n                      oilInvestment: {\n                        ...state.oilInvestment,\n                        investmentAmount: value,\n                      },\n                    });\n                  }}\n                  placeholder=\"300,000\"\n                />\n              </div>\n              <p className=\"text-xs text-muted-foreground\">\n                Investment in oil/gas direct participation program\n              </p>\n            </div>\n\n            <div className=\"space-y-2\">\n              <div className=\"flex items-center justify-between\">\n                <Label htmlFor=\"idcPercentage\" className=\"text-sm font-medium\">\n                  IDC Percentage: {state.oilInvestment.idcPercentage}%\n                </Label>\n                <span className=\"text-xs text-muted-foreground font-mono\">\n                  ${formatCurrency((state.oilInvestment.investmentAmount * state.oilInvestment.idcPercentage) / 100)}\n                </span>\n              </div>\n              <Slider\n                id=\"idcPercentage\"\n                min={70}\n                max={85}\n                step={1}\n                value={[state.oilInvestment.idcPercentage]}\n                onValueChange={([value]) =>\n                  onChange({\n                    ...state,\n                    oilInvestment: {\n                      ...state.oilInvestment,\n                      idcPercentage: value,\n                    },\n                  })\n                }\n                className=\"w-full\"\n              />\n              <p className=\"text-xs text-muted-foreground\">\n                Typical range: 70-85% of investment is deductible as IDC\n              </p>\n            </div>\n          </div>\n        </StrategyCard>\n      </div>\n    </div>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/TaxSummary.tsx",
+      "content": "import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { TrendingDown, DollarSign, Percent, Wallet } from 'lucide-react';\nimport { type TaxCalculationResult } from '@/lib/tax-calculator';\n\ninterface TaxSummaryProps {\n  result: TaxCalculationResult;\n}\n\nexport function TaxSummary({ result }: TaxSummaryProps) {\n  const formatCurrency = (value: number) => {\n    return new Intl.NumberFormat('en-US', {\n      style: 'currency',\n      currency: 'USD',\n      minimumFractionDigits: 0,\n      maximumFractionDigits: 0,\n    }).format(value);\n  };\n\n  const formatPercent = (value: number) => {\n    return `${(value * 100).toFixed(1)}%`;\n  };\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Main Summary Card */}\n      <Card className=\"border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10\">\n        <CardHeader>\n          <CardTitle className=\"text-2xl\">Tax Calculation Summary</CardTitle>\n        </CardHeader>\n        <CardContent className=\"space-y-4\">\n          <div className=\"grid gap-4 md:grid-cols-2\">\n            <div className=\"space-y-1\">\n              <p className=\"text-sm text-muted-foreground\">Total Income</p>\n              <p className=\"text-3xl font-bold\">{formatCurrency(result.totalIncome)}</p>\n            </div>\n            <div className=\"space-y-1\">\n              <p className=\"text-sm text-muted-foreground\">Net Proceeds (After Tax)</p>\n              <p className=\"text-3xl font-bold text-primary\">\n                {formatCurrency(result.netProceeds)}\n              </p>\n            </div>\n          </div>\n        </CardContent>\n      </Card>\n\n      {/* Detailed Metrics Grid */}\n      <div className=\"grid gap-4 md:grid-cols-2 lg:grid-cols-4\">\n        {/* Tax Without Strategies */}\n        <Card>\n          <CardContent className=\"pt-6\">\n            <div className=\"flex items-start justify-between\">\n              <div className=\"space-y-1\">\n                <p className=\"text-xs text-muted-foreground\">Tax (No Strategies)</p>\n                <p className=\"text-xl font-bold\">{formatCurrency(result.baselineTax)}</p>\n              </div>\n              <div className=\"rounded-full bg-red-100 dark:bg-red-900/20 p-2\">\n                <DollarSign className=\"h-4 w-4 text-red-600 dark:text-red-400\" />\n              </div>\n            </div>\n            <p className=\"text-xs text-muted-foreground mt-2\">\n              Baseline federal tax liability\n            </p>\n          </CardContent>\n        </Card>\n\n        {/* Tax With Strategies */}\n        <Card>\n          <CardContent className=\"pt-6\">\n            <div className=\"flex items-start justify-between\">\n              <div className=\"space-y-1\">\n                <p className=\"text-xs text-muted-foreground\">Tax (Optimized)</p>\n                <p className=\"text-xl font-bold\">{formatCurrency(result.adjustedTax)}</p>\n              </div>\n              <div className=\"rounded-full bg-blue-100 dark:bg-blue-900/20 p-2\">\n                <DollarSign className=\"h-4 w-4 text-blue-600 dark:text-blue-400\" />\n              </div>\n            </div>\n            <p className=\"text-xs text-muted-foreground mt-2\">\n              After applying strategies\n            </p>\n          </CardContent>\n        </Card>\n\n        {/* Total Tax Savings */}\n        <Card className=\"border-2 border-green-500/20 bg-green-500/5\">\n          <CardContent className=\"pt-6\">\n            <div className=\"flex items-start justify-between\">\n              <div className=\"space-y-1\">\n                <p className=\"text-xs text-muted-foreground\">Tax Savings</p>\n                <p className=\"text-xl font-bold text-green-600 dark:text-green-400\">\n                  {formatCurrency(result.totalTaxSavings)}\n                </p>\n              </div>\n              <div className=\"rounded-full bg-green-100 dark:bg-green-900/20 p-2\">\n                <TrendingDown className=\"h-4 w-4 text-green-600 dark:text-green-400\" />\n              </div>\n            </div>\n            <p className=\"text-xs text-muted-foreground mt-2\">\n              Reduction from strategies\n            </p>\n          </CardContent>\n        </Card>\n\n        {/* Effective Tax Rate */}\n        <Card>\n          <CardContent className=\"pt-6\">\n            <div className=\"flex items-start justify-between\">\n              <div className=\"space-y-1\">\n                <p className=\"text-xs text-muted-foreground\">Effective Tax Rate</p>\n                <p className=\"text-xl font-bold\">\n                  {formatPercent(result.effectiveTaxRate)}\n                </p>\n              </div>\n              <div className=\"rounded-full bg-purple-100 dark:bg-purple-900/20 p-2\">\n                <Percent className=\"h-4 w-4 text-purple-600 dark:text-purple-400\" />\n              </div>\n            </div>\n            <p className=\"text-xs text-muted-foreground mt-2\">\n              Overall tax burden percentage\n            </p>\n          </CardContent>\n        </Card>\n      </div>\n\n      {/* Active Strategies */}\n      {result.strategies.length > 0 && (\n        <Card>\n          <CardHeader>\n            <CardTitle className=\"text-lg\">Active Strategies</CardTitle>\n          </CardHeader>\n          <CardContent>\n            <div className=\"space-y-3\">\n              {result.strategies.map((strategy, index) => (\n                <div\n                  key={index}\n                  className=\"flex items-start justify-between p-3 rounded-lg bg-muted/30\"\n                >\n                  <div className=\"flex-1\">\n                    <p className=\"font-medium\">{strategy.name}</p>\n                    <p className=\"text-sm text-muted-foreground mt-1\">\n                      {strategy.description}\n                    </p>\n                  </div>\n                  <div className=\"text-right ml-4\">\n                    <p className=\"text-sm font-semibold text-green-600 dark:text-green-400\">\n                      {formatCurrency(strategy.taxSavings)}\n                    </p>\n                    <p className=\"text-xs text-muted-foreground\">saved</p>\n                  </div>\n                </div>\n              ))}\n            </div>\n          </CardContent>\n        </Card>\n      )}\n    </div>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/CalculationBreakdown.tsx",
+      "content": "import {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from '@/components/ui/accordion';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { type TaxCalculationResult, STANDARD_DEDUCTION_2025 } from '@/lib/tax-calculator';\n\ninterface CalculationBreakdownProps {\n  result: TaxCalculationResult;\n}\n\nexport function CalculationBreakdown({ result }: CalculationBreakdownProps) {\n  const formatCurrency = (value: number) => {\n    return new Intl.NumberFormat('en-US', {\n      style: 'currency',\n      currency: 'USD',\n      minimumFractionDigits: 0,\n      maximumFractionDigits: 0,\n    }).format(value);\n  };\n\n  const formatPercent = (rate: number) => {\n    return `${(rate * 100).toFixed(0)}%`;\n  };\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Simplified Story Summary */}\n      <Card className=\"border-2 border-primary/20\">\n        <CardHeader>\n          <CardTitle>Calculation Summary</CardTitle>\n        </CardHeader>\n        <CardContent className=\"space-y-4\">\n          <div className=\"space-y-3 text-sm leading-relaxed\">\n            <p>\n              <span className=\"font-semibold\">Starting with</span>{' '}\n              {formatCurrency(result.totalIncome)} in total income...\n            </p>\n\n            {result.strategies.length > 0 ? (\n              <>\n                <div className=\"pl-4 border-l-2 border-primary/30 space-y-2\">\n                  {result.strategies.map((strategy, index) => (\n                    <p key={index}>\n                      <span className=\"font-medium text-primary\">{strategy.name}:</span>{' '}\n                      Reduces income by {formatCurrency(strategy.deductionAmount)},{' '}\n                      saving <span className=\"font-semibold text-green-600 dark:text-green-400\">{formatCurrency(strategy.taxSavings)}</span> in taxes\n                    </p>\n                  ))}\n                </div>\n\n                <p className=\"pt-2 border-t border-border\">\n                  <span className=\"font-semibold\">Total tax savings:</span>{' '}\n                  <span className=\"text-xl font-bold text-green-600 dark:text-green-400\">\n                    {formatCurrency(result.totalTaxSavings)}\n                  </span>\n                </p>\n\n                <p>\n                  <span className=\"font-semibold\">Final tax:</span>{' '}\n                  {formatCurrency(result.adjustedTax)} instead of{' '}\n                  {formatCurrency(result.baselineTax)}\n                </p>\n              </>\n            ) : (\n              <p>\n                <span className=\"font-semibold\">No strategies applied.</span> Federal tax is{' '}\n                {formatCurrency(result.baselineTax)}.\n              </p>\n            )}\n          </div>\n        </CardContent>\n      </Card>\n\n      {/* Detailed Calculations Accordion */}\n      <Card>\n        <CardHeader>\n          <CardTitle>Detailed Calculation Breakdown</CardTitle>\n        </CardHeader>\n        <CardContent>\n          <Accordion type=\"single\" collapsible className=\"w-full\">\n            {/* Baseline Calculation */}\n            <AccordionItem value=\"baseline\">\n              <AccordionTrigger className=\"text-left\">\n                <div className=\"flex-1\">\n                  <p className=\"font-semibold\">Baseline Tax Calculation</p>\n                  <p className=\"text-sm text-muted-foreground\">\n                    Tax without any strategies\n                  </p>\n                </div>\n              </AccordionTrigger>\n              <AccordionContent>\n                <div className=\"space-y-4 pt-4\">\n                  <div className=\"space-y-2\">\n                    <div className=\"flex justify-between text-sm\">\n                      <span>Total Income (AGI)</span>\n                      <span className=\"font-mono\">{formatCurrency(result.baselineAGI)}</span>\n                    </div>\n                    <div className=\"flex justify-between text-sm text-red-600 dark:text-red-400\">\n                      <span>Less: Standard Deduction</span>\n                      <span className=\"font-mono\">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>\n                    </div>\n                    <div className=\"flex justify-between text-sm font-semibold border-t border-border pt-2\">\n                      <span>Taxable Income</span>\n                      <span className=\"font-mono\">{formatCurrency(result.baselineTaxableIncome)}</span>\n                    </div>\n                  </div>\n\n                  <div className=\"pt-4 border-t border-border\">\n                    <p className=\"text-sm font-semibold mb-3\">Tax Bracket Breakdown:</p>\n                    <div className=\"space-y-2\">\n                      {result.baselineBrackets.map((bracket, index) => (\n                        <div\n                          key={index}\n                          className=\"grid grid-cols-3 gap-2 text-xs font-mono p-2 rounded bg-muted/30\"\n                        >\n                          <span>{formatPercent(bracket.rate)} bracket</span>\n                          <span className=\"text-right\">\n                            {formatCurrency(bracket.incomeInBracket)}\n                          </span>\n                          <span className=\"text-right font-semibold\">\n                            {formatCurrency(bracket.taxAmount)}\n                          </span>\n                        </div>\n                      ))}\n                      <div className=\"grid grid-cols-3 gap-2 text-sm font-bold p-2 rounded bg-primary/10 border-t-2 border-primary/20\">\n                        <span>Total Tax</span>\n                        <span></span>\n                        <span className=\"text-right\">\n                          {formatCurrency(result.baselineTax)}\n                        </span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </AccordionContent>\n            </AccordionItem>\n\n            {/* Strategy Details */}\n            {result.strategies.map((strategy, index) => (\n              <AccordionItem key={index} value={`strategy-${index}`}>\n                <AccordionTrigger className=\"text-left\">\n                  <div className=\"flex-1\">\n                    <p className=\"font-semibold\">{strategy.name}</p>\n                    <p className=\"text-sm text-muted-foreground\">\n                      Saves {formatCurrency(strategy.taxSavings)} in taxes\n                    </p>\n                  </div>\n                </AccordionTrigger>\n                <AccordionContent>\n                  <div className=\"space-y-3 pt-4\">\n                    <p className=\"text-sm\">{strategy.description}</p>\n\n                    <div className=\"grid grid-cols-2 gap-4 text-sm\">\n                      <div className=\"space-y-1 p-3 rounded-lg bg-muted/30\">\n                        <p className=\"text-xs text-muted-foreground\">Deduction Amount</p>\n                        <p className=\"font-mono font-semibold\">\n                          {formatCurrency(strategy.deductionAmount)}\n                        </p>\n                      </div>\n                      <div className=\"space-y-1 p-3 rounded-lg bg-green-500/10\">\n                        <p className=\"text-xs text-muted-foreground\">Tax Savings</p>\n                        <p className=\"font-mono font-semibold text-green-600 dark:text-green-400\">\n                          {formatCurrency(strategy.taxSavings)}\n                        </p>\n                      </div>\n                    </div>\n                  </div>\n                </AccordionContent>\n              </AccordionItem>\n            ))}\n\n            {/* Final Adjusted Calculation */}\n            {result.strategies.length > 0 && (\n              <AccordionItem value=\"adjusted\">\n                <AccordionTrigger className=\"text-left\">\n                  <div className=\"flex-1\">\n                    <p className=\"font-semibold\">Final Tax Calculation</p>\n                    <p className=\"text-sm text-muted-foreground\">\n                      After all strategies applied\n                    </p>\n                  </div>\n                </AccordionTrigger>\n                <AccordionContent>\n                  <div className=\"space-y-4 pt-4\">\n                    <div className=\"space-y-2\">\n                      <div className=\"flex justify-between text-sm\">\n                        <span>Total Income (AGI)</span>\n                        <span className=\"font-mono\">{formatCurrency(result.baselineAGI)}</span>\n                      </div>\n                      <div className=\"flex justify-between text-sm text-red-600 dark:text-red-400\">\n                        <span>Less: Total Deductions</span>\n                        <span className=\"font-mono\">-{formatCurrency(result.totalDeductions)}</span>\n                      </div>\n                      <div className=\"flex justify-between text-sm font-medium border-t border-border pt-2\">\n                        <span>Adjusted AGI</span>\n                        <span className=\"font-mono\">{formatCurrency(result.adjustedAGI)}</span>\n                      </div>\n                      <div className=\"flex justify-between text-sm text-red-600 dark:text-red-400\">\n                        <span>Less: Standard Deduction</span>\n                        <span className=\"font-mono\">-{formatCurrency(STANDARD_DEDUCTION_2025)}</span>\n                      </div>\n                      <div className=\"flex justify-between text-sm font-semibold border-t border-border pt-2\">\n                        <span>Taxable Income</span>\n                        <span className=\"font-mono\">{formatCurrency(result.adjustedTaxableIncome)}</span>\n                      </div>\n                    </div>\n\n                    <div className=\"pt-4 border-t border-border\">\n                      <p className=\"text-sm font-semibold mb-3\">Tax Bracket Breakdown:</p>\n                      <div className=\"space-y-2\">\n                        {result.adjustedBrackets.map((bracket, index) => (\n                          <div\n                            key={index}\n                            className=\"grid grid-cols-3 gap-2 text-xs font-mono p-2 rounded bg-muted/30\"\n                          >\n                            <span>{formatPercent(bracket.rate)} bracket</span>\n                            <span className=\"text-right\">\n                              {formatCurrency(bracket.incomeInBracket)}\n                            </span>\n                            <span className=\"text-right font-semibold\">\n                              {formatCurrency(bracket.taxAmount)}\n                            </span>\n                          </div>\n                        ))}\n                        <div className=\"grid grid-cols-3 gap-2 text-sm font-bold p-2 rounded bg-primary/10 border-t-2 border-primary/20\">\n                          <span>Final Tax</span>\n                          <span></span>\n                          <span className=\"text-right\">\n                            {formatCurrency(result.adjustedTax)}\n                          </span>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </AccordionContent>\n              </AccordionItem>\n            )}\n          </Accordion>\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/StrategyEducation.tsx",
+      "content": "import {\n  Accordion,\n  AccordionContent,\n  AccordionItem,\n  AccordionTrigger,\n} from '@/components/ui/accordion';\nimport { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';\nimport { BookOpen, ExternalLink } from 'lucide-react';\n\nexport function StrategyEducation() {\n  return (\n    <Card>\n      <CardHeader>\n        <div className=\"flex items-center gap-2\">\n          <BookOpen className=\"h-5 w-5 text-primary\" />\n          <CardTitle>Understanding Tax Strategies</CardTitle>\n        </div>\n      </CardHeader>\n      <CardContent>\n        <Accordion type=\"single\" collapsible className=\"w-full\">\n          {/* Business Loss Strategy */}\n          <AccordionItem value=\"business-loss\">\n            <AccordionTrigger className=\"text-left\">\n              <div>\n                <p className=\"font-semibold\">Active Business Loss Strategy</p>\n                <p className=\"text-sm text-muted-foreground\">\n                  Section 162 trade or business deductions\n                </p>\n              </div>\n            </AccordionTrigger>\n            <AccordionContent>\n              <div className=\"space-y-4 pt-2\">\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">What it is:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Active trade or business losses under Section 162 of the tax\n                    code. These are losses from businesses where you materially\n                    participate in the operations.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Who qualifies:</h4>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>Business owners with material participation</li>\n                    <li>Active involvement in day-to-day operations</li>\n                    <li>Not passive investors or limited partners</li>\n                  </ul>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">How it works:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Active business losses directly reduce your ordinary income\n                    without limitation. Unlike passive losses, there's no cap on\n                    how much you can deduct in a given year.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Important considerations:</h4>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>Must be from an active trade or business</li>\n                    <li>Material participation is required</li>\n                    <li>Not applicable to hobby losses</li>\n                    <li>Losses must be legitimate business expenses</li>\n                  </ul>\n                </div>\n              </div>\n            </AccordionContent>\n          </AccordionItem>\n\n          {/* Real Estate Professional Strategy */}\n          <AccordionItem value=\"real-estate-professional\">\n            <AccordionTrigger className=\"text-left\">\n              <div>\n                <p className=\"font-semibold\">Real Estate Professional Strategy</p>\n                <p className=\"text-sm text-muted-foreground\">\n                  IRS designation for passive loss deductions\n                </p>\n              </div>\n            </AccordionTrigger>\n            <AccordionContent>\n              <div className=\"space-y-4 pt-2\">\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">What it is:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    The Real Estate Professional (REP) designation allows\n                    individuals to deduct passive losses from rental real estate\n                    activities against ordinary income. Normally, passive losses\n                    can only offset passive income.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Who qualifies:</h4>\n                  <p className=\"text-sm text-muted-foreground mb-2\">\n                    To qualify as a Real Estate Professional, you must meet BOTH\n                    requirements:\n                  </p>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>\n                      <strong>750+ hours:</strong> Spend at least 750 hours per\n                      year in real estate activities\n                    </li>\n                    <li>\n                      <strong>&gt;50% of time:</strong> More than half of your\n                      personal services time must be in real estate\n                    </li>\n                    <li>\n                      <strong>Material participation:</strong> Must materially\n                      participate in each rental activity\n                    </li>\n                  </ul>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">How it works:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Once qualified as a REP and meeting material participation\n                    requirements, your rental real estate losses are reclassified\n                    from passive to active. This allows you to deduct these losses\n                    against your W-2 income and other ordinary income.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Important considerations:</h4>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>Strict documentation requirements (time logs, activity records)</li>\n                    <li>Must re-qualify every year</li>\n                    <li>Material participation test must be met for each property</li>\n                    <li>Married couples filing jointly: only one spouse needs to qualify</li>\n                    <li>W-2 employees may struggle to meet the 50% requirement</li>\n                  </ul>\n                </div>\n\n                <div className=\"pt-2 border-t border-border\">\n                  <a\n                    href=\"https://www.irs.gov/publications/p925\"\n                    target=\"_blank\"\n                    rel=\"noopener noreferrer\"\n                    className=\"text-sm text-primary hover:underline inline-flex items-center gap-1\"\n                  >\n                    IRS Publication 925 (Passive Activity Rules)\n                    <ExternalLink className=\"h-3 w-3\" />\n                  </a>\n                </div>\n              </div>\n            </AccordionContent>\n          </AccordionItem>\n\n          {/* Oil & Gas Investment Strategy */}\n          <AccordionItem value=\"oil-gas-investment\">\n            <AccordionTrigger className=\"text-left\">\n              <div>\n                <p className=\"font-semibold\">Oil & Gas Investment Strategy</p>\n                <p className=\"text-sm text-muted-foreground\">\n                  Intangible Drilling Costs (IDC) deductions\n                </p>\n              </div>\n            </AccordionTrigger>\n            <AccordionContent>\n              <div className=\"space-y-4 pt-2\">\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">What it is:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Intangible Drilling Costs (IDC) are costs associated with\n                    drilling that have no salvage value. These include labor,\n                    fuel, repairs, supplies, and other costs necessary to prepare\n                    a well for production. Typically 70-85% of total drilling\n                    costs are classified as intangible.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Who qualifies:</h4>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>\n                      <strong>Direct participation:</strong> Must invest in direct\n                      participation programs (DPPs), not limited partnerships\n                    </li>\n                    <li>Investors in working interests of oil/gas wells</li>\n                    <li>Active participation in the investment required</li>\n                  </ul>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">How it works:</h4>\n                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    IDCs can be deducted in full in the year they're incurred,\n                    providing an immediate tax benefit. The remaining 15-30%\n                    (tangible costs like equipment) are capitalized and\n                    depreciated over 7 years. This creates a significant first-year\n                    deduction.\n                  </p>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Example calculation:</h4>\n                  <div className=\"bg-muted/30 p-3 rounded-lg text-sm font-mono\">\n                    <p>$300,000 investment \u00d7 80% IDC = $240,000 deduction</p>\n                    <p className=\"text-muted-foreground text-xs mt-1\">\n                      (Remaining $60,000 depreciated over 7 years)\n                    </p>\n                  </div>\n                </div>\n\n                <div>\n                  <h4 className=\"font-semibold text-sm mb-2\">Important considerations:</h4>\n                  <ul className=\"text-sm text-muted-foreground space-y-1 list-disc list-inside\">\n                    <li>High-risk investment - drilling may not be successful</li>\n                    <li>Requires direct participation (not passive)</li>\n                    <li>Subject to Alternative Minimum Tax (AMT) in some cases</li>\n                    <li>Complex investment with significant capital requirements</li>\n                    <li>Future income from production is taxable</li>\n                    <li>Consult with specialized oil & gas tax professionals</li>\n                  </ul>\n                </div>\n\n                <div className=\"pt-2 border-t border-border bg-yellow-500/10 p-3 rounded-lg\">\n                  <p className=\"text-xs text-yellow-700 dark:text-yellow-300\">\n                    <strong>Note:</strong> Oil & gas investments are complex,\n                    high-risk ventures. This calculator provides simplified\n                    estimates and should not replace professional due diligence.\n                  </p>\n                </div>\n              </div>\n            </AccordionContent>\n          </AccordionItem>\n        </Accordion>\n      </CardContent>\n    </Card>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "completed",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "completed",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "completed",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5-9: Build all UI components (Form, Cards, Summary, Breakdown, Education)",
+          "status": "completed",
+          "activeForm": "Building all UI components"
+        },
+        {
+          "content": "Phase 10: Create main calculator page with all features",
+          "status": "in_progress",
+          "activeForm": "Creating main calculator page with all features"
+        },
+        {
+          "content": "Phase 14: Manual testing and validation",
+          "status": "pending",
+          "activeForm": "Performing manual testing and validation"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "mkdir -p src/app/tools/tax-calculator",
+      "description": "Create tax-calculator page directory"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "content": "'use client';\n\nimport { useMemo } from 'react';\nimport { Share2, Calculator, AlertTriangle, Briefcase } from 'lucide-react';\nimport { Button } from '@/components/ui/button';\nimport { TaxCalculatorForm } from '@/components/tax-calculator/TaxCalculatorForm';\nimport { TaxSummary } from '@/components/tax-calculator/TaxSummary';\nimport { CalculationBreakdown } from '@/components/tax-calculator/CalculationBreakdown';\nimport { StrategyEducation } from '@/components/tax-calculator/StrategyEducation';\nimport { useTaxCalculatorState } from '@/hooks/useTaxCalculatorState';\nimport { calculateTaxBurden } from '@/lib/tax-calculator';\n\nexport default function TaxCalculatorPage() {\n  const { state, setState, isHydrated } = useTaxCalculatorState();\n\n  // Calculate tax burden\n  const result = useMemo(() => {\n    return calculateTaxBurden(state);\n  }, [state]);\n\n  // Share functionality\n  const handleShare = async () => {\n    const shareData = {\n      title: 'Financial Tax Burden Calculator',\n      text: 'Check out my tax calculation scenario using this calculator',\n      url: window.location.href,\n    };\n\n    if (navigator.share) {\n      try {\n        await navigator.share(shareData);\n      } catch (err) {\n        // User cancelled or error occurred\n        console.log('Share cancelled or failed');\n      }\n    } else {\n      // Fallback: copy to clipboard\n      try {\n        await navigator.clipboard.writeText(window.location.href);\n        alert('Link copied to clipboard!');\n      } catch (err) {\n        console.error('Failed to copy:', err);\n      }\n    }\n  };\n\n  // Show loading state while hydrating\n  if (!isHydrated) {\n    return (\n      <div className=\"min-h-screen flex items-center justify-center\">\n        <p className=\"text-muted-foreground\">Loading calculator...</p>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"min-h-screen py-16\">\n      <div className=\"container mx-auto px-4 md:px-8 max-w-6xl\">\n        {/* Hero Section */}\n        <div className=\"mb-12\">\n          <div className=\"flex items-start justify-between gap-6 mb-8\">\n            <div className=\"flex-1\">\n              <div className=\"inline-flex items-center gap-2 px-4 py-2 mb-6 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20\">\n                <Calculator className=\"h-4 w-4 text-primary\" />\n                <span className=\"text-sm font-medium text-primary\">\n                  Tax Strategy Calculator\n                </span>\n              </div>\n              <h1 className=\"text-4xl md:text-5xl font-bold mb-4 leading-tight\">\n                Financial Tax Burden{' '}\n                <span className=\"bg-gradient-to-r from-primary via-primary/70 to-primary/50 bg-clip-text text-transparent\">\n                  Calculator\n                </span>\n              </h1>\n              <p className=\"text-lg text-muted-foreground leading-relaxed max-w-3xl\">\n                Estimate your federal tax liability on large income events like\n                phantom equity payouts. Model the impact of various tax reduction\n                strategies including business losses, real estate professional\n                status, and oil & gas investments.\n              </p>\n            </div>\n            <Button\n              onClick={handleShare}\n              className=\"bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg flex-shrink-0\"\n              size=\"lg\"\n            >\n              <Share2 className=\"h-5 w-5 mr-2\" />\n              Share\n            </Button>\n          </div>\n\n          {/* Top Disclaimer */}\n          <div className=\"p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-start gap-3\">\n            <AlertTriangle className=\"h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5\" />\n            <div className=\"flex-1\">\n              <p className=\"text-sm font-semibold text-yellow-900 dark:text-yellow-200 mb-1\">\n                Educational Estimates Only - Not Tax Advice\n              </p>\n              <p className=\"text-xs text-yellow-800 dark:text-yellow-300 leading-relaxed\">\n                This calculator provides educational estimates and should not be\n                considered tax, financial, or legal advice. Consult qualified\n                professionals before making tax decisions.\n              </p>\n            </div>\n          </div>\n        </div>\n\n        {/* Key Features */}\n        <div className=\"grid md:grid-cols-3 gap-4 mb-12\">\n          <div className=\"p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-border\">\n            <div className=\"w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3\">\n              <Briefcase className=\"h-5 w-5 text-primary\" />\n            </div>\n            <h3 className=\"font-bold mb-1\">Multiple Strategies</h3>\n            <p className=\"text-sm text-muted-foreground\">\n              Model business losses, REP status, and oil/gas investments\n            </p>\n          </div>\n\n          <div className=\"p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-border\">\n            <div className=\"w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3\">\n              <Calculator className=\"h-5 w-5 text-primary\" />\n            </div>\n            <h3 className=\"font-bold mb-1\">Transparent Math</h3>\n            <p className=\"text-sm text-muted-foreground\">\n              Detailed bracket-by-bracket breakdown for CPA verification\n            </p>\n          </div>\n\n          <div className=\"p-4 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-border\">\n            <div className=\"w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3\">\n              <Share2 className=\"h-5 w-5 text-primary\" />\n            </div>\n            <h3 className=\"font-bold mb-1\">Scenario Sharing</h3>\n            <p className=\"text-sm text-muted-foreground\">\n              URL-based state for easy sharing with advisors\n            </p>\n          </div>\n        </div>\n\n        {/* Calculator Form */}\n        <div className=\"mb-12\">\n          <h2 className=\"text-2xl font-bold mb-6\">Calculator Inputs</h2>\n          <TaxCalculatorForm state={state} onChange={setState} />\n        </div>\n\n        {/* Tax Summary */}\n        <div className=\"mb-12\">\n          <h2 className=\"text-2xl font-bold mb-6\">Tax Summary</h2>\n          <TaxSummary result={result} />\n        </div>\n\n        {/* Calculation Breakdown */}\n        <div className=\"mb-12\">\n          <h2 className=\"text-2xl font-bold mb-6\">Calculation Details</h2>\n          <CalculationBreakdown result={result} />\n        </div>\n\n        {/* Strategy Education */}\n        <div className=\"mb-12\">\n          <h2 className=\"text-2xl font-bold mb-6\">Learn About Tax Strategies</h2>\n          <StrategyEducation />\n        </div>\n\n        {/* Comprehensive Disclaimer Footer */}\n        <div className=\"mt-16 space-y-4 p-6 rounded-xl bg-muted/30 border border-border\">\n          <h3 className=\"text-sm font-bold text-foreground\">\n            Important Disclaimer\n          </h3>\n\n          <div className=\"space-y-3 text-xs text-muted-foreground leading-relaxed\">\n            <p>\n              <strong>Not Professional Advice:</strong> This calculator is\n              provided for educational and informational purposes only and should\n              not be considered tax, financial, or legal advice. The calculations\n              are based on simplified assumptions and may not reflect actual tax\n              liability.\n            </p>\n\n            <p>\n              <strong>2025 Tax Year Only:</strong> This calculator uses 2025\n              federal tax brackets and standard deduction for single filers. Tax\n              laws change frequently. State income taxes, Alternative Minimum Tax\n              (AMT), Net Investment Income Tax (NIIT), and other factors are not\n              included.\n            </p>\n\n            <p>\n              <strong>Accuracy Limitations:</strong> Individual tax situations\n              vary greatly. Many factors not considered in this calculator can\n              significantly impact your actual tax liability, including but not\n              limited to: itemized deductions, credits, phase-outs, AMT, NIIT,\n              state taxes, and specific qualification requirements for strategies.\n            </p>\n\n            <p>\n              <strong>Strategy Complexity:</strong> The tax strategies presented\n              here have strict qualification requirements and complex rules. Real\n              Estate Professional status, material participation, active vs.\n              passive loss classifications, and oil & gas investments all require\n              careful documentation and professional guidance.\n            </p>\n\n            <p>\n              <strong>Consult Professionals:</strong> Before making any financial\n              or tax decisions, we strongly recommend consulting with qualified\n              tax professionals (CPAs, enrolled agents), financial advisors, and\n              legal counsel who can evaluate your specific situation. This is\n              especially critical for high-income events and complex tax\n              strategies.\n            </p>\n\n            <p>\n              <strong>No Guarantee:</strong> Past performance and mathematical\n              projections do not guarantee future results. The creators of this\n              calculator are not responsible for any financial decisions made\n              based on its output.\n            </p>\n          </div>\n\n          <div className=\"pt-4 border-t border-border\">\n            <p className=\"text-xs text-muted-foreground\">\n              \u00a9 2025 Tax Calculator. For educational purposes only. Always\n              consult qualified professionals for tax advice.\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "old_string": "'use client';\n\nimport { useMemo } from 'react';",
+      "new_string": "import { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'Financial Tax Burden Calculator | Tax Strategy Planning',\n  description:\n    'Estimate federal tax liability on large income events and model tax reduction strategies including business losses, real estate professional status, and oil & gas investments. 2025 tax brackets.',\n  keywords: [\n    'tax calculator',\n    'phantom equity',\n    'tax strategies',\n    'business loss deduction',\n    'real estate professional',\n    'oil and gas investment',\n    '2025 tax brackets',\n    'tax planning',\n  ],\n};\n\n'use client';\n\nimport { useMemo } from 'react';"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Phase 1: Define tax calculation data structures and constants",
+          "status": "completed",
+          "activeForm": "Defining tax calculation data structures and constants"
+        },
+        {
+          "content": "Phase 2: Implement core tax calculation functions",
+          "status": "completed",
+          "activeForm": "Implementing core tax calculation functions"
+        },
+        {
+          "content": "Phase 3: Write comprehensive unit tests",
+          "status": "completed",
+          "activeForm": "Writing comprehensive unit tests"
+        },
+        {
+          "content": "Phase 4: Create URL state management hook",
+          "status": "completed",
+          "activeForm": "Creating URL state management hook"
+        },
+        {
+          "content": "Phase 5-9: Build all UI components",
+          "status": "completed",
+          "activeForm": "Building all UI components"
+        },
+        {
+          "content": "Phase 10: Create main calculator page",
+          "status": "completed",
+          "activeForm": "Creating main calculator page"
+        },
+        {
+          "content": "Run build verification",
+          "status": "in_progress",
+          "activeForm": "Running build verification"
+        },
+        {
+          "content": "Run type checking",
+          "status": "pending",
+          "activeForm": "Running type checking"
+        },
+        {
+          "content": "Run linting",
+          "status": "pending",
+          "activeForm": "Running linting"
+        },
+        {
+          "content": "Update spec file with completion notes",
+          "status": "pending",
+          "activeForm": "Updating spec file"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm build",
+      "timeout": 120000,
+      "description": "Build the project to verify no errors"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "old_string": "import { Metadata } from 'next';\n\nexport const metadata: Metadata = {\n  title: 'Financial Tax Burden Calculator | Tax Strategy Planning',\n  description:\n    'Estimate federal tax liability on large income events and model tax reduction strategies including business losses, real estate professional status, and oil & gas investments. 2025 tax brackets.',\n  keywords: [\n    'tax calculator',\n    'phantom equity',\n    'tax strategies',\n    'business loss deduction',\n    'real estate professional',\n    'oil and gas investment',\n    '2025 tax brackets',\n    'tax planning',\n  ],\n};\n\n'use client';",
+      "new_string": "'use client';"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm build",
+      "timeout": 120000,
+      "description": "Build the project after fixing use client directive"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/StrategyEducation.tsx",
+      "offset": 52,
+      "limit": 10
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/StrategyEducation.tsx",
+      "old_string": "                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Active business losses directly reduce your ordinary income\n                    without limitation. Unlike passive losses, there's no cap on\n                    how much you can deduct in a given year.\n                  </p>",
+      "new_string": "                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    Active business losses directly reduce your ordinary income\n                    without limitation. Unlike passive losses, there&apos;s no cap on\n                    how much you can deduct in a given year.\n                  </p>"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/components/tax-calculator/StrategyEducation.tsx",
+      "old_string": "                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    IDCs can be deducted in full in the year they're incurred,\n                    providing an immediate tax benefit. The remaining 15-30%\n                    (tangible costs like equipment) are capitalized and\n                    depreciated over 7 years. This creates a significant first-year\n                    deduction.\n                  </p>",
+      "new_string": "                  <p className=\"text-sm text-muted-foreground leading-relaxed\">\n                    IDCs can be deducted in full in the year they&apos;re incurred,\n                    providing an immediate tax benefit. The remaining 15-30%\n                    (tangible costs like equipment) are capitalized and\n                    depreciated over 7 years. This creates a significant first-year\n                    deduction.\n                  </p>"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm build 2>&1 | tail -20",
+      "timeout": 120000,
+      "description": "Build project and show last 20 lines"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "old_string": "'use client';\n\nimport { useMemo } from 'react';",
+      "new_string": "'use client';\n\nimport { useMemo, Suspense } from 'react';"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "old_string": "export default function TaxCalculatorPage() {\n  const { state, setState, isHydrated } = useTaxCalculatorState();",
+      "new_string": "function TaxCalculatorContent() {\n  const { state, setState, isHydrated } = useTaxCalculatorState();"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2/src/app/tools/tax-calculator/page.tsx",
+      "old_string": "      </div>\n    </div>\n  );\n}",
+      "new_string": "      </div>\n    </div>\n  );\n}\n\nexport default function TaxCalculatorPage() {\n  return (\n    <Suspense\n      fallback={\n        <div className=\"min-h-screen flex items-center justify-center\">\n          <p className=\"text-muted-foreground\">Loading calculator...</p>\n        </div>\n      }\n    >\n      <TaxCalculatorContent />\n    </Suspense>\n  );\n}"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm build 2>&1 | tail -30",
+      "timeout": 120000,
+      "description": "Build project after adding Suspense"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pnpm test tax-calculator.test.ts --run",
+      "timeout": 60000,
+      "description": "Run tax calculator unit tests"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git diff --stat",
+      "description": "Get git diff stats for report"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git diff --stat | grep -E \"(tax-calculator|TaxCalculator|useTaxCalculatorState)\" || git status --short | grep -E \"(tax-calculator|TaxCalculator|useTaxCalculatorState)\"",
+      "description": "Get tax calculator file stats"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "find src -name \"*tax-calculator*\" -o -name \"*TaxCalculator*\" -o -name \"*useTaxCalculatorState*\" | xargs wc -l 2>/dev/null | tail -1",
+      "description": "Count total lines in tax calculator files"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Implementation complete - all phases finished successfully",
+          "status": "completed",
+          "activeForm": "Implementation complete"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "ls -1 src/components/tax-calculator/ src/lib/*tax* src/hooks/*tax* src/app/tools/tax-calculator/ 2>/dev/null",
+      "description": "List all created files"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "find src -path \"*tax*\" -type f | sort",
+      "description": "Find all tax calculator files"
+    }
+  },
+  {
+    "session_id": "024b9415-483e-49cf-93cf-bd263e97694b",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/024b9415-483e-49cf-93cf-bd263e97694b.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "find src/hooks -name \"*Tax*\" -type f",
+      "description": "Find tax hook file"
+    }
+  }
+]

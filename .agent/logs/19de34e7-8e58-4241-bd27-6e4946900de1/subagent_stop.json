@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "19de34e7-8e58-4241-bd27-6e4946900de1",
+    "transcript_path": "/Users/jnarowski/.claude/projects/-Users-jnarowski-Dev-sourceborn-src-jpnarowski-com-next-v2/19de34e7-8e58-4241-bd27-6e4946900de1.jsonl",
+    "cwd": "/Users/jnarowski/Dev/sourceborn/src/jpnarowski-com-next-v2",
+    "permission_mode": "default",
+    "hook_event_name": "SubagentStop",
+    "stop_hook_active": false
+  }
+]
