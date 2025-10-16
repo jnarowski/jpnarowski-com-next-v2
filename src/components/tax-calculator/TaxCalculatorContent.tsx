@@ -58,7 +58,7 @@ export function TaxCalculatorContent() {
       <div className="container-small mx-auto px-4 md:px-8">
         {/* Hero Section */}
         <div className="mb-12">
-          <div className="flex items-start justify-between gap-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20">
                 <Calculator className="h-4 w-4 text-primary" />
@@ -72,7 +72,7 @@ export function TaxCalculatorContent() {
                   Calculator
                 </span>
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Estimate your federal tax liability on large income events like
                 phantom equity payouts. Model the impact of various tax reduction
                 strategies including business losses, real estate professional
@@ -81,7 +81,7 @@ export function TaxCalculatorContent() {
             </div>
             <Button
               onClick={handleShare}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg flex-shrink-0"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg flex-shrink-0 w-full md:w-auto"
               size="lg"
             >
               <Share2 className="h-5 w-5 mr-2" />
