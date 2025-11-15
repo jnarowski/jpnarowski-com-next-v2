@@ -47,3 +47,7 @@ next-env.d.ts
 
 # Agent logs
 .agent/agents/logs
+
+# Agent workflow artifacts
+.agent/logs/**
+.agent/workflows/executions/**

@@ -1,17 +1,31 @@
 ---
 description: Review implementation against spec and document findings for fixes
-argument-hint: [spec-file-path, format]
+argument-hint: [specIdOrNameOrPath, format]
 ---
 
 # Review Spec Implementation
 
-Reviews a previous agent's implementation work by comparing the provided spec file against actual code changes. Identifies discrepancies and documents all findings in a Review Findings section appended to the spec. The documented issues can then be addressed by running `/implement-spec` on the updated spec file.
+Reviews a previous agent's implementation work by comparing the provided spec file against actual code changes. Identifies discrepancies and documents all findings in a Review Findings section appended to the spec. The documented issues can then be addressed by running `/cmd:implement-spec` on the updated spec file.
 
 ## Variables
 
-- $spec-file-path: $1 (required) - Path to the spec file to review against (e.g., `.agent/specs/feature-name.md`)
+- $specIdOrNameOrPath: $1 (required) - Either a timestamp ID (e.g., `251024120101`), feature name (e.g., `workflow-safety`), or full path
 - $format: $2 (optional) - Output format: "text" or "json" (defaults to "text" if not provided)
 - $max-reviews: 3 - This is a constant (maximum review iterations allowed)
+
+## Spec File Resolution
+
+**Parse and resolve $specIdOrNameOrPath:**
+- If it's a full path (contains `/`): use as-is
+- Otherwise, look up in `.agent/specs/index.json`:
+  - For timestamp ID: Match by `id` field
+  - For feature name: Fuzzy match path (e.g., `message-queue` matches `todo/251024120101-message-queue-implementation/spec.md`)
+  - Use path from index: `.agent/specs/{path}`
+- **If not found in index.json, fallback to directory search:**
+  - Search in order: backlog/, todo/, done/
+  - For ID: Pattern `{id}-*/spec.md`
+  - For feature name: Pattern `*{feature-name}*/spec.md` (fuzzy match)
+- If still not found: stop and report error
 
 ## Instructions
 
@@ -81,7 +95,19 @@ Use these guidelines to determine what issues to document:
 
 1. **Validate Inputs**
 
-   - Verify spec file exists at `$spec-file-path`
+   - **Parse and resolve $specIdOrNameOrPath:**
+     - If it's a full file path (contains `/`):
+       - Use the path as-is
+     - Otherwise, look up in `.agent/specs/index.json`:
+       - For timestamp ID: Match by `id` field
+       - For feature name: Fuzzy match path (e.g., `message-queue` matches `todo/251024120101-message-queue-implementation/spec.md`)
+       - Use path from index: `.agent/specs/{path}`
+     - **If not found in index.json, fallback to directory search:**
+       - Search in order: `.agent/specs/backlog/`, `.agent/specs/todo/`, `.agent/specs/done/`
+       - For ID: Pattern `{id}-*/spec.md`
+       - For feature name: Pattern `*{feature-name}*/spec.md` (fuzzy match anywhere in folder name)
+   - Verify spec file exists at resolved path (exit with error if not found)
+   - Set `$specFilePath` to the resolved full path for use in subsequent steps
    - Determine main branch (main/master) using `git branch` or git config
    - **Auto-detect review iteration:**
      - Scan spec file for existing "Review Findings" sections
@@ -99,7 +125,7 @@ Use these guidelines to determine what issues to document:
 
    - Run `git diff [main-branch]...HEAD` to see all code changes
    - Run `git log [main-branch]...HEAD --oneline` to see commit history
-   - Read spec file completely (`$spec-file-path`)
+   - Read spec file completely (`$specFilePath`)
    - Read `.agent/docs/code-review-standards.md` for detailed review methodology
    - Read CLAUDE.md or similar project docs for additional context (if exists)
    - **If $review-count > 1:**
@@ -139,12 +165,19 @@ Use these guidelines to determine what issues to document:
    - Group issues by phase first, then by priority within each phase
    - Include: file:line, quoted spec requirement, actual vs expected
    - **If no issues found at all:** Still add Review Findings section with "No issues found" message
+   - **Update spec Status field:**
+     - If issues found: Set Status to "review"
+     - If no issues found: Set Status to "completed"
+   - **Update index.json:**
+     - Update the spec's `status` field to match spec.md (either "review" or "completed")
+     - Update the spec's `updated` field to current timestamp
+     - Write updated index back to `.agent/specs/index.json`
 
 5. **Report Results**
 
    - Summary: iteration X of 3, files reviewed, issue counts by priority
    - Next step:
-     - If issues found: `/implement-spec $spec-file-path` then `/review-spec-implementation $spec-file-path`
+     - If issues found: `/implement-spec $specIdOrNameOrPath` then `/review-spec-implementation $specIdOrNameOrPath`
      - If no issues found: Implementation is complete
 
 ## Review Findings Template
@@ -296,9 +329,11 @@ If the review finds zero HIGH or MEDIUM priority issues, use this simplified tem
 
 ## Report
 
-If $format is "json", return ONLY this JSON (no other text):
+### JSON
 
-```json
+**IMPORTANT**: If $format is "json", return ONLY the JSON from the output tags below:
+
+<json_output>
 {
   "success": true,
   "review_iteration": 2,
@@ -306,7 +341,6 @@ If $format is "json", return ONLY this JSON (no other text):
   "max_iterations_reached": false,
   "spec_path": ".agent/specs/feature.md",
   "branch": "feat/feature-name",
-  "base_branch": "main",
   "commits_reviewed": 5,
   "issues_found": 5,
   "previous_issues_resolved": 3,
@@ -318,32 +352,25 @@ If $format is "json", return ONLY this JSON (no other text):
     "missing_implementations": 1,
     "incomplete_implementations": 2,
     "code_quality": 2
-  },
-  "next_steps": {
-    "has_issues": true,
-    "implement_command": "/implement-spec $spec-file-path",
-    "review_command": "/review-spec-implementation $spec-file-path"
   }
 }
-```
+</json_output>
 
 **JSON Field Descriptions:**
 
-- `success`: Always true if review completed
+- `success`: True if review passed, false if it failed
 - `review_iteration`: Current iteration number (1-based, auto-detected)
 - `max_iterations`: Always 3
 - `max_iterations_reached`: True if review_iteration > 3
 - `spec_path`: Path to spec file reviewed
 - `branch`: Current git branch
-- `base_branch`: Base branch compared against (main/master)
 - `commits_reviewed`: Number of commits since branching
 - `issues_found`: Total issues in this review iteration
 - `previous_issues_resolved`: Count of issues from previous review that were fixed (0 if first review)
 - `priority_breakdown`: Counts by priority level
 - `categories`: Counts by issue category
-- `next_steps.has_issues`: False if no issues found
-- `next_steps.implement_command`: Full command to run to fix issues
-- `next_steps.review_command`: Full command to run next review (iteration auto-increments)
+
+### Text
 
 Otherwise, provide this human-readable information to the user:
 
@@ -375,10 +402,10 @@ Otherwise, provide this human-readable information to the user:
 
    ```bash
    # First, fix the issues
-   /implement-spec $spec-file-path
+   /implement-spec $specIdOrNameOrPath
 
    # Then, review again (iteration will auto-increment)
-   /review-spec-implementation $spec-file-path
+   /review-spec-implementation $specIdOrNameOrPath
    ```
 
    If NO issues were found:
