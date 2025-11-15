@@ -4,7 +4,7 @@ import {
   type CmdReviewSpecImplementationResponse,
 } from "agentcmd-workflows";
 import { motion } from "motion/react";
-import { getAllArticles } from "../../../src/lib/blog";
+import { getAllArticles } from "../../../src/lib/blog.ts";
 /**
  * Example workflow demonstrating automatic workspace lifecycle.
  * Workspace setup and cleanup happen automatically via _system_setup and _system_finalize.
