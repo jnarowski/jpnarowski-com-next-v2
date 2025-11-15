@@ -1,0 +1,16 @@
+Deployment Log
+==============
+Environment: staging
+Status: SUCCESS
+Timestamp: 2025-11-15T14:57:52.178Z
+Commit: example-workflow-run
+
+Services deployed:
+- api: ✓
+- web: ✓
+- worker: ✓
+
+Health checks:
+- api: HEALTHY
+- web: HEALTHY
+- worker: HEALTHY
