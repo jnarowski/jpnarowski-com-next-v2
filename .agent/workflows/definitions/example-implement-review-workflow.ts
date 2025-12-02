@@ -1,10 +1,5 @@
-import {
-  defineWorkflow,
-  type CmdImplementSpecResponse,
-  type CmdReviewSpecImplementationResponse,
-} from "agentcmd-workflows";
-import { motion } from "motion/react";
-import { getAllArticles } from "../../../src/lib/blog.ts";
+import { buildSlashCommand, defineWorkflow, type CmdImplementSpecResponse, type CmdReviewSpecImplementationResponse } from "agentcmd-workflows";
+
 /**
  * Example workflow demonstrating automatic workspace lifecycle.
  * Workspace setup and cleanup happen automatically via _system_setup and _system_finalize.
@@ -25,15 +20,16 @@ export default defineWorkflow(
   async ({ event, step }) => {
     const { workingDir, specFile } = event.data;
 
-    console.log("motion", motion);
-    console.log("getAllArticles", getAllArticles());
-
     await step.phase("implement", async () => {
       const response = await step.agent<CmdImplementSpecResponse>(
         "implement-spec",
         {
           agent: "claude",
-          prompt: "say hello",
+          json: true,
+          prompt: buildSlashCommand("/cmd:implement-spec", {
+            specIdOrNameOrPath: specFile,
+            format: "json",
+          }),
           workingDir,
         }
       );
@@ -47,7 +43,10 @@ export default defineWorkflow(
         {
           agent: "claude",
           json: true,
-          prompt: "another thing",
+          prompt: buildSlashCommand("/cmd:review-spec-implementation", {
+            specIdOrNameOrPath: specFile,
+            format: "json",
+          }),
           workingDir,
         }
       );
